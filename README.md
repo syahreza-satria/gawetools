@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GaweTools 🛠️
 
-## Getting Started
+**GaweTools** adalah aplikasi web utilitas file PDF (mirip ilovepdf) yang cepat, modern, dan **100% aman**. 
 
-First, run the development server:
+Seluruh pemrosesan dokumen dilakukan langsung di sisi peramban pengguna (**client-side**) menggunakan JavaScript & WebAssembly. File Anda **tidak pernah diunggah** ke server mana pun, sehingga kerahasiaan dan privasi dokumen tetap terjaga seutuhnya.
 
+---
+
+## ✨ Fitur Utama
+
+### 1. 📑 Gabung PDF (`/merge-pdf`)
+- **Upload Fleksibel**: Drag & drop atau pilih banyak file sekaligus menggunakan `react-dropzone`.
+- **Atur Urutan (Reorder)**: Ubah susunan dokumen sesuka hati dengan menarik baris (drag & drop sortable list via `@dnd-kit`).
+- **Hapus Item**: Opsi hapus berkas individual sebelum penggabungan.
+- **Client-Side Merging**: Penggabungan instan langsung di browser dengan `pdf-lib`.
+- **Validasi**: Menolak file non-PDF dan memastikan minimal 2 berkas sebelum digabungkan.
+
+### 2. ✂️ Pisah PDF (`/split-pdf`)
+- **Preview Halaman Lengkap**: Menampilkan thumbnail visual setiap halaman dokumen menggunakan `pdfjs-dist`.
+- **Dua Mode Pemisahan**:
+  - **Ekstrak Semua Halaman**: Setiap halaman dipisah menjadi file PDF tersendiri dan otomatis dibundel dalam format `.zip` via `jszip`.
+  - **Pisah berdasarkan Rentang (Range)**: Masukkan nomor atau rentang halaman tertentu (contoh: `1-3, 5, 7-9`). Jika hasilnya 1 file, diunduh langsung sebagai `.pdf`. Jika lebih dari 1 file, otomatis dikemas dalam format `.zip`.
+
+### 3. 🗜️ Kompres PDF (`/compress-pdf`)
+- **Kecilkan Ukuran Dokumen**: Reduksi bobot file PDF tanpa mengorbankan keterbacaan teks dan isi berkas.
+- **Pilihan Tingkat Kompresi**:
+  - *Ringan*: Kualitas gambar maksimal dengan penurunan ukuran ringan.
+  - *Sedang (Rekomendasi)*: Keseimbangan optimal antara kualitas dan efisiensi ukuran.
+  - *Kuat*: Menghasilkan ukuran file paling kecil.
+- **Indikator Hemat**: Menampilkan perbandingan ukuran sebelum vs sesudah kompresi dan persentase penghematan ukuran file.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **Bahasa**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Manipulasi PDF**: [`pdf-lib`](https://pdf-lib.js.org/)
+- **Render Thumbnail & Worker**: [`pdfjs-dist`](https://mozilla.github.io/pdf.js/)
+- **File Uploader**: [`react-dropzone`](https://react-dropzone.js.org/)
+- **Drag & Drop Sortable**: [`@dnd-kit/core`](https://dndkit.com/) & [`@dnd-kit/sortable`](https://dndkit.com/)
+- **Arsip ZIP**: [`jszip`](https://stuk.github.io/jszip/)
+- **Download Helper**: [`file-saver`](https://github.com/eligrey/FileSaver.js)
+- **Icons**: [`lucide-react`](https://lucide.dev/)
+
+---
+
+## 🚀 Memulai Proyek (Getting Started)
+
+### Prasyarat
+- [Node.js](https://nodejs.org/) (versi 18 ke atas disarankan)
+- Package manager: `npm`, `yarn`, atau `pnpm`
+
+### Instalasi Dependensi
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Menjalankan Server Development
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Buka browser dan akses [http://localhost:3000](http://localhost:3000).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Build untuk Produksi
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔒 Privasi & Keamanan
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Semua operasi dokumen (Merge, Split, Compress) dieksekusi di memori peramban (*client-side in-memory*). Dokumen tidak disimpan di penyimpanan awan (*cloud storage*) ataupun dikirimkan melalui jaringan internet.
