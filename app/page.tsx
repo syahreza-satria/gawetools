@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Files, Scissors, Minimize2, Lock } from "lucide-react";
+import { Files, Scissors, Minimize2, Lock, ImageDown } from "lucide-react";
 
 export default function Home() {
   return (
@@ -65,6 +65,22 @@ export default function Home() {
         </h3>
         <p className="mt-2 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
           Beri password untuk melindungi dokumen PDF penting Anda dari akses yang tidak diinginkan.
+        </p>
+      </Link>
+
+      {/* Compress Image Card */}
+      <Link
+        href="/compress-image"
+        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-sky-300 dark:hover:border-sky-500/50 transition-colors"
+      >
+        <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center mb-4">
+          <ImageDown className="w-5 h-5" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Kompres Gambar
+        </h3>
+        <p className="mt-2 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+          Kecilkan ukuran file gambar JPEG, PNG, dan WebP tanpa kehilangan kualitas yang berarti.
         </p>
       </Link>
     </div>
