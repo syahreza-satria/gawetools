@@ -2,11 +2,10 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { PDFDocument } from "pdf-lib";
-import * as pdfjsLib from "pdfjs-dist";
+import { encryptPDF, AlreadyEncryptedError } from "@pdfsmaller/pdf-encrypt";
 import { saveAs } from "file-saver";
 import {
-  Minimize2,
+  Lock,
   FileText,
   Trash2,
   ArrowDownToLine,
@@ -14,47 +13,9 @@ import {
   AlertCircle,
   CheckCircle2,
   Loader2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-  }
-}
-
-type CompressionLevel = "low" | "medium" | "high";
-
-interface LevelOption {
-  id: CompressionLevel;
-  title: string;
-  desc: string;
-  scale: number;
-  quality: number;
-}
-
-const COMPRESSION_LEVELS: LevelOption[] = [
-  {
-    id: "low",
-    title: "Kompresi Ringan",
-    desc: "Kualitas tertinggi, ukuran berkurang sedikit",
-    scale: 1.5,
-    quality: 0.85,
-  },
-  {
-    id: "medium",
-    title: "Kompresi Sedang (Rekomendasi)",
-    desc: "Keseimbangan terbaik antara kualitas & ukuran",
-    scale: 1.2,
-    quality: 0.65,
-  },
-  {
-    id: "high",
-    title: "Kompresi Kuat",
-    desc: "Ukuran file paling kecil, kualitas gambar diturunkan",
-    scale: 0.9,
-    quality: 0.45,
-  },
-];
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return bytes + " B";
@@ -62,14 +23,15 @@ function formatBytes(bytes: number): string {
   return (bytes / (1024 * 1024)).toFixed(2) + " MB";
 }
 
-export default function CompressPdfPage() {
+export default function LockPdfPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [level, setLevel] = useState<CompressionLevel>("medium");
-  const [isCompressing, setIsCompressing] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [progressText, setProgressText] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
-  const [resultSize, setResultSize] = useState<number>(0);
   const [downloadFilename, setDownloadFilename] = useState("");
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -96,77 +58,57 @@ export default function CompressPdfPage() {
 
   const handleReset = () => {
     setFile(null);
+    setPassword("");
+    setConfirmPassword("");
     setResultBlob(null);
     setErrorMessage(null);
     setProgressText("");
   };
 
-  const handleCompress = async () => {
+  const handleLock = async () => {
     if (!file) return;
 
-    setIsCompressing(true);
+    if (!password) {
+      setErrorMessage("Silakan masukkan password untuk mengunci PDF.");
+      return;
+    }
+
+    if (password.length < 3) {
+      setErrorMessage("Password minimal terdiri dari 3 karakter.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMessage("Konfirmasi password tidak cocok dengan password yang dimasukkan.");
+      return;
+    }
+
+    setIsLocking(true);
     setErrorMessage(null);
-    setProgressText("Membaca dokumen PDF...");
+    setProgressText("Mengenkripsi dan mengunci file PDF...");
 
     try {
-      const selectedLevel = COMPRESSION_LEVELS.find((l) => l.id === level) || COMPRESSION_LEVELS[1];
-      const arrayBuffer = await file.arrayBuffer();
+      const fileBytes = new Uint8Array(await file.arrayBuffer());
 
-      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
-      const pdf = await loadingTask.promise;
-      const numPages = pdf.numPages;
+      const encryptedBytes = await encryptPDF(fileBytes, password, {
+        algorithm: "AES-256",
+      });
 
-      const newPdfDoc = await PDFDocument.create();
-
-      for (let i = 1; i <= numPages; i++) {
-        setProgressText(`Mengompres halaman ${i} dari ${numPages}...`);
-        const page = await pdf.getPage(i);
-        const originalViewport = page.getViewport({ scale: 1.0 });
-
-        const renderViewport = page.getViewport({ scale: selectedLevel.scale });
-
-        const canvas = document.createElement("canvas");
-        canvas.width = renderViewport.width;
-        canvas.height = renderViewport.height;
-
-        const ctx = canvas.getContext("2d");
-        if (!ctx) throw new Error("Gagal menginisialisasi canvas context");
-
-        await page.render({
-          canvasContext: ctx,
-          viewport: renderViewport,
-          canvas: canvas,
-        }).promise;
-
-        const jpegDataUrl = canvas.toDataURL("image/jpeg", selectedLevel.quality);
-        const base64Data = jpegDataUrl.split(",")[1];
-        const imageBytes = Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0));
-
-        const embeddedImage = await newPdfDoc.embedJpg(imageBytes);
-
-        const newPage = newPdfDoc.addPage([originalViewport.width, originalViewport.height]);
-        newPage.drawImage(embeddedImage, {
-          x: 0,
-          y: 0,
-          width: originalViewport.width,
-          height: originalViewport.height,
-        });
-      }
-
-      setProgressText("Menyimpan dokumen PDF hasil kompresi...");
-      const compressedBytes = await newPdfDoc.save();
-      const outputBlob = new Blob([compressedBytes as Uint8Array<ArrayBuffer>], { type: "application/pdf" });
-
+      const outputBlob = new Blob([encryptedBytes as Uint8Array<ArrayBuffer>], { type: "application/pdf" });
       const baseName = file.name.replace(/\.[^/.]+$/, "");
-      setDownloadFilename(`${baseName}_compressed.pdf`);
+
+      setDownloadFilename(`${baseName}_protected.pdf`);
       setResultBlob(outputBlob);
-      setResultSize(outputBlob.size);
     } catch (err: unknown) {
-      console.error("Gagal mengompres PDF:", err);
-      const errDetail = err instanceof Error ? err.message : String(err);
-      setErrorMessage(`Gagal mengompres PDF: ${errDetail}`);
+      console.error("Gagal mengunci PDF:", err);
+      if (err instanceof AlreadyEncryptedError) {
+        setErrorMessage("File PDF ini sudah terkunci/terenkripsi sebelumnya.");
+      } else {
+        const detail = err instanceof Error ? err.message : String(err);
+        setErrorMessage(`Gagal mengunci file PDF: ${detail}`);
+      }
     } finally {
-      setIsCompressing(false);
+      setIsLocking(false);
       setProgressText("");
     }
   };
@@ -176,19 +118,16 @@ export default function CompressPdfPage() {
     saveAs(resultBlob, downloadFilename);
   };
 
-  const savingsPercent =
-    file && resultSize > 0 ? Math.round(((file.size - resultSize) / file.size) * 100) : 0;
-
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mb-3 shadow-xs">
-          <Minimize2 className="w-6 h-6" />
+          <Lock className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Kompres PDF</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Kunci PDF</h1>
         <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
-          Kecilkan ukuran file PDF Anda secara instan di browser tanpa mengurangi keterbacaan dokumen.
+          Lindungi dokumen PDF penting Anda dengan enkripsi password (AES-256) langsung di peramban.
         </p>
       </div>
 
@@ -213,23 +152,10 @@ export default function CompressPdfPage() {
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">PDF Berhasil Dikompres!</h3>
-            <div className="flex items-center justify-center gap-4 mt-3 text-sm">
-              <div>
-                <span className="text-xs text-gray-500 dark:text-zinc-400 block">Ukuran Awal</span>
-                <span className="font-semibold text-gray-700 dark:text-zinc-200">{formatBytes(file.size)}</span>
-              </div>
-              <div className="text-gray-300 dark:text-zinc-700">→</div>
-              <div>
-                <span className="text-xs text-gray-500 dark:text-zinc-400 block">Ukuran Baru</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatBytes(resultSize)}</span>
-              </div>
-              {savingsPercent > 0 && (
-                <div className="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 rounded-full text-xs font-bold">
-                  Hemat {savingsPercent}%
-                </div>
-              )}
-            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">PDF Berhasil Dikunci!</h3>
+            <p className="text-sm text-gray-600 dark:text-zinc-400 mt-1">
+              Dokumen kini dilindungi enkripsi AES-256. Password diperlukan setiap kali dokumen dibuka.
+            </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
@@ -237,14 +163,14 @@ export default function CompressPdfPage() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all"
             >
               <ArrowDownToLine className="w-5 h-5" />
-              Download PDF ({formatBytes(resultSize)})
+              Download PDF Terkunci ({downloadFilename})
             </button>
             <button
               onClick={handleReset}
               className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
-              Kompres File Lain
+              Kunci File Lain
             </button>
           </div>
         </div>
@@ -262,7 +188,7 @@ export default function CompressPdfPage() {
         >
           <input {...getInputProps()} />
           <div className="w-14 h-14 rounded-xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-4">
-            <Minimize2 className="w-7 h-7" />
+            <Lock className="w-7 h-7" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">
             {isDragActive ? "Lepaskan file PDF di sini" : "Tarik & Lepas 1 File PDF ke Sini"}
@@ -282,10 +208,10 @@ export default function CompressPdfPage() {
         </div>
       )}
 
-      {/* Settings when file selected */}
+      {/* Password Form when File Selected */}
       {file && !resultBlob && (
         <div className="space-y-6">
-          {/* Selected File Card */}
+          {/* File Card */}
           <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
@@ -301,7 +227,7 @@ export default function CompressPdfPage() {
             <button
               type="button"
               onClick={handleReset}
-              disabled={isCompressing}
+              disabled={isLocking}
               title="Ganti File"
               className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
             >
@@ -309,49 +235,72 @@ export default function CompressPdfPage() {
             </button>
           </div>
 
-          {/* Compression Level Options */}
+          {/* Password Inputs Card */}
           <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Tingkat Kompresi</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {COMPRESSION_LEVELS.map((opt) => (
-                <button
-                  key={opt.id}
-                  type="button"
-                  onClick={() => setLevel(opt.id)}
-                  disabled={isCompressing}
-                  className={`p-4 rounded-xl border text-left transition-all ${
-                    level === opt.id
-                      ? "border-red-500 bg-red-50/40 dark:bg-red-950/30 ring-1 ring-red-500"
-                      : "border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50"
-                  }`}
-                >
-                  <p className="font-semibold text-sm text-gray-900 dark:text-white mb-1">{opt.title}</p>
-                  <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed">{opt.desc}</p>
-                </button>
-              ))}
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Atur Password PDF</h3>
+            
+            <div className="space-y-4 max-w-md">
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1.5">
+                  Password Baru
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Masukkan password"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1.5">
+                  Ulangi Password
+                </label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Ulangi password di atas"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 text-sm"
+                />
+              </div>
             </div>
+
+            <p className="text-xs text-gray-500 dark:text-zinc-400 pt-1">
+              Catatan: Pastikan Anda mengingat password ini. Berkas tidak dapat dibuka kembali jika password terlupa.
+            </p>
           </div>
 
           {/* Action Button */}
           <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
             <span className="text-xs text-gray-500 dark:text-zinc-400">
-              Proses dijalankan langsung di perangkat Anda tanpa upload file.
+              Enkripsi AES-256 langsung diproses di browser Anda.
             </span>
             <button
               type="button"
-              onClick={handleCompress}
-              disabled={isCompressing}
+              onClick={handleLock}
+              disabled={isLocking || !password || !confirmPassword}
               className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50"
             >
-              {isCompressing ? (
+              {isLocking ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>{progressText || "Mengompres..."}</span>
+                  <span>{progressText || "Mengunci..."}</span>
                 </>
               ) : (
                 <>
-                  <Minimize2 className="w-4 h-4" />
-                  <span>Kompres PDF</span>
+                  <Lock className="w-4 h-4" />
+                  <span>Kunci PDF</span>
                 </>
               )}
             </button>

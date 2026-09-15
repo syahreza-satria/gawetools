@@ -63,11 +63,11 @@ export default function PageThumbnail({ pdfDoc, pageNumber }: PageThumbnailProps
   }, [pdfDoc, pageNumber]);
 
   return (
-    <div className="relative group bg-white rounded-xl border border-gray-200 shadow-xs hover:shadow-md transition-all p-2 flex flex-col items-center">
-      <div className="w-full flex items-center justify-center min-h-[140px] bg-slate-50 rounded-lg overflow-hidden border border-gray-100">
+    <div className="relative group bg-white dark:bg-zinc-900 rounded-xl border border-gray-200 dark:border-zinc-800 shadow-xs p-2 flex flex-col items-center">
+      <div className="w-full flex items-center justify-center min-h-[140px] bg-slate-50 dark:bg-zinc-950 rounded-lg overflow-hidden border border-gray-100 dark:border-zinc-800">
         <canvas ref={canvasRef} className="max-w-full h-auto object-contain rounded" />
       </div>
-      <div className="mt-2 text-[11px] font-semibold text-gray-700 bg-gray-100 px-2.5 py-0.5 rounded-full">
+      <div className="mt-2 text-[11px] font-semibold text-gray-700 dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800 px-2.5 py-0.5 rounded-full">
         Halaman {pageNumber}
       </div>
     </div>

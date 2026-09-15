@@ -73,10 +73,10 @@ function SortablePDFItem({
     <li
       ref={setNodeRef}
       style={style}
-      className={`group relative flex items-center justify-between p-4 bg-white rounded-xl border transition-all duration-200 ${
+      className={`group relative flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border transition-all duration-200 ${
         isDragging
           ? "border-red-500 shadow-xl ring-2 ring-red-400/30 opacity-95 scale-[1.01]"
-          : "border-gray-200 shadow-xs hover:border-gray-300 hover:shadow-md"
+          : "border-gray-200 dark:border-zinc-800 shadow-xs hover:border-gray-300 dark:hover:border-zinc-700"
       }`}
     >
       <div className="flex items-center gap-3.5 min-w-0">
@@ -86,31 +86,31 @@ function SortablePDFItem({
           {...listeners}
           disabled={disabled}
           title="Tahan & geser untuk mengubah urutan"
-          className={`p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 cursor-grab active:cursor-grabbing transition-colors ${
+          className={`p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 cursor-grab active:cursor-grabbing transition-colors ${
             disabled ? "opacity-40 cursor-not-allowed" : ""
           }`}
         >
           <GripVertical className="w-5 h-5" />
         </button>
 
-        <span className="w-7 h-7 rounded-full bg-red-50 border border-red-200 text-red-700 font-bold text-xs flex items-center justify-center shrink-0">
+        <span className="w-7 h-7 rounded-full bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-400 font-bold text-xs flex items-center justify-center shrink-0">
           {index + 1}
         </span>
 
-        <div className="w-10 h-10 rounded-lg bg-red-100/70 text-red-600 flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-lg bg-red-100/70 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
           <FileText className="w-5 h-5" />
         </div>
 
         <div className="min-w-0">
-          <p className="font-medium text-sm text-gray-900 truncate max-w-xs sm:max-w-md md:max-w-lg" title={item.name}>
+          <p className="font-medium text-sm text-gray-900 dark:text-white truncate max-w-xs sm:max-w-md md:max-w-lg" title={item.name}>
             {item.name}
           </p>
-          <div className="flex items-center gap-2.5 text-xs text-gray-500 mt-0.5">
+          <div className="flex items-center gap-2.5 text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
             <span>{item.sizeFormatted}</span>
             {item.pageCount !== undefined && (
               <>
                 <span>•</span>
-                <span className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-medium">
+                <span className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 px-2 py-0.5 rounded-full font-medium">
                   {item.pageCount} halaman
                 </span>
               </>
@@ -125,7 +125,7 @@ function SortablePDFItem({
           onClick={() => onRemove(item.id)}
           disabled={disabled}
           title="Hapus file ini"
-          className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-40"
+          className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors disabled:opacity-40"
         >
           <Trash2 className="w-4 h-4" />
         </button>
@@ -286,26 +286,26 @@ export default function MergePdfPage() {
   };
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-100 text-red-600 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mb-3 shadow-xs">
           <Files className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Gabung PDF</h1>
-        <p className="mt-2 text-base text-gray-600 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Gabung PDF</h1>
+        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
           Satukan beberapa dokumen PDF menjadi satu urutan yang rapi. Drag & drop untuk mengubah susunan file sebelum digabung.
         </p>
       </div>
 
       {/* Error Banner */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3 text-red-800 text-sm">
-          <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-red-600 hover:text-red-900 font-semibold text-xs ml-2"
+            className="text-red-600 dark:text-red-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -314,22 +314,22 @@ export default function MergePdfPage() {
 
       {/* Success State with Download */}
       {downloadUrl && (
-        <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-200 text-center space-y-4 shadow-sm animate-in fade-in duration-300">
-          <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+        <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 text-center space-y-4 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-emerald-950">PDF Berhasil Digabungkan!</h3>
-            <p className="text-sm text-emerald-700 mt-1">
-              Sebanyak <span className="font-semibold">{items.length} file</span> berhasil digabung menjadi{" "}
-              <span className="font-semibold">{totalPageResult} halaman</span>.
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">PDF Berhasil Digabungkan!</h3>
+            <p className="text-sm text-gray-600 dark:text-zinc-400 mt-1">
+              Sebanyak <span className="font-semibold text-gray-900 dark:text-white">{items.length} file</span> berhasil digabung menjadi{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">{totalPageResult} halaman</span>.
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a
               href={downloadUrl}
               download={downloadFilename}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold text-sm shadow-md hover:bg-emerald-700 active:scale-98 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all"
             >
               <ArrowDownToLine className="w-5 h-5" />
               Download PDF ({downloadFilename})
@@ -339,7 +339,7 @@ export default function MergePdfPage() {
                 URL.revokeObjectURL(downloadUrl);
                 setDownloadUrl(null);
               }}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white border border-emerald-300 text-emerald-800 font-medium text-sm hover:bg-emerald-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               Gabung Lagi / Ubah
@@ -352,46 +352,42 @@ export default function MergePdfPage() {
       {items.length === 0 ? (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-3xl p-12 text-center cursor-pointer transition-all duration-200 bg-white ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
             isDragActive
-              ? "border-red-500 bg-red-50/50 scale-[0.99] shadow-inner"
-              : "border-gray-300 hover:border-red-400 hover:bg-red-50/20 shadow-xs"
+              ? "border-red-500 bg-red-50/50 dark:bg-red-950/30"
+              : "border-gray-300 dark:border-zinc-800 hover:border-red-400 hover:bg-red-50/10 dark:hover:bg-red-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-16 h-16 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4 shadow-xs">
-            <FileStack className="w-8 h-8" />
+          <div className="w-14 h-14 rounded-xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-4">
+            <FileStack className="w-7 h-7" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
             {isDragActive ? "Lepaskan file PDF di sini" : "Tarik & Lepas File PDF ke Sini"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 max-w-sm mx-auto">
-            atau klik tombol di bawah untuk memilih beberapa dokumen PDF sekaligus
+          <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400 max-w-sm mx-auto">
+            atau klik untuk memilih beberapa dokumen PDF sekaligus
           </p>
           <div className="mt-6">
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold text-sm shadow-md shadow-red-500/20 hover:bg-red-700 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-colors"
             >
               <Plus className="w-4 h-4" />
               Pilih File PDF
             </button>
-          </div>
-          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>File Anda 100% diproses secara lokal di browser</span>
           </div>
         </div>
       ) : (
         /* Populated State with List and Actions */
         <div className="space-y-6">
           {/* Top Bar with Add More and Clear */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-gray-900 text-sm">
+              <span className="font-semibold text-gray-900 dark:text-white text-sm">
                 {items.length} file dipilih
               </span>
-              <span className="text-xs text-gray-400">• Drag baris untuk ubah urutan</span>
+              <span className="text-xs text-gray-400 dark:text-zinc-500">• Geser baris untuk ubah urutan</span>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -400,7 +396,7 @@ export default function MergePdfPage() {
                 <button
                   type="button"
                   disabled={isMerging}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-semibold hover:bg-gray-200 transition-colors disabled:opacity-40"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors disabled:opacity-40"
                 >
                   <Plus className="w-4 h-4" />
                   Tambah File
@@ -410,7 +406,7 @@ export default function MergePdfPage() {
                 type="button"
                 onClick={handleClearAll}
                 disabled={isMerging}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-gray-500 hover:text-red-600 text-xs font-medium hover:bg-red-50 transition-colors disabled:opacity-40"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 text-xs font-medium hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:opacity-40"
               >
                 Hapus Semua
               </button>
@@ -442,17 +438,17 @@ export default function MergePdfPage() {
           {/* Additional Mini Dropzone for convenience */}
           <div
             {...getRootProps()}
-            className="border border-dashed border-gray-300 rounded-xl p-4 text-center cursor-pointer hover:border-red-400 hover:bg-red-50/20 transition-all text-xs text-gray-500"
+            className="border border-dashed border-gray-300 dark:border-zinc-800 bg-white/50 dark:bg-zinc-950/50 rounded-xl p-4 text-center cursor-pointer hover:border-red-400 hover:bg-red-50/10 transition-all text-xs text-gray-500 dark:text-zinc-400"
           >
             <input {...getInputProps()} />
-            <span>+ Klik atau drag file PDF tambahan ke sini</span>
+            <span>+ Klik atau tarik file PDF tambahan ke sini</span>
           </div>
 
-          {/* Bottom Action Footer */}
-          <div className="sticky bottom-4 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-gray-200 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-xs text-gray-500 text-center sm:text-left">
+          {/* Bottom Action Card */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+            <div className="text-xs text-gray-500 dark:text-zinc-400 text-center sm:text-left">
               {items.length < 2 ? (
-                <span className="text-amber-600 font-medium">
+                <span className="text-amber-600 dark:text-amber-400 font-medium">
                   ⚠️ Tambahkan minimal 1 file lagi untuk menggabungkan.
                 </span>
               ) : (
@@ -464,16 +460,16 @@ export default function MergePdfPage() {
               type="button"
               onClick={handleMerge}
               disabled={items.length < 2 || isMerging}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-red-600 text-white font-bold text-sm shadow-md shadow-red-500/25 hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isMerging ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>{progressText || "Menggabungkan PDF..."}</span>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>{progressText || "Menggabungkan..."}</span>
                 </>
               ) : (
                 <>
-                  <Files className="w-5 h-5" />
+                  <Files className="w-4 h-4" />
                   <span>Gabungkan {items.length} PDF</span>
                 </>
               )}

@@ -29,6 +29,12 @@ Seluruh pemrosesan dokumen dilakukan langsung di sisi peramban pengguna (**clien
   - *Kuat*: Menghasilkan ukuran file paling kecil.
 - **Indikator Hemat**: Menampilkan perbandingan ukuran sebelum vs sesudah kompresi dan persentase penghematan ukuran file.
 
+### 4. 🔒 Kunci PDF (`/lock-pdf`)
+- **Proteksi Password**: Beri kata sandi pengaman untuk dokumen PDF rahasia/sensitif.
+- **Enkripsi Kuat**: Menggunakan enkripsi standar industri AES-256 langsung di browser.
+- **Validasi Keamanan**: Konfirmasi password ganda serta opsi lihat/sembunyikan password.
+
+
 ---
 
 ## 🛠️ Teknologi yang Digunakan
