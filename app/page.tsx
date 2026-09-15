@@ -7,9 +7,9 @@ export default function Home() {
       {/* Merge PDF Card */}
       <Link
         href="/merge-pdf"
-        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-red-300 dark:hover:border-red-500/50 transition-colors"
+        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-sky-300 dark:hover:border-sky-500/50 transition-colors"
       >
-        <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-4">
+        <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center mb-4">
           <Files className="w-5 h-5" />
         </div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -23,9 +23,9 @@ export default function Home() {
       {/* Split PDF Card */}
       <Link
         href="/split-pdf"
-        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-red-300 dark:hover:border-red-500/50 transition-colors"
+        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-sky-300 dark:hover:border-sky-500/50 transition-colors"
       >
-        <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-4">
+        <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center mb-4">
           <Scissors className="w-5 h-5" />
         </div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -39,9 +39,9 @@ export default function Home() {
       {/* Compress PDF Card */}
       <Link
         href="/compress-pdf"
-        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-red-300 dark:hover:border-red-500/50 transition-colors"
+        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-sky-300 dark:hover:border-sky-500/50 transition-colors"
       >
-        <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-4">
+        <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center mb-4">
           <Minimize2 className="w-5 h-5" />
         </div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -55,9 +55,9 @@ export default function Home() {
       {/* Lock PDF Card */}
       <Link
         href="/lock-pdf"
-        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-red-300 dark:hover:border-red-500/50 transition-colors"
+        className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-sky-300 dark:hover:border-sky-500/50 transition-colors"
       >
-        <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-4">
+        <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center mb-4">
           <Lock className="w-5 h-5" />
         </div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">

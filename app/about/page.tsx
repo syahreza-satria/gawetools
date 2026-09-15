@@ -7,7 +7,7 @@ export default function AboutPage() {
       {/* Header Section */}
       <section className="space-y-4 text-center sm:text-left">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-          Tentang Gawe<span className="text-red-600 dark:text-red-500">Tools</span>
+          Tentang Gawe<span className="text-sky-600 dark:text-sky-500">Tools</span>
         </h1>
         <p className="text-base sm:text-lg text-gray-600 dark:text-zinc-300 leading-relaxed max-w-2xl">
           GaweTools adalah platform alat utilitas PDF gratis yang dirancang untuk mempermudah pekerjaan dokumen Anda sehari-hari secara cepat, praktis, dan mengutamakan privasi.
@@ -17,7 +17,7 @@ export default function AboutPage() {
       {/* Nilai Utama / Kenapa GaweTools */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-6 space-y-2">
-          <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-3">
+          <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-3">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">100% Privat & Aman</h3>
@@ -27,7 +27,7 @@ export default function AboutPage() {
         </div>
 
         <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-6 space-y-2">
-          <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-3">
+          <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-3">
             <Zap className="w-5 h-5" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">Cepat & Ringan</h3>
@@ -37,7 +37,7 @@ export default function AboutPage() {
         </div>
 
         <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-6 space-y-2">
-          <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-3">
+          <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-3">
             <Heart className="w-5 h-5" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">Gratis Digunakan</h3>
@@ -59,14 +59,14 @@ export default function AboutPage() {
       </section>
 
       {/* Call to action */}
-      <section className="text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 bg-red-50/60 dark:bg-red-950/30 border border-red-100 dark:border-red-900/40 rounded-xl p-6">
+      <section className="text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 bg-sky-50/60 dark:bg-sky-950/30 border border-sky-100 dark:border-sky-900/40 rounded-xl p-6">
         <div>
           <h3 className="font-semibold text-gray-900 dark:text-white text-base">Mulai Gunakan GaweTools</h3>
           <p className="text-sm text-gray-600 dark:text-zinc-300 mt-0.5">Pilih perkakas PDF yang Anda butuhkan sekarang juga.</p>
         </div>
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-colors"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-sky-600 text-white text-sm font-semibold hover:bg-sky-700 transition-colors"
         >
           Lihat Semua Tools <ArrowRight className="w-4 h-4" />
         </Link>

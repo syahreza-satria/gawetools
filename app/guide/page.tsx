@@ -24,12 +24,12 @@ export default function GuidePage() {
           {/* Merge PDF */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-6 h-6 rounded bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <Files className="w-3.5 h-3.5" />
               </div>
               <Link
                 href="/merge-pdf"
-                className="text-base font-bold text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                className="text-base font-bold text-gray-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
               >
                 Merge PDF
               </Link>
@@ -37,7 +37,7 @@ export default function GuidePage() {
             <div className="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed space-y-3 pl-8.5">
               <p>
                 To <strong>merge two or more PDFs</strong>, select the documents from your{" "}
-                <Link href="/merge-pdf" className="text-red-600 hover:underline">
+                <Link href="/merge-pdf" className="text-sky-600 hover:underline">
                   device
                 </Link>
                 . You can arrange the files however you like before merging them by dragging and dropping them into your preferred sequence.
@@ -51,12 +51,12 @@ export default function GuidePage() {
           {/* Split PDF */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-6 h-6 rounded bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <Scissors className="w-3.5 h-3.5" />
               </div>
               <Link
                 href="/split-pdf"
-                className="text-base font-bold text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                className="text-base font-bold text-gray-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
               >
                 Split PDF
               </Link>
@@ -64,13 +64,13 @@ export default function GuidePage() {
             <div className="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed space-y-3 pl-8.5">
               <p>
                 To <strong>split a PDF into different files</strong>, select the document from your{" "}
-                <Link href="/split-pdf" className="text-red-600 hover:underline">
+                <Link href="/split-pdf" className="text-sky-600 hover:underline">
                   device
                 </Link>
                 . An instant visual page thumbnail preview will appear for all pages.
               </p>
               <p>
-                <Link href="/split-pdf" className="text-red-600 hover:underline">
+                <Link href="/split-pdf" className="text-sky-600 hover:underline">
                   Upload
                 </Link>{" "}
                 the file to split. You can either extract all pages into separate PDFs (packaged conveniently in a single ZIP file) or split by custom ranges (for example: <code className="font-mono text-xs bg-gray-100 dark:bg-zinc-800 px-1 py-0.5 rounded">1-3, 5, 7-9</code>). Hit the Split PDF button and you&apos;ll be good to go.
@@ -90,12 +90,12 @@ export default function GuidePage() {
           {/* Compress PDF */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-6 h-6 rounded bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <Minimize2 className="w-3.5 h-3.5" />
               </div>
               <Link
                 href="/compress-pdf"
-                className="text-base font-bold text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                className="text-base font-bold text-gray-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
               >
                 Compress PDF
               </Link>
@@ -103,7 +103,7 @@ export default function GuidePage() {
             <div className="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed space-y-3 pl-8.5">
               <p>
                 To <strong>compress and reduce PDF file size</strong>, upload your file from your{" "}
-                <Link href="/compress-pdf" className="text-red-600 hover:underline">
+                <Link href="/compress-pdf" className="text-sky-600 hover:underline">
                   device
                 </Link>
                 . Select your desired compression level (Low, Recommended Medium, or Extreme High compression).
@@ -117,12 +117,12 @@ export default function GuidePage() {
           {/* Protect / Lock PDF */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-6 h-6 rounded bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <Lock className="w-3.5 h-3.5" />
               </div>
               <Link
                 href="/lock-pdf"
-                className="text-base font-bold text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                className="text-base font-bold text-gray-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
               >
                 Lock PDF
               </Link>
@@ -130,7 +130,7 @@ export default function GuidePage() {
             <div className="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed space-y-3 pl-8.5">
               <p>
                 To <strong>protect confidential PDFs with a password</strong>, choose your file from your{" "}
-                <Link href="/lock-pdf" className="text-red-600 hover:underline">
+                <Link href="/lock-pdf" className="text-sky-600 hover:underline">
                   device
                 </Link>{" "}
                 and enter a strong password.

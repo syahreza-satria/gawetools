@@ -183,7 +183,7 @@ export default function CompressPdfPage() {
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
           <Minimize2 className="w-6 h-6" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Kompres PDF</h1>
@@ -194,12 +194,12 @@ export default function CompressPdfPage() {
 
       {/* Error Message */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-red-600 dark:text-red-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -234,7 +234,7 @@ export default function CompressPdfPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               onClick={handleDownload}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all"
             >
               <ArrowDownToLine className="w-5 h-5" />
               Download PDF ({formatBytes(resultSize)})
@@ -256,12 +256,12 @@ export default function CompressPdfPage() {
           {...getRootProps()}
           className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
             isDragActive
-              ? "border-red-500 bg-red-50/50 dark:bg-red-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-red-400 hover:bg-red-50/10 dark:hover:bg-red-950/10"
+              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
+              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
             <Minimize2 className="w-7 h-7" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">
@@ -273,7 +273,7 @@ export default function CompressPdfPage() {
           <div className="mt-6">
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 transition-colors"
             >
               <FileText className="w-4 h-4" />
               Pilih File PDF
@@ -288,7 +288,7 @@ export default function CompressPdfPage() {
           {/* Selected File Card */}
           <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
@@ -303,7 +303,7 @@ export default function CompressPdfPage() {
               onClick={handleReset}
               disabled={isCompressing}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -321,7 +321,7 @@ export default function CompressPdfPage() {
                   disabled={isCompressing}
                   className={`p-4 rounded-xl border text-left transition-all ${
                     level === opt.id
-                      ? "border-red-500 bg-red-50/40 dark:bg-red-950/30 ring-1 ring-red-500"
+                      ? "border-sky-500 bg-sky-50/40 dark:bg-sky-950/30 ring-1 ring-red-500"
                       : "border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50"
                   }`}
                 >
@@ -341,7 +341,7 @@ export default function CompressPdfPage() {
               type="button"
               onClick={handleCompress}
               disabled={isCompressing}
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all disabled:opacity-50"
             >
               {isCompressing ? (
                 <>

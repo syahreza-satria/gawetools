@@ -75,7 +75,7 @@ function SortablePDFItem({
       style={style}
       className={`group relative flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border transition-all duration-200 ${
         isDragging
-          ? "border-red-500 shadow-xl ring-2 ring-red-400/30 opacity-95 scale-[1.01]"
+          ? "border-sky-500 shadow-xl ring-2 ring-red-400/30 opacity-95 scale-[1.01]"
           : "border-gray-200 dark:border-zinc-800 shadow-xs hover:border-gray-300 dark:hover:border-zinc-700"
       }`}
     >
@@ -93,11 +93,11 @@ function SortablePDFItem({
           <GripVertical className="w-5 h-5" />
         </button>
 
-        <span className="w-7 h-7 rounded-full bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-400 font-bold text-xs flex items-center justify-center shrink-0">
+        <span className="w-7 h-7 rounded-full bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-900/60 text-sky-700 dark:text-sky-400 font-bold text-xs flex items-center justify-center shrink-0">
           {index + 1}
         </span>
 
-        <div className="w-10 h-10 rounded-lg bg-red-100/70 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-lg bg-sky-100/70 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
           <FileText className="w-5 h-5" />
         </div>
 
@@ -125,7 +125,7 @@ function SortablePDFItem({
           onClick={() => onRemove(item.id)}
           disabled={disabled}
           title="Hapus file ini"
-          className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors disabled:opacity-40"
+          className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors disabled:opacity-40"
         >
           <Trash2 className="w-4 h-4" />
         </button>
@@ -289,7 +289,7 @@ export default function MergePdfPage() {
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
           <Files className="w-6 h-6" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Gabung PDF</h1>
@@ -300,12 +300,12 @@ export default function MergePdfPage() {
 
       {/* Error Banner */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-red-600 dark:text-red-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -329,7 +329,7 @@ export default function MergePdfPage() {
             <a
               href={downloadUrl}
               download={downloadFilename}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all"
             >
               <ArrowDownToLine className="w-5 h-5" />
               Download PDF ({downloadFilename})
@@ -354,12 +354,12 @@ export default function MergePdfPage() {
           {...getRootProps()}
           className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
             isDragActive
-              ? "border-red-500 bg-red-50/50 dark:bg-red-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-red-400 hover:bg-red-50/10 dark:hover:bg-red-950/10"
+              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
+              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
             <FileStack className="w-7 h-7" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">
@@ -371,7 +371,7 @@ export default function MergePdfPage() {
           <div className="mt-6">
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 transition-colors"
             >
               <Plus className="w-4 h-4" />
               Pilih File PDF
@@ -406,7 +406,7 @@ export default function MergePdfPage() {
                 type="button"
                 onClick={handleClearAll}
                 disabled={isMerging}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 text-xs font-medium hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:opacity-40"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 text-xs font-medium hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors disabled:opacity-40"
               >
                 Hapus Semua
               </button>
@@ -438,7 +438,7 @@ export default function MergePdfPage() {
           {/* Additional Mini Dropzone for convenience */}
           <div
             {...getRootProps()}
-            className="border border-dashed border-gray-300 dark:border-zinc-800 bg-white/50 dark:bg-zinc-950/50 rounded-xl p-4 text-center cursor-pointer hover:border-red-400 hover:bg-red-50/10 transition-all text-xs text-gray-500 dark:text-zinc-400"
+            className="border border-dashed border-gray-300 dark:border-zinc-800 bg-white/50 dark:bg-zinc-950/50 rounded-xl p-4 text-center cursor-pointer hover:border-sky-400 hover:bg-sky-50/10 transition-all text-xs text-gray-500 dark:text-zinc-400"
           >
             <input {...getInputProps()} />
             <span>+ Klik atau tarik file PDF tambahan ke sini</span>
@@ -460,7 +460,7 @@ export default function MergePdfPage() {
               type="button"
               onClick={handleMerge}
               disabled={items.length < 2 || isMerging}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isMerging ? (
                 <>

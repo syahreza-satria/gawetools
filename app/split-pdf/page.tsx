@@ -235,7 +235,7 @@ export default function SplitPdfPage() {
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
           <Scissors className="w-6 h-6" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Pisah PDF (Split)</h1>
@@ -246,12 +246,12 @@ export default function SplitPdfPage() {
 
       {/* Error Message */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-red-600 dark:text-red-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -274,7 +274,7 @@ export default function SplitPdfPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               onClick={handleDownload}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all"
             >
               {downloadResult.isZip ? <FileArchive className="w-5 h-5" /> : <ArrowDownToLine className="w-5 h-5" />}
               Download {downloadResult.isZip ? "ZIP" : "PDF"} ({downloadResult.filename})
@@ -293,7 +293,7 @@ export default function SplitPdfPage() {
       {/* Loading state */}
       {isLoadingPdf && (
         <div className="p-12 text-center bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 space-y-3">
-          <Loader2 className="w-8 h-8 text-red-600 animate-spin mx-auto" />
+          <Loader2 className="w-8 h-8 text-sky-600 animate-spin mx-auto" />
           <p className="text-sm font-medium text-gray-700 dark:text-zinc-300">Membaca dokumen PDF...</p>
         </div>
       )}
@@ -304,12 +304,12 @@ export default function SplitPdfPage() {
           {...getRootProps()}
           className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
             isDragActive
-              ? "border-red-500 bg-red-50/50 dark:bg-red-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-red-400 hover:bg-red-50/10 dark:hover:bg-red-950/10"
+              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
+              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
             <Scissors className="w-7 h-7" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">
@@ -321,7 +321,7 @@ export default function SplitPdfPage() {
           <div className="mt-6">
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 transition-colors"
             >
               <FileText className="w-4 h-4" />
               Pilih File PDF
@@ -336,7 +336,7 @@ export default function SplitPdfPage() {
           {/* File summary top card */}
           <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
@@ -344,7 +344,7 @@ export default function SplitPdfPage() {
                   {file.name}
                 </h2>
                 <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
-                  <span className="font-medium text-red-600 dark:text-red-400">
+                  <span className="font-medium text-sky-600 dark:text-sky-400">
                     {totalPages} Halaman
                   </span>
                   <span>•</span>
@@ -358,7 +358,7 @@ export default function SplitPdfPage() {
               onClick={cleanCurrentFile}
               disabled={isSplitting}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -374,7 +374,7 @@ export default function SplitPdfPage() {
                 onClick={() => setSplitMode("all")}
                 className={`p-4 rounded-xl border text-left transition-all ${
                   splitMode === "all"
-                    ? "border-red-500 bg-red-50/40 dark:bg-red-950/30 ring-1 ring-red-500"
+                    ? "border-sky-500 bg-sky-50/40 dark:bg-sky-950/30 ring-1 ring-red-500"
                     : "border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50"
                 }`}
               >
@@ -382,7 +382,7 @@ export default function SplitPdfPage() {
                   <span className="font-semibold text-sm text-gray-900 dark:text-white">Ekstrak Semua Halaman</span>
                   <span
                     className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
-                      splitMode === "all" ? "border-red-600 bg-red-600" : "border-gray-300 dark:border-zinc-700"
+                      splitMode === "all" ? "border-sky-600 bg-sky-600" : "border-gray-300 dark:border-zinc-700"
                     }`}
                   >
                     {splitMode === "all" && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -398,7 +398,7 @@ export default function SplitPdfPage() {
                 onClick={() => setSplitMode("range")}
                 className={`p-4 rounded-xl border text-left transition-all ${
                   splitMode === "range"
-                    ? "border-red-500 bg-red-50/40 dark:bg-red-950/30 ring-1 ring-red-500"
+                    ? "border-sky-500 bg-sky-50/40 dark:bg-sky-950/30 ring-1 ring-red-500"
                     : "border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50"
                 }`}
               >
@@ -406,7 +406,7 @@ export default function SplitPdfPage() {
                   <span className="font-semibold text-sm text-gray-900 dark:text-white">Pisahkan Berdasarkan Range</span>
                   <span
                     className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
-                      splitMode === "range" ? "border-red-600 bg-red-600" : "border-gray-300 dark:border-zinc-700"
+                      splitMode === "range" ? "border-sky-600 bg-sky-600" : "border-gray-300 dark:border-zinc-700"
                     }`}
                   >
                     {splitMode === "range" && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -429,7 +429,7 @@ export default function SplitPdfPage() {
                   value={rangeInput}
                   onChange={(e) => setRangeInput(e.target.value)}
                   placeholder="misal: 1-3, 5, 7-9"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 text-sm font-mono"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-sky-500 text-sm font-mono"
                 />
                 <p className="text-xs text-gray-500 dark:text-zinc-400 flex items-center gap-1.5">
                   <HelpCircle className="w-3.5 h-3.5" />
@@ -461,7 +461,7 @@ export default function SplitPdfPage() {
               type="button"
               onClick={handleSplit}
               disabled={isSplitting}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-red-600 text-white font-semibold text-sm hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all disabled:opacity-50"
             >
               {isSplitting ? (
                 <>
