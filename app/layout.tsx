@@ -10,15 +10,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GaweTools - Alat Utilitas File PDF Online Cepat & Aman",
-  description: "Gabung, pisah, kompres, dan kunci PDF secara instan langsung di browser Anda tanpa upload ke server. Aman, cepat, dan 100% gratis.",
+  title: "GaweTools",
+  description: "Gabung, potong, kompres, dan kunci PDF secara instan langsung di browser Anda tanpa upload ke server. Aman, cepat, dan 100% gratis.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
