@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-zinc-900 text-slate-800 dark:text-zinc-100 font-sans transition-colors duration-150">
+      <body className="min-h-full flex flex-col bg-slate-100 dark:bg-zinc-900 text-slate-800 dark:text-zinc-100 font-sans transition-colors duration-150">
         <Navbar />
         <main className="flex flex-col flex-1">{children}</main>
         <Footer />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Files, Scissors, Minimize2, Lock, ImageDown, Stamp } from "lucide-react";
 
 export default function Home() {
+  // Card Data
   const documentTools = [
     {
       href: "/merge-pdf",
@@ -29,7 +30,6 @@ export default function Home() {
     },
   ];
 
-  // 2. Definisikan data untuk Gambar Tools
   const imageTools = [
     {
       href: "/compress-image",
@@ -45,18 +45,8 @@ export default function Home() {
     },
   ];
 
-  // 3. Buat komponen Card agar tidak ada kode berulang (DRY - Don't Repeat Yourself)
-  const ToolCard = ({
-    href,
-    icon,
-    title,
-    description,
-  }: {
-    href: string;
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-  }) => (
+  // Card Component
+  const ToolCard = ({ href, icon, title, description }: { href: string; icon: React.ReactNode; title: string; description: string }) => (
     <Link href={href} className="group border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800 rounded-xl p-6 hover:border-sky-300 dark:hover:border-sky-500/50 transition-colors">
       <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center mb-4">{icon}</div>
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
@@ -66,6 +56,14 @@ export default function Home() {
 
   return (
     <div className="px-6 sm:px-16 py-8 mx-auto w-full space-y-8">
+      {/* Bagian Jumbotron / Hero Section */}
+      <div className="flex flex-col items-center justify-center text-center py-12 md:py-20 space-y-6 text-gray-900 dark:text-white">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+          Selesaikan Pekerjaan Anda dengan <span className="text-blue-500">GaweTools</span>
+        </h1>
+        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">Kumpulan alat gratis untuk mengelola dokumen PDF dan gambar Anda. Gabungkan, kompres, dan edit file dengan mudah dan aman langsung dari browser Anda.</p>
+      </div>
+
       {/* Bagian Dokumen Tools */}
       <div className="space-y-4">
         <h1 className="text-3xl font-bold">Dokumen Tools</h1>
