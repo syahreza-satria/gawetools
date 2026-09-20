@@ -59,9 +59,9 @@ export default function Home() {
       {/* Bagian Jumbotron / Hero Section */}
       <div className="flex flex-col items-center justify-center text-center py-12 md:py-20 space-y-6 text-gray-900 dark:text-white">
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-          Selesaikan Pekerjaan Anda dengan <span className="text-blue-500">GaweTools</span>
+          Selesaikan Pekerjaan Anda <br /> dengan <span className="text-blue-500">GaweTools</span>
         </h1>
-        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">Kumpulan alat gratis untuk mengelola dokumen PDF dan gambar Anda. Gabungkan, kompres, dan edit file dengan mudah dan aman langsung dari browser Anda.</p>
+        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">Olah dokumen anda dengan rasa tenang dimana semua proses akan dilakukan di komputermu sendiri.</p>
       </div>
 
       {/* Bagian Dokumen Tools */}
