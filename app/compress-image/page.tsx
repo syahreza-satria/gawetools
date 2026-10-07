@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import JSZip from "jszip";
 import {
   ImageDown,
@@ -308,7 +308,7 @@ export default function CompressImagePage() {
             {results.map((r, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800"
+                className="flex items-center gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -339,7 +339,7 @@ export default function CompressImagePage() {
                 <button
                   onClick={() => handleDownloadSingle(r)}
                   title="Download"
-                  className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
+                  className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
                 >
                   <ArrowDownToLine className="w-4 h-4" />
                 </button>
@@ -387,7 +387,7 @@ export default function CompressImagePage() {
           {files.length > 0 && (
             <div className="mt-6 space-y-6">
               {/* File list */}
-              <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800 divide-y divide-gray-100 dark:divide-zinc-800">
+              <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 divide-y divide-gray-100 dark:divide-zinc-800">
                 {files.map((file, i) => (
                   <div
                     key={i}
@@ -413,7 +413,7 @@ export default function CompressImagePage() {
                       type="button"
                       onClick={() => removeFile(i)}
                       disabled={isCompressing}
-                      className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+                      className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -422,7 +422,7 @@ export default function CompressImagePage() {
               </div>
 
               {/* Settings */}
-              <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-5">
+              <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
                 {/* Compression level */}
                 <div>
                   <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -475,7 +475,7 @@ export default function CompressImagePage() {
                     ))}
                   </div>
                   {outputFormat === "image/png" && (
-                    <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500">
+                    <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400">
                       PNG adalah format lossless, pengurangan ukuran lebih terbatas dibanding JPEG/WebP.
                     </p>
                   )}
@@ -483,7 +483,7 @@ export default function CompressImagePage() {
               </div>
 
               {/* Action */}
-              <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+              <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
                 <span className="text-xs text-gray-500 dark:text-zinc-400">
                   Proses dijalankan langsung di perangkat Anda tanpa upload file.
                 </span>

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import JSZip from "jszip";
 import * as pdfjsLib from "pdfjs-dist";
 import {
@@ -412,7 +412,7 @@ export default function PdfToImagePage() {
             {results.map((r) => (
               <div
                 key={r.pageNumber}
-                className="group bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800 overflow-hidden flex flex-col"
+                className="group bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 overflow-hidden flex flex-col"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -425,14 +425,14 @@ export default function PdfToImagePage() {
                     <p className="text-xs font-semibold text-gray-800 dark:text-white truncate">
                       Halaman {r.pageNumber}
                     </p>
-                    <p className="text-[11px] text-gray-400 dark:text-zinc-500 mt-0.5">
+                    <p className="text-[11px] text-gray-400 dark:text-zinc-400 mt-0.5">
                       {r.width}×{r.height} · {formatBytes(r.blob.size)}
                     </p>
                   </div>
                   <button
                     onClick={() => handleDownloadSingle(r)}
                     title="Download"
-                    className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
+                    className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
                   >
                     <ArrowDownToLine className="w-4 h-4" />
                   </button>
@@ -489,7 +489,7 @@ export default function PdfToImagePage() {
       {pdfDoc && results.length === 0 && (
         <div className="space-y-6">
           {/* PDF info bar */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileImage className="w-4 h-4" />
@@ -505,7 +505,7 @@ export default function PdfToImagePage() {
             </div>
             <button
               onClick={handleReset}
-              className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors shrink-0 ml-3"
+              className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors shrink-0 ml-3"
               title="Hapus & Ganti File"
             >
               <X className="w-4 h-4" />
@@ -513,7 +513,7 @@ export default function PdfToImagePage() {
           </div>
 
           {/* Page selection */}
-          <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800 p-5">
+          <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 p-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                 Pilih Halaman
@@ -552,7 +552,7 @@ export default function PdfToImagePage() {
           </div>
 
           {/* Settings */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-5">
+          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
             {/* Format output */}
             <div>
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -575,7 +575,7 @@ export default function PdfToImagePage() {
                 ))}
               </div>
               {outputFormat === "image/png" && (
-                <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500">
+                <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400">
                   PNG adalah format lossless, cocok untuk transparansi. Ukuran file lebih besar dari JPEG/WebP.
                 </p>
               )}
@@ -611,7 +611,7 @@ export default function PdfToImagePage() {
           </div>
 
           {/* Action bar */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <span className="text-xs text-gray-500 dark:text-zinc-400">
               Proses dijalankan langsung di perangkat Anda tanpa upload file.
             </span>

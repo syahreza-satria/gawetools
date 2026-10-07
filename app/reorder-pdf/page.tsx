@@ -3,7 +3,7 @@
 import { useState, useCallback, useId, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import {
   DndContext,
@@ -189,6 +189,7 @@ export default function ReorderPdfPage() {
 
   // Keep a pdfjs ref for thumbnail rendering
   const pdfjsDocRef = useRef<pdfjsLib.PDFDocumentProxy | null>(null);
+  const [totalPages, setTotalPages] = useState(0);
 
   const dndId = useId();
 
@@ -220,6 +221,7 @@ export default function ReorderPdfPage() {
       pdfjsDocRef.current = pdfDoc;
 
       const count = pdfDoc.numPages;
+      setTotalPages(count);
       setFile(picked);
 
       // Build initial page list without thumbnails first (faster initial render)
@@ -275,6 +277,7 @@ export default function ReorderPdfPage() {
   const handleReset = () => {
     (pdfjsDocRef.current as unknown as { destroy?: () => void })?.destroy?.();
     pdfjsDocRef.current = null;
+    setTotalPages(0);
     setFile(null);
     setPages([]);
     setResultBlob(null);
@@ -325,7 +328,7 @@ export default function ReorderPdfPage() {
   const activeItem = pages.find((p) => p.id === activeId) ?? null;
   const removedCount = file
     ? Math.round(
-        (1 - pages.length / (pdfjsDocRef.current?.numPages ?? pages.length)) * 100
+        (1 - pages.length / (totalPages || pages.length)) * 100
       )
     : 0;
 
@@ -442,7 +445,7 @@ export default function ReorderPdfPage() {
       {file && pages.length > 0 && (
         <div className="space-y-5">
           {/* Info bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-4 h-4" />
@@ -459,9 +462,7 @@ export default function ReorderPdfPage() {
                     <>
                       <span>·</span>
                       <span className="text-amber-600 dark:text-amber-400 font-medium">
-                        {pdfjsDocRef.current
-                          ? pdfjsDocRef.current.numPages - pages.length
-                          : ""}{" "}
+                        {totalPages ? totalPages - pages.length : ""}{" "}
                         dihapus
                       </span>
                     </>
@@ -470,12 +471,12 @@ export default function ReorderPdfPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-400 dark:text-zinc-500 hidden sm:block">
+              <span className="text-xs text-gray-400 dark:text-zinc-400 hidden sm:block">
                 Geser kartu untuk mengubah urutan
               </span>
               <button
                 onClick={handleReset}
-                className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                 title="Ganti File"
               >
                 <Trash2 className="w-4 h-4" />
@@ -527,7 +528,7 @@ export default function ReorderPdfPage() {
           )}
 
           {/* Action bar */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <span className="text-xs text-gray-500 dark:text-zinc-400">
               {isSaving ? progressText : "Proses sepenuhnya di browser — file tidak pernah dikirim ke server."}
             </span>

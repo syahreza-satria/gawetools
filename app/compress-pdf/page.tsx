@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import {
   Minimize2,
   FileText,
@@ -286,7 +286,7 @@ export default function CompressPdfPage() {
       {file && !resultBlob && (
         <div className="space-y-6">
           {/* Selected File Card */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
@@ -303,14 +303,14 @@ export default function CompressPdfPage() {
               onClick={handleReset}
               disabled={isCompressing}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+              className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
           {/* Compression Level Options */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-4">
+          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-4">
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Tingkat Kompresi</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {COMPRESSION_LEVELS.map((opt) => (
@@ -333,7 +333,7 @@ export default function CompressPdfPage() {
           </div>
 
           {/* Action Button */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <span className="text-xs text-gray-500 dark:text-zinc-400">
               Proses dijalankan langsung di perangkat Anda tanpa upload file.
             </span>

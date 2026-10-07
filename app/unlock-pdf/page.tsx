@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import {
   LockOpen,
   FileText,
@@ -232,7 +232,7 @@ export default function UnlockPdfPage() {
       {file && !resultBlob && (
         <div className="space-y-6">
           {/* File info card */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
@@ -254,14 +254,14 @@ export default function UnlockPdfPage() {
               onClick={handleReset}
               disabled={isUnlocking}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:opacity-50"
+              className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:opacity-50"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
           {/* Password input card */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-4">
+          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-4">
             <div className="flex items-center gap-2.5">
               <ShieldOff className="w-4 h-4 text-sky-600 dark:text-sky-400" />
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -290,7 +290,7 @@ export default function UnlockPdfPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-400 hover:text-gray-600 dark:hover:text-zinc-300 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -303,7 +303,7 @@ export default function UnlockPdfPage() {
           </div>
 
           {/* Action bar */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <span className="text-xs text-gray-500 dark:text-zinc-400">
               Dekripsi dijalankan langsung di perangkat Anda.
             </span>

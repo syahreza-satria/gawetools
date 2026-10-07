@@ -4,11 +4,11 @@ import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import JSZip from "jszip";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import PageThumbnail from "@/components/PageThumbnail";
 import { parseRangeInput, PageRangeGroup } from "@/lib/parseRanges";
-import { Scissors, FileText, Trash2, ArrowDownToLine, RefreshCw, AlertCircle, CheckCircle2, Loader2, FileArchive, Layers, HelpCircle } from "lucide-react";
+import { Scissors, FileText, Trash2, ArrowDownToLine, RefreshCw, AlertCircle, CheckCircle2, Loader2, FileArchive, HelpCircle } from "lucide-react";
 
 if (typeof window !== "undefined") {
   if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
@@ -272,7 +272,7 @@ export default function SplitPdfPage() {
 
       {/* Loading state */}
       {isLoadingPdf && (
-        <div className="p-12 text-center bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 space-y-3">
+        <div className="p-12 text-center bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-700/70 space-y-3">
           <Loader2 className="w-8 h-8 text-sky-600 animate-spin mx-auto" />
           <p className="text-sm font-medium text-gray-700 dark:text-zinc-300">Membaca dokumen PDF...</p>
         </div>
@@ -305,7 +305,7 @@ export default function SplitPdfPage() {
       {file && pdfDocProxy && !isLoadingPdf && (
         <div className="space-y-6">
           {/* File summary top card */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
@@ -327,14 +327,14 @@ export default function SplitPdfPage() {
               onClick={cleanCurrentFile}
               disabled={isSplitting}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+              className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
           {/* Mode Selection Card */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-4">
+          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-4">
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Pilih Mode Pemisahan</h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -395,9 +395,9 @@ export default function SplitPdfPage() {
           </div>
 
           {/* Page Thumbnails Preview Gallery */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-3">
+          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-3">
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Preview Halaman ({totalPages})</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[380px] overflow-y-auto p-2 bg-slate-50 dark:bg-zinc-950/50 rounded-xl border border-gray-100 dark:border-zinc-800">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[380px] overflow-y-auto p-2 bg-slate-50 dark:bg-zinc-950/50 rounded-xl border border-gray-100 dark:border-zinc-700/70">
               {Array.from({ length: totalPages }, (_, idx) => (
                 <PageThumbnail key={idx + 1} pdfDoc={pdfDocProxy} pageNumber={idx + 1} />
               ))}
@@ -405,7 +405,7 @@ export default function SplitPdfPage() {
           </div>
 
           {/* Action Split Button */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <span className="text-xs text-gray-500 dark:text-zinc-400">{splitMode === "all" ? `Akan menghasilkan ${totalPages} file PDF dalam ZIP.` : `Range: ${rangeInput || "-"}`}</span>
 
             <button

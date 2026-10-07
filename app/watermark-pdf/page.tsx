@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import {
   PDFDocument,
@@ -309,7 +309,7 @@ export default function WatermarkPdfPage() {
   const [wmPosition, setWmPosition] = useState<WatermarkPosition>("center");
   const [wmMargin, setWmMargin] = useState(5);
   const [wmRotation, setWmRotation] = useState(0);
-  const [wmAllPages, setWmAllPages] = useState(true);
+  const [wmAllPages] = useState(true);
 
   // Image watermark
   const [wmImageFile, setWmImageFile] = useState<File | null>(null);
@@ -568,7 +568,7 @@ export default function WatermarkPdfPage() {
       {file && pdfBytes && (
         <div className="space-y-5">
           {/* File info bar */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-4 h-4" />
@@ -578,7 +578,7 @@ export default function WatermarkPdfPage() {
                 <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">{formatBytes(file.size)} · {pageCount} halaman</p>
               </div>
             </div>
-            <button onClick={handleReset} disabled={isProcessing} className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:opacity-40">
+            <button onClick={handleReset} disabled={isProcessing} className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:opacity-40">
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
@@ -586,7 +586,7 @@ export default function WatermarkPdfPage() {
           {/* Settings + Preview side-by-side on large screens */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* ── Settings Panel ── */}
-            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-5">
+            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
 
               {/* Watermark type toggle */}
               <div>
@@ -654,7 +654,7 @@ export default function WatermarkPdfPage() {
                       onChange={(e) => { setWmRotation(Number(e.target.value)); setResultBlob(null); }}
                       className="w-full accent-sky-500"
                     />
-                    <div className="flex justify-between text-[10px] text-gray-400 dark:text-zinc-500 mt-0.5">
+                    <div className="flex justify-between text-[10px] text-gray-400 dark:text-zinc-400 mt-0.5">
                       <span>-90°</span><span>0°</span><span>+90°</span>
                     </div>
                   </div>
@@ -715,7 +715,7 @@ export default function WatermarkPdfPage() {
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-2">Posisi</label>
                   <div className="inline-grid grid-cols-3 gap-1">
-                    {POSITION_GRID.map((row, ri) =>
+                    {POSITION_GRID.map((row) =>
                       row.map((cell) => (
                         <button
                           key={cell.id}
@@ -745,7 +745,7 @@ export default function WatermarkPdfPage() {
                     onChange={(e) => { setWmOpacity(Number(e.target.value) / 100); setResultBlob(null); }}
                     className="w-full accent-sky-500"
                   />
-                  <div className="flex justify-between text-[10px] text-gray-400 dark:text-zinc-500 mt-0.5">
+                  <div className="flex justify-between text-[10px] text-gray-400 dark:text-zinc-400 mt-0.5">
                     <span>Sangat transparan</span><span>Solid</span>
                   </div>
                 </div>
@@ -763,7 +763,7 @@ export default function WatermarkPdfPage() {
             </div>
 
             {/* ── Preview Panel ── */}
-            <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800 flex flex-col overflow-hidden">
+            <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 flex flex-col overflow-hidden">
               <div className="px-4 py-3 border-b border-gray-100 dark:border-zinc-800 flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Preview (Halaman 1)</h3>
                 {isPreviewLoading && <Loader2 className="w-4 h-4 animate-spin text-sky-500" />}
@@ -788,7 +788,7 @@ export default function WatermarkPdfPage() {
           </div>
 
           {/* Action bar */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <span className="text-xs text-gray-500 dark:text-zinc-400">
               {isProcessing ? progressText : "Proses sepenuhnya di browser — file tidak dikirim ke server."}
             </span>

@@ -1,13 +1,21 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { MotionProvider } from "@/components/motion";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#0ea5e9",
+};
 
 export const metadata: Metadata = {
   title: "GaweTools",
@@ -16,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="id" className={`${jakarta.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -34,8 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-full flex flex-col bg-slate-100 dark:bg-zinc-900 text-slate-800 dark:text-zinc-100 font-sans transition-colors duration-150">
+        <ServiceWorkerRegister />
         <Navbar />
-        <main className="flex flex-col flex-1">{children}</main>
+        <main className="flex flex-col flex-1">
+          <MotionProvider>{children}</MotionProvider>
+        </main>
         <Footer />
       </body>
     </html>

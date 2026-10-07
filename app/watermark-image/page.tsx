@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/download";
 import JSZip from "jszip";
 import {
   Stamp,
@@ -277,7 +277,7 @@ export default function WatermarkImagePage() {
   const [results, setResults] = useState<WatermarkResult[]>([]);
 
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [previewFile, setPreviewFile] = useState<File | null>(null);
+  const [selectedPreview, setPreviewFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const watermarkInputRef = useRef<HTMLInputElement>(null);
 
@@ -312,14 +312,9 @@ export default function WatermarkImagePage() {
     multiple: true,
   });
 
-  useEffect(() => {
-    if (files.length > 0 && !previewFile) {
-      setPreviewFile(files[0]);
-    } else if (files.length === 0) {
-      setPreviewFile(null);
-      setPreviewUrl(null);
-    }
-  }, [files, previewFile]);
+  // Preview falls back to the first file when nothing (valid) is selected
+  const previewFile =
+    selectedPreview && files.includes(selectedPreview) ? selectedPreview : (files[0] ?? null);
 
   useEffect(() => {
     if (!previewFile) return;
@@ -409,7 +404,7 @@ export default function WatermarkImagePage() {
   const removeFile = (index: number) => {
     setFiles((prev) => {
       const next = prev.filter((_, i) => i !== index);
-      if (previewFile === prev[index]) {
+      if (selectedPreview === prev[index]) {
         setPreviewFile(next.length > 0 ? next[0] : null);
       }
       return next;
@@ -579,7 +574,7 @@ export default function WatermarkImagePage() {
             {results.map((r, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800"
+                className="flex items-center gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -605,7 +600,7 @@ export default function WatermarkImagePage() {
                 <button
                   onClick={() => handleDownloadSingle(r)}
                   title="Download"
-                  className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
+                  className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
                 >
                   <ArrowDownToLine className="w-4 h-4" />
                 </button>
@@ -650,7 +645,7 @@ export default function WatermarkImagePage() {
           {files.length > 0 && (
             <div className="mt-6 space-y-6">
               {/* File list */}
-              <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800 divide-y divide-gray-100 dark:divide-zinc-800">
+              <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 divide-y divide-gray-100 dark:divide-zinc-800">
                 {files.map((file, i) => (
                   <div key={i} className="flex items-center justify-between px-4 py-3">
                     <div className="flex items-center gap-3 min-w-0">
@@ -679,7 +674,7 @@ export default function WatermarkImagePage() {
                       type="button"
                       onClick={() => removeFile(i)}
                       disabled={isProcessing}
-                      className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+                      className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -690,7 +685,7 @@ export default function WatermarkImagePage() {
               {/* Settings + Preview */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Settings */}
-                <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 space-y-6">
+                <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-6">
                   {/* Watermark type */}
                   <div>
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -929,7 +924,7 @@ export default function WatermarkImagePage() {
                       ))}
                     </div>
                     {outputFormat === "image/png" && (
-                      <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500">
+                      <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400">
                         PNG mendukung transparansi — cocok jika gambar sumber memiliki latar belakang transparan.
                       </p>
                     )}
@@ -937,7 +932,7 @@ export default function WatermarkImagePage() {
                 </div>
 
                 {/* Live preview */}
-                <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 flex flex-col">
+                <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 flex flex-col">
                   <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
                     Preview Langsung
                   </h3>
@@ -954,14 +949,14 @@ export default function WatermarkImagePage() {
                         <Loader2 className="w-6 h-6 animate-spin text-sky-500" />
                       )
                     ) : (
-                      <p className="text-xs text-gray-400 dark:text-zinc-500 text-center px-4">
+                      <p className="text-xs text-gray-400 dark:text-zinc-400 text-center px-4">
                         Pilih gambar untuk melihat preview watermark
                       </p>
                     )}
                   </div>
                   <canvas ref={previewCanvasRef} className="hidden" />
                   {files.length > 1 && (
-                    <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500 text-center">
+                    <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400 text-center">
                       Preview: {previewFile?.name}. Klik ikon gambar di file list untuk ganti preview.
                     </p>
                   )}
@@ -969,7 +964,7 @@ export default function WatermarkImagePage() {
               </div>
 
               {/* Action bar */}
-              <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+              <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
                 <span className="text-xs text-gray-500 dark:text-zinc-400">
                   Proses dijalankan langsung di perangkat Anda tanpa upload file.
                 </span>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Cpu, Lock, Sparkles, Heart } from "lucide-react";
+import { Sparkles, Heart } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,6 +10,8 @@ export default function Footer() {
     { label: "Potong PDF", href: "/split-pdf" },
     { label: "Kompres PDF", href: "/compress-pdf" },
     { label: "Atur Halaman PDF", href: "/reorder-pdf" },
+    { label: "Putar PDF", href: "/rotate-pdf" },
+    { label: "Gambar ke PDF", href: "/image-to-pdf" },
     { label: "Kunci PDF", href: "/lock-pdf" },
     { label: "Buka Kunci PDF", href: "/unlock-pdf" },
     { label: "Watermark PDF", href: "/watermark-pdf" },
@@ -18,6 +20,8 @@ export default function Footer() {
 
   const imageTools = [
     { label: "Kompres Gambar", href: "/compress-image" },
+    { label: "Resize Gambar", href: "/resize-image" },
+    { label: "Konversi Gambar", href: "/convert-image" },
     { label: "Watermark Gambar", href: "/watermark-image" },
   ];
 
@@ -28,41 +32,6 @@ export default function Footer() {
 
   return (
     <footer className="mt-auto border-t border-gray-100 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-950 transition-colors">
-      {/* Privacy & Trust Banner */}
-      <div className="border-b border-gray-100 dark:border-zinc-800/80 bg-white/40 dark:bg-zinc-900/30">
-        <div className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-gray-600 dark:text-zinc-400">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-sky-50 dark:bg-sky-950/60 text-sky-500 shrink-0">
-              <ShieldCheck className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-semibold text-gray-900 dark:text-white block">100% Aman & Privat</span>
-              <span>Dokumen tidak pernah diunggah ke server manapun.</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-sky-50 dark:bg-sky-950/60 text-sky-500 shrink-0">
-              <Cpu className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-semibold text-gray-900 dark:text-white block">Proses di Browser</span>
-              <span>Bekerja langsung di perangkat Anda tanpa batasan kuota.</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-sky-50 dark:bg-sky-950/60 text-sky-500 shrink-0">
-              <Lock className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-semibold text-gray-900 dark:text-white block">Tanpa Registrasi</span>
-              <span>Gunakan semua fitur secara gratis tanpa perlu login.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">

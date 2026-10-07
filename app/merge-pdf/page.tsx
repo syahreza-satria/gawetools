@@ -3,6 +3,7 @@
 import { useState, useCallback, useId } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
+import { recordHistory } from "@/lib/history";
 import {
   DndContext,
   closestCenter,
@@ -31,7 +32,6 @@ import {
   AlertCircle,
   CheckCircle2,
   Loader2,
-  ShieldCheck,
   FileStack,
 } from "lucide-react";
 
@@ -86,7 +86,7 @@ function SortablePDFItem({
           {...listeners}
           disabled={disabled}
           title="Tahan & geser untuk mengubah urutan"
-          className={`p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 cursor-grab active:cursor-grabbing transition-colors ${
+          className={`p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 cursor-grab active:cursor-grabbing transition-colors ${
             disabled ? "opacity-40 cursor-not-allowed" : ""
           }`}
         >
@@ -125,7 +125,7 @@ function SortablePDFItem({
           onClick={() => onRemove(item.id)}
           disabled={disabled}
           title="Hapus file ini"
-          className="p-2 rounded-lg text-gray-400 dark:text-zinc-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors disabled:opacity-40"
+          className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors disabled:opacity-40"
         >
           <Trash2 className="w-4 h-4" />
         </button>
@@ -329,6 +329,7 @@ export default function MergePdfPage() {
             <a
               href={downloadUrl}
               download={downloadFilename}
+              onClick={() => void recordHistory({ tool: "/merge-pdf", filename: downloadFilename, size: 0 })}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 text-white font-semibold text-sm hover:bg-sky-700 active:scale-98 transition-all"
             >
               <ArrowDownToLine className="w-5 h-5" />
@@ -382,12 +383,12 @@ export default function MergePdfPage() {
         /* Populated State with List and Actions */
         <div className="space-y-6">
           {/* Top Bar with Add More and Clear */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-gray-900 dark:text-white text-sm">
                 {items.length} file dipilih
               </span>
-              <span className="text-xs text-gray-400 dark:text-zinc-500">• Geser baris untuk ubah urutan</span>
+              <span className="text-xs text-gray-400 dark:text-zinc-400">• Geser baris untuk ubah urutan</span>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -445,7 +446,7 @@ export default function MergePdfPage() {
           </div>
 
           {/* Bottom Action Card */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
             <div className="text-xs text-gray-500 dark:text-zinc-400 text-center sm:text-left">
               {items.length < 2 ? (
                 <span className="text-amber-600 dark:text-amber-400 font-medium">

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
 import {
@@ -15,6 +16,10 @@ import {
   Stamp,
   FileImage,
   ImageDown,
+  Images,
+  RotateCw,
+  Scaling,
+  Repeat,
   ChevronDown,
   Menu,
   X,
@@ -46,12 +51,14 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close menus on route change
-  useEffect(() => {
+  // Close menus on route change (adjust state during render, not in an effect)
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setIsPdfOpen(false);
     setIsImgOpen(false);
     setIsMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   const pdfTools = [
     {
@@ -77,6 +84,18 @@ export default function Navbar() {
       title: "Atur Halaman PDF",
       desc: "Urutkan atau hapus halaman",
       icon: <LayoutGrid className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/rotate-pdf",
+      title: "Putar PDF",
+      desc: "Putar halaman PDF ke kiri / kanan",
+      icon: <RotateCw className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/image-to-pdf",
+      title: "Gambar ke PDF",
+      desc: "Jadikan foto / scan satu file PDF",
+      icon: <Images className="w-4 h-4 text-sky-500" />,
     },
     {
       href: "/lock-pdf",
@@ -112,6 +131,18 @@ export default function Navbar() {
       icon: <ImageDown className="w-4 h-4 text-sky-500" />,
     },
     {
+      href: "/resize-image",
+      title: "Resize Gambar",
+      desc: "Ubah dimensi gambar (px / persen)",
+      icon: <Scaling className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/convert-image",
+      title: "Konversi Gambar",
+      desc: "Ubah format JPG, PNG, dan WebP",
+      icon: <Repeat className="w-4 h-4 text-sky-500" />,
+    },
+    {
       href: "/watermark-image",
       title: "Watermark Gambar",
       desc: "Beri watermark teks atau logo gambar",
@@ -123,7 +154,7 @@ export default function Navbar() {
   const isImgActive = imageTools.some((t) => pathname === t.href);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-gray-100 dark:border-zinc-800 transition-colors">
+    <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-gray-100 dark:border-zinc-700/70 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
@@ -166,10 +197,15 @@ export default function Navbar() {
             </button>
 
             {/* Mega Dropdown Panel for PDF */}
-            {isPdfOpen && (
-              <div className="absolute top-full left-0 mt-2 w-[480px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/60 p-3 grid grid-cols-2 gap-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+            <AnimatePresence>{isPdfOpen && (
+              <motion.div initial={{ opacity: 0, y: -10, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 500, damping: 34 }}
+                style={{ transformOrigin: "top left" }}
+                className="absolute top-full left-0 mt-2 w-[480px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/60 p-3 grid grid-cols-2 gap-1.5">
                 <div className="col-span-2 px-3 py-1.5 mb-1 flex items-center justify-between border-b border-gray-100 dark:border-zinc-800">
-                  <span className="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-gray-400 dark:text-zinc-400 uppercase tracking-wider">
                     Alat Kelola PDF
                   </span>
                   <span className="text-[11px] font-medium text-sky-500 flex items-center gap-1">
@@ -200,8 +236,8 @@ export default function Navbar() {
                     </div>
                   </Link>
                 ))}
-              </div>
-            )}
+              </motion.div>
+            )}</AnimatePresence>
           </div>
 
           {/* Image Tools Dropdown */}
@@ -227,10 +263,15 @@ export default function Navbar() {
             </button>
 
             {/* Dropdown Panel for Image */}
-            {isImgOpen && (
-              <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/60 p-3 space-y-1 animate-in fade-in slide-in-from-top-2 duration-150">
+            <AnimatePresence>{isImgOpen && (
+              <motion.div initial={{ opacity: 0, y: -10, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 500, damping: 34 }}
+                style={{ transformOrigin: "top left" }}
+                className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/60 p-3 space-y-1">
                 <div className="px-3 py-1 mb-1 border-b border-gray-100 dark:border-zinc-800">
-                  <span className="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-gray-400 dark:text-zinc-400 uppercase tracking-wider">
                     Alat Edit Gambar
                   </span>
                 </div>
@@ -258,11 +299,23 @@ export default function Navbar() {
                     </div>
                   </Link>
                 ))}
-              </div>
-            )}
+              </motion.div>
+            )}</AnimatePresence>
           </div>
 
           <div className="h-4 w-px bg-gray-200 dark:bg-zinc-800 mx-1.5" />
+
+          {/* History Link */}
+          <Link
+            href="/history"
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              pathname === "/history"
+                ? "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50 font-semibold"
+                : "text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900"
+            }`}
+          >
+            Riwayat
+          </Link>
 
           {/* Guide Link */}
           <Link
@@ -309,11 +362,11 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto">
+      <AnimatePresence initial={false}>{isMobileMenuOpen && (
+        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }} className="md:hidden border-t border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto overflow-x-hidden">
           {/* PDF Tools Section */}
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 mb-2 px-1 flex items-center gap-1.5">
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-sky-500" />
               <span>Dokumen PDF</span>
             </div>
@@ -340,7 +393,7 @@ export default function Navbar() {
 
           {/* Image Tools Section */}
           <div className="pt-2 border-t border-gray-100 dark:border-zinc-800">
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 mb-2 px-1 flex items-center gap-1.5">
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
               <ImageIcon className="w-3.5 h-3.5 text-sky-500" />
               <span>Gambar</span>
             </div>
@@ -368,6 +421,17 @@ export default function Navbar() {
           {/* Navigation Links */}
           <div className="pt-3 border-t border-gray-100 dark:border-zinc-800 flex flex-col gap-1">
             <Link
+              href="/history"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname === "/history"
+                  ? "bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400"
+                  : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
+              }`}
+            >
+              Riwayat
+            </Link>
+            <Link
               href="/guide"
               onClick={() => setIsMobileMenuOpen(false)}
               className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
@@ -390,8 +454,9 @@ export default function Navbar() {
               Tentang Kami
             </Link>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </header>
   );
 }
