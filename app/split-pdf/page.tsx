@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
+import { loadPdf } from "@/lib/loadPdf";
 import JSZip from "jszip";
 import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
@@ -110,7 +111,7 @@ export default function SplitPdfPage() {
 
     try {
       const fileBytes = await file.arrayBuffer();
-      const originalPdfDoc = await PDFDocument.load(fileBytes);
+      const originalPdfDoc = await loadPdf(fileBytes);
       const baseFilename = file.name.replace(/\.[^/.]+$/, "");
 
       if (splitMode === "all") {

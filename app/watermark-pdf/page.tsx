@@ -5,12 +5,12 @@ import { useDropzone, FileRejection } from "react-dropzone";
 import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import {
-  PDFDocument,
   rgb,
   StandardFonts,
   degrees,
   PDFFont,
 } from "pdf-lib";
+import { loadPdf } from "@/lib/loadPdf";
 import {
   Stamp,
   FileText,
@@ -141,7 +141,7 @@ async function applyTextWatermarkToPdf(
   allPages: boolean,
   targetPageIndices: number[] // 0-based, used when allPages=false
 ): Promise<Uint8Array> {
-  const pdfDoc = await PDFDocument.load(fileBytes);
+  const pdfDoc = await loadPdf(fileBytes);
   const font: PDFFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const { r, g, b } = hexToRgb(color);
   const pages = pdfDoc.getPages();
@@ -185,7 +185,7 @@ async function applyImageWatermarkToPdf(
   allPages: boolean,
   targetPageIndices: number[]
 ): Promise<Uint8Array> {
-  const pdfDoc = await PDFDocument.load(fileBytes);
+  const pdfDoc = await loadPdf(fileBytes);
   const embeddedImage =
     imageType === "png"
       ? await pdfDoc.embedPng(imageBytes)

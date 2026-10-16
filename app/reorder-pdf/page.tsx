@@ -3,6 +3,7 @@
 import { useState, useCallback, useId, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
+import { loadPdf } from "@/lib/loadPdf";
 import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import {
@@ -296,7 +297,7 @@ export default function ReorderPdfPage() {
 
     try {
       const arrayBuffer = await file.arrayBuffer();
-      const srcDoc = await PDFDocument.load(arrayBuffer);
+      const srcDoc = await loadPdf(arrayBuffer);
       const newDoc = await PDFDocument.create();
 
       setProgressText("Menyusun ulang halaman...");

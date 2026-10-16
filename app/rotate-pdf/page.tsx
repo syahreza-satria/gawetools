@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { PDFDocument, degrees } from "pdf-lib";
+import { degrees } from "pdf-lib";
+import { loadPdf } from "@/lib/loadPdf";
 import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import {
@@ -166,7 +167,7 @@ export default function RotatePdfPage() {
     setIsSaving(true);
     setErrorMessage(null);
     try {
-      const doc = await PDFDocument.load(await file.arrayBuffer());
+      const doc = await loadPdf(await file.arrayBuffer());
       doc.getPages().forEach((page, i) => {
         const extra = rotations[i] ?? 0;
         if (extra !== 0) page.setRotation(degrees((page.getRotation().angle + extra) % 360));

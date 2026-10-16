@@ -3,6 +3,7 @@
 import { useState, useCallback, useId } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
+import { loadPdf } from "@/lib/loadPdf";
 import { recordHistory } from "@/lib/history";
 import {
   DndContext,
@@ -172,7 +173,7 @@ export default function MergePdfPage() {
 
       try {
         const arrayBuffer = await file.arrayBuffer();
-        const doc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+        const doc = await loadPdf(arrayBuffer, { ignoreEncryption: true });
         pageCount = doc.getPageCount();
       } catch (err) {
         console.warn("Could not read page count for", file.name, err);
@@ -254,7 +255,7 @@ export default function MergePdfPage() {
         setProgressText(`Menggabungkan (${i + 1}/${items.length}): ${item.name}...`);
 
         const arrayBuffer = await item.file.arrayBuffer();
-        const sourceDoc = await PDFDocument.load(arrayBuffer);
+        const sourceDoc = await loadPdf(arrayBuffer);
         const pageIndices = sourceDoc.getPageIndices();
         const copiedPages = await mergedPdf.copyPages(sourceDoc, pageIndices);
 
