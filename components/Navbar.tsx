@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Files,
   Scissors,
@@ -24,7 +24,6 @@ import {
   X,
   FileText,
   ImageIcon,
-  Sparkles,
   PenLine,
   ListOrdered,
   Smartphone,
@@ -40,39 +39,34 @@ import {
   FileDiff,
   BookOpen,
   QrCode,
+  Search,
+  ArrowUpRight,
+  CornerDownLeft,
 } from "lucide-react";
+
+interface NavTool {
+  href: string;
+  title: string;
+  desc: string;
+  icon: ReactNode;
+}
+
+type MenuId = "pdf" | "image" | null;
+
+const PAGE_LINKS = [
+  { href: "/history", title: "Riwayat", desc: "Daftar unduhan di perangkat ini" },
+  { href: "/guide", title: "Panduan", desc: "Cara memakai setiap alat" },
+  { href: "/about", title: "Tentang Kami", desc: "Tentang GaweTools" },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isPdfOpen, setIsPdfOpen] = useState(false);
-  const [isImgOpen, setIsImgOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const pdfRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (pdfRef.current && !pdfRef.current.contains(event.target as Node)) {
-        setIsPdfOpen(false);
-      }
-      if (imgRef.current && !imgRef.current.contains(event.target as Node)) {
-        setIsImgOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Close menus on route change (adjust state during render, not in an effect)
-  const [prevPathname, setPrevPathname] = useState(pathname);
-  if (prevPathname !== pathname) {
-    setPrevPathname(pathname);
-    setIsPdfOpen(false);
-    setIsImgOpen(false);
-    setIsMobileMenuOpen(false);
-  }
+  const router = useRouter();
+  const [openMenu, setOpenMenu] = useState<MenuId>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   const pdfTools = [
     {
@@ -260,311 +254,345 @@ export default function Navbar() {
     },
   ];
 
+
   const isPdfActive = pdfTools.some((t) => pathname === t.href);
   const isImgActive = imageTools.some((t) => pathname === t.href);
 
+  // Close menus on route change (adjust state during render, not in an effect)
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setOpenMenu(null);
+    setMobileOpen(false);
+    setPaletteOpen(false);
+  }
+
+  // Click outside / Escape closes the mega menu; Ctrl/⌘+K opens the search palette.
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
+        setMobileOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenMenu(null);
+        setMobileOpen(false);
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      }
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const menus: { id: Exclude<MenuId, null>; label: string; icon: ReactNode; tools: NavTool[]; active: boolean }[] = [
+    { id: "pdf", label: "Alat PDF", icon: <FileText className="w-3.5 h-3.5" />, tools: pdfTools, active: isPdfActive },
+    { id: "image", label: "Alat Gambar", icon: <ImageIcon className="w-3.5 h-3.5" />, tools: imageTools, active: isImgActive },
+  ];
+  const activeMenu = menus.find((m) => m.id === openMenu) ?? null;
+
+  const tabCls = (active: boolean) =>
+    "relative flex items-center gap-1.5 px-3.5 py-2 rounded-full label-mono transition-colors " + (active ? "text-white" : "text-zinc-400 hover:text-white");
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#050505]/80 backdrop-blur-md border-b border-zinc-900 transition-colors">
-      <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 h-16 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 rounded-lg bg-sky-950/60 p-1 flex items-center justify-center border border-sky-900 group-hover:scale-105 transition-transform">
-            <Image
-              src="/logo_gawetools.png"
-              alt="GaweTools Logo"
-              width={26}
-              height={26}
-              className="object-contain brightness-0 invert"
-            />
+    <>
+      <header ref={headerRef} className="sticky top-0 z-50 px-3 sm:px-6 lg:px-10 2xl:px-16 pt-3 pb-1 pointer-events-none">
+        <div className="relative pointer-events-auto">
+          {/* Floating pill */}
+          <div className="flex items-center justify-between gap-3 h-14 pl-3 pr-2 rounded-full border border-zinc-800 bg-[#0a0a0b]/75 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+            <Link href="/" className="flex items-center gap-2.5 group pl-1">
+              <span className="relative w-8 h-8 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Image src="/logo_gawetools.png" alt="GaweTools Logo" width={20} height={20} className="object-contain brightness-0" />
+              </span>
+              <span className="hidden sm:inline font-medium text-lg tracking-tight text-white">
+                Gawe<span className="text-zinc-500">Tools</span>
+              </span>
+            </Link>
+
+            {/* Desktop tabs */}
+            <nav className="hidden md:flex items-center gap-0.5" onMouseLeave={() => setHovered(null)}>
+              {menus.map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  aria-expanded={openMenu === m.id}
+                  onMouseEnter={() => setHovered(m.id)}
+                  onClick={() => setOpenMenu((cur) => (cur === m.id ? null : m.id))}
+                  className={tabCls(m.active || openMenu === m.id)}
+                >
+                  {hovered === m.id && (
+                    <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800/80" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
+                  )}
+                  <span className="relative flex items-center gap-1.5">
+                    {m.icon}
+                    {m.label}
+                    <ChevronDown className={"w-3 h-3 transition-transform duration-200 " + (openMenu === m.id ? "rotate-180" : "")} />
+                  </span>
+                  {m.active && <span className="absolute left-1/2 -bottom-0.5 h-1 w-1 -translate-x-1/2 rounded-full bg-white" />}
+                </button>
+              ))}
+              <span className="mx-1 h-4 w-px bg-zinc-800" />
+              {PAGE_LINKS.map((l) => (
+                <Link key={l.href} href={l.href} onMouseEnter={() => setHovered(l.href)} className={tabCls(pathname === l.href)}>
+                  {hovered === l.href && (
+                    <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800/80" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
+                  )}
+                  <span className="relative">{l.title}</span>
+                  {pathname === l.href && <span className="absolute left-1/2 -bottom-0.5 h-1 w-1 -translate-x-1/2 rounded-full bg-white" />}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPaletteOpen(true)}
+                aria-label="Cari alat"
+                className="flex items-center gap-2 h-10 px-3.5 rounded-full bg-white text-[#050505] hover:bg-[#e4e4e7] transition-colors"
+              >
+                <Search className="w-4 h-4" />
+                <span className="hidden sm:inline text-sm font-semibold">Cari alat</span>
+                <kbd className="hidden lg:inline label-mono !text-[10px] px-1.5 py-0.5 rounded bg-[#050505]/10">Ctrl K</kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen((o) => !o);
+                  setOpenMenu(null);
+                }}
+                aria-label="Buka menu navigasi"
+                aria-expanded={mobileOpen}
+                className="md:hidden w-10 h-10 rounded-full border border-zinc-800 text-zinc-200 flex items-center justify-center hover:bg-zinc-900 transition-colors"
+              >
+                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
-          <span className="font-medium text-xl tracking-tight text-white">
-            Gawe<span className="text-zinc-500">Tools</span><sup className="ml-0.5 text-[9px] text-zinc-500 align-top">&trade;</sup>
-          </span>
-        </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1">
-          {/* PDF Tools Dropdown */}
-          <div className="relative" ref={pdfRef}>
-            <button
-              onClick={() => {
-                setIsPdfOpen((prev) => !prev);
-                setIsImgOpen(false);
-              }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-md label-mono transition-colors ${
-                isPdfActive || isPdfOpen
-                  ? "text-white bg-zinc-900"
-                  : "text-zinc-300 hover:text-white hover:bg-zinc-900"
-              }`}
-            >
-              <FileText className="w-4 h-4 text-sky-500" />
-              <span>PDF Tools</span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  isPdfOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {/* Mega Dropdown Panel for PDF */}
-            <AnimatePresence>{isPdfOpen && (
-              <motion.div initial={{ opacity: 0, y: -10, scale: 0.97 }}
+          {/* Desktop mega panel */}
+          <AnimatePresence>
+            {activeMenu && (
+              <motion.div
+                key="mega"
+                initial={{ opacity: 0, y: -8, scale: 0.99 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 500, damping: 34 }}
-                style={{ transformOrigin: "top left" }}
-                className="absolute top-full left-0 mt-2 w-[480px] bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl shadow-black/60 p-3 grid grid-cols-2 gap-1.5">
-                <div className="col-span-2 px-3 py-1.5 mb-1 flex items-center justify-between border-b border-zinc-800">
-                  <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-                    Alat Kelola PDF
-                  </span>
-                  <span className="text-[11px] font-medium text-sky-500 flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" /> 100% Client-Side
-                  </span>
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                className="hidden md:block absolute left-0 right-0 top-full mt-2 rounded-lg border border-zinc-800 bg-[#0a0a0b]/95 backdrop-blur-xl shadow-2xl shadow-black/70 p-4 max-h-[75vh] overflow-y-auto"
+              >
+                <div className="flex items-center justify-between px-2 pb-3 mb-3 border-b border-zinc-900">
+                  <span className="label-mono text-zinc-500">{activeMenu.label + " // " + activeMenu.tools.length + " alat"}</span>
+                  <span className="label-mono text-zinc-600">100% di browser</span>
                 </div>
-                {pdfTools.map((tool) => (
-                  <Link
-                    key={tool.href}
-                    href={tool.href}
-                    onClick={() => setIsPdfOpen(false)}
-                    className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                      pathname === tool.href
-                        ? "bg-sky-950/60 border border-sky-800/60"
-                        : "hover:bg-zinc-800/60 border border-transparent"
-                    }`}
-                  >
-                    <div className="p-2 rounded-lg bg-zinc-800 text-sky-500 shrink-0">
-                      {tool.icon}
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-zinc-100">
-                        {tool.title}
-                      </div>
-                      <div className="text-xs text-zinc-400 line-clamp-1">
-                        {tool.desc}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </motion.div>
-            )}</AnimatePresence>
-          </div>
-
-          {/* Image Tools Dropdown */}
-          <div className="relative" ref={imgRef}>
-            <button
-              onClick={() => {
-                setIsImgOpen((prev) => !prev);
-                setIsPdfOpen(false);
-              }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-md label-mono transition-colors ${
-                isImgActive || isImgOpen
-                  ? "text-white bg-zinc-900"
-                  : "text-zinc-300 hover:text-white hover:bg-zinc-900"
-              }`}
-            >
-              <ImageIcon className="w-4 h-4 text-sky-500" />
-              <span>Gambar Tools</span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  isImgOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {/* Dropdown Panel for Image */}
-            <AnimatePresence>{isImgOpen && (
-              <motion.div initial={{ opacity: 0, y: -10, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 500, damping: 34 }}
-                style={{ transformOrigin: "top left" }}
-                className="absolute top-full left-0 mt-2 w-72 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl shadow-black/60 p-3 space-y-1">
-                <div className="px-3 py-1 mb-1 border-b border-zinc-800">
-                  <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-                    Alat Edit Gambar
-                  </span>
+                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1.5">
+                  {activeMenu.tools.map((tool) => (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className={
+                        "group flex items-start gap-3 p-3 rounded-lg border transition-colors " +
+                        (pathname === tool.href ? "border-zinc-600 bg-zinc-900" : "border-transparent hover:border-zinc-800 hover:bg-zinc-900/70")
+                      }
+                    >
+                      <span className="mt-0.5 w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center shrink-0 group-hover:bg-white group-hover:text-[#050505] transition-colors">
+                        {tool.icon}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-medium text-white">{tool.title}</span>
+                        <span className="block text-xs text-zinc-500 line-clamp-1">{tool.desc}</span>
+                      </span>
+                    </Link>
+                  ))}
                 </div>
-                {imageTools.map((tool) => (
-                  <Link
-                    key={tool.href}
-                    href={tool.href}
-                    onClick={() => setIsImgOpen(false)}
-                    className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                      pathname === tool.href
-                        ? "bg-sky-950/60 border border-sky-800/60"
-                        : "hover:bg-zinc-800/60 border border-transparent"
-                    }`}
-                  >
-                    <div className="p-2 rounded-lg bg-zinc-800 text-sky-500 shrink-0">
-                      {tool.icon}
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-zinc-100">
-                        {tool.title}
-                      </div>
-                      <div className="text-xs text-zinc-400 line-clamp-1">
-                        {tool.desc}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
               </motion.div>
-            )}</AnimatePresence>
-          </div>
-
-          <div className="h-4 w-px bg-zinc-800 mx-1.5" />
-
-          {/* History Link */}
-          <Link
-            href="/history"
-            className={`px-3 py-2 rounded-md label-mono transition-colors ${
-              pathname === "/history"
-                ? "text-white bg-zinc-900"
-                : "text-zinc-300 hover:text-white hover:bg-zinc-900"
-            }`}
-          >
-            Riwayat
-          </Link>
-
-          {/* Guide Link */}
-          <Link
-            href="/guide"
-            className={`px-3 py-2 rounded-md label-mono transition-colors ${
-              pathname === "/guide"
-                ? "text-white bg-zinc-900"
-                : "text-zinc-300 hover:text-white hover:bg-zinc-900"
-            }`}
-          >
-            Panduan
-          </Link>
-
-          {/* About Link */}
-          <Link
-            href="/about"
-            className={`px-3 py-2 rounded-md label-mono transition-colors ${
-              pathname === "/about"
-                ? "text-white bg-zinc-900"
-                : "text-zinc-300 hover:text-white hover:bg-zinc-900"
-            }`}
-          >
-            Tentang Kami
-          </Link>
-        </nav>
-
-        {/* Right Action Items */}
-        <div className="flex items-center gap-2.5">
-          {/* Mobile Menu Toggle Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            aria-label="Toggle Navigation Menu"
-            className="md:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-800 transition-colors"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
             )}
-          </button>
+          </AnimatePresence>
+
+          {/* Mobile sheet */}
+          <AnimatePresence>
+            {mobileOpen && (
+              <motion.div
+                key="mobile"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+                className="md:hidden absolute left-0 right-0 top-full mt-2 rounded-lg border border-zinc-800 bg-[#0a0a0b]/95 backdrop-blur-xl shadow-2xl shadow-black/70 p-3 max-h-[78vh] overflow-y-auto space-y-4"
+              >
+                {menus.map((m) => (
+                  <div key={m.id} className="space-y-1.5">
+                    <p className="label-mono text-zinc-500 px-2">{m.label}</p>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {m.tools.map((tool) => (
+                        <Link
+                          key={tool.href}
+                          href={tool.href}
+                          className={
+                            "flex items-center gap-2 p-2.5 rounded-lg border text-[13px] " +
+                            (pathname === tool.href ? "border-zinc-600 bg-zinc-900 text-white" : "border-zinc-900 text-zinc-300 hover:bg-zinc-900")
+                          }
+                        >
+                          <span className="shrink-0 text-white">{tool.icon}</span>
+                          <span className="truncate">{tool.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                <div className="grid grid-cols-3 gap-1.5 border-t border-zinc-900 pt-3">
+                  {PAGE_LINKS.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className={"text-center label-mono py-2.5 rounded-lg border " + (pathname === l.href ? "border-zinc-600 bg-zinc-900 text-white" : "border-zinc-900 text-zinc-400")}
+                    >
+                      {l.title}
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence initial={false}>{isMobileMenuOpen && (
-        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }} className="md:hidden border-t border-zinc-800 bg-zinc-950 px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto overflow-x-hidden">
-          {/* PDF Tools Section */}
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-sky-500" />
-              <span>Dokumen PDF</span>
+      <CommandPalette
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        items={[...pdfTools.map((t) => ({ ...t, group: "PDF" })), ...imageTools.map((t) => ({ ...t, group: "Gambar" })), ...PAGE_LINKS.map((l) => ({ ...l, icon: <ArrowUpRight className="w-4 h-4 text-white" />, group: "Halaman" }))]}
+        onPick={(href) => {
+          setPaletteOpen(false);
+          router.push(href);
+        }}
+      />
+    </>
+  );
+}
+
+interface PaletteItem extends NavTool {
+  group: string;
+}
+
+function CommandPalette({ open, onClose, items, onPick }: { open: boolean; onClose: () => void; items: PaletteItem[]; onPick: (href: string) => void }) {
+  const [query, setQuery] = useState("");
+  const [cursor, setCursor] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return items;
+    return items.filter((i) => i.title.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q) || i.group.toLowerCase().includes(q));
+  }, [items, query]);
+
+  useEffect(() => {
+    if (open) {
+      const t = setTimeout(() => inputRef.current?.focus(), 20);
+      return () => clearTimeout(t);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    listRef.current?.querySelector<HTMLElement>('[data-active="true"]')?.scrollIntoView({ block: "nearest" });
+  }, [cursor, results]);
+
+  const close = () => {
+    setQuery("");
+    setCursor(0);
+    onClose();
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setCursor((c) => Math.min(c + 1, results.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setCursor((c) => Math.max(c - 1, 0));
+    } else if (e.key === "Enter" && results[cursor]) {
+      e.preventDefault();
+      setQuery("");
+      setCursor(0);
+      onPick(results[cursor].href);
+    } else if (e.key === "Escape") {
+      close();
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="palette"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-start justify-center px-4 pt-[12vh]"
+          onMouseDown={(e) => e.target === e.currentTarget && close()}
+        >
+          <motion.div
+            role="dialog"
+            aria-label="Cari alat"
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-xl rounded-lg border border-zinc-800 bg-[#0a0a0b] shadow-2xl shadow-black overflow-hidden"
+            onKeyDown={onKeyDown}
+          >
+            <div className="flex items-center gap-3 px-4 border-b border-zinc-900">
+              <Search className="w-4 h-4 text-zinc-500" />
+              <input
+                ref={inputRef}
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setCursor(0);
+                }}
+                placeholder="Cari alat: gabung, kompres, OCR..."
+                aria-label="Cari alat"
+                className="w-full h-14 bg-transparent text-sm text-white placeholder:text-zinc-500 focus:outline-none"
+              />
+              <kbd className="label-mono !text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-400">Esc</kbd>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              {pdfTools.map((tool) => (
-                <Link
-                  key={tool.href}
-                  href={tool.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 p-2.5 rounded-lg text-sm transition-colors ${
-                    pathname === tool.href
-                      ? "bg-sky-950/60 text-sky-400 font-medium"
-                      : "text-zinc-300 hover:bg-zinc-900"
-                  }`}
-                >
-                  <div className="p-1.5 rounded-md bg-zinc-900">
-                    {tool.icon}
-                  </div>
-                  <span>{tool.title}</span>
-                </Link>
+            <ul ref={listRef} className="max-h-[55vh] overflow-y-auto p-2">
+              {results.length === 0 && <li className="px-3 py-8 text-center text-sm text-zinc-500">Tidak ada alat yang cocok.</li>}
+              {results.map((item, i) => (
+                <li key={item.group + item.href}>
+                  <button
+                    type="button"
+                    data-active={i === cursor}
+                    onMouseMove={() => setCursor(i)}
+                    onClick={() => {
+                      setQuery("");
+                      setCursor(0);
+                      onPick(item.href);
+                    }}
+                    className={"w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors " + (i === cursor ? "bg-zinc-900" : "")}
+                  >
+                    <span className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">{item.icon}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-medium text-white">{item.title}</span>
+                      <span className="block text-xs text-zinc-500 truncate">{item.desc}</span>
+                    </span>
+                    <span className="label-mono !text-[10px] text-zinc-600 shrink-0">{item.group}</span>
+                    {i === cursor && <CornerDownLeft className="w-3.5 h-3.5 text-zinc-400 shrink-0" />}
+                  </button>
+                </li>
               ))}
-            </div>
-          </div>
-
-          {/* Image Tools Section */}
-          <div className="pt-2 border-t border-zinc-800">
-            <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
-              <ImageIcon className="w-3.5 h-3.5 text-sky-500" />
-              <span>Gambar</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              {imageTools.map((tool) => (
-                <Link
-                  key={tool.href}
-                  href={tool.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 p-2.5 rounded-lg text-sm transition-colors ${
-                    pathname === tool.href
-                      ? "bg-sky-950/60 text-sky-400 font-medium"
-                      : "text-zinc-300 hover:bg-zinc-900"
-                  }`}
-                >
-                  <div className="p-1.5 rounded-md bg-zinc-900">
-                    {tool.icon}
-                  </div>
-                  <span>{tool.title}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <div className="pt-3 border-t border-zinc-800 flex flex-col gap-1">
-            <Link
-              href="/history"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
-                pathname === "/history"
-                  ? "bg-sky-950/60 text-sky-400"
-                  : "text-zinc-300 hover:bg-zinc-900"
-              }`}
-            >
-              Riwayat
-            </Link>
-            <Link
-              href="/guide"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
-                pathname === "/guide"
-                  ? "bg-sky-950/60 text-sky-400"
-                  : "text-zinc-300 hover:bg-zinc-900"
-              }`}
-            >
-              Panduan
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
-                pathname === "/about"
-                  ? "bg-sky-950/60 text-sky-400"
-                  : "text-zinc-300 hover:bg-zinc-900"
-              }`}
-            >
-              Tentang Kami
-            </Link>
-          </div>
+            </ul>
+          </motion.div>
         </motion.div>
       )}
-      </AnimatePresence>
-    </header>
+    </AnimatePresence>
   );
 }
