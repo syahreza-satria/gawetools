@@ -300,7 +300,7 @@ export default function Navbar() {
   const activeMenu = menus.find((m) => m.id === openMenu) ?? null;
 
   const tabCls = (active: boolean) =>
-    "relative flex items-center gap-1 px-4 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 " + (active ? "text-[#050505]" : "text-zinc-400 hover:text-white");
+    "relative flex items-center gap-1 px-4 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 " + (active ? "bg-white text-[#050505]" : "text-zinc-400 hover:text-white");
 
   return (
     <>
@@ -333,7 +333,6 @@ export default function Navbar() {
                     onClick={() => setOpenMenu((cur) => (cur === m.id ? null : m.id))}
                     className={tabCls(current)}
                   >
-                    {current && <motion.span layoutId="nav-active" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
                     {!current && (hovered === m.id || openMenu === m.id) && (
                       <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
                     )}
@@ -348,7 +347,6 @@ export default function Navbar() {
                 const current = pathname === l.href;
                 return (
                   <Link key={l.href} href={l.href} onMouseEnter={() => setHovered(l.href)} className={tabCls(current)}>
-                    {current && <motion.span layoutId="nav-active" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
                     {!current && hovered === l.href && (
                       <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
                     )}
