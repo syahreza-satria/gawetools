@@ -300,7 +300,7 @@ export default function Navbar() {
   const activeMenu = menus.find((m) => m.id === openMenu) ?? null;
 
   const tabCls = (active: boolean) =>
-    "relative flex items-center gap-1.5 px-3.5 py-2 rounded-full label-mono transition-colors " + (active ? "text-white" : "text-zinc-400 hover:text-white");
+    "relative flex items-center gap-1 px-4 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 " + (active ? "text-[#050505]" : "text-zinc-400 hover:text-white");
 
   return (
     <>
@@ -318,37 +318,44 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop tabs */}
-            <nav className="hidden md:flex items-center gap-0.5" onMouseLeave={() => setHovered(null)}>
-              {menus.map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  aria-expanded={openMenu === m.id}
-                  onMouseEnter={() => setHovered(m.id)}
-                  onClick={() => setOpenMenu((cur) => (cur === m.id ? null : m.id))}
-                  className={tabCls(m.active || openMenu === m.id)}
-                >
-                  {hovered === m.id && (
-                    <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800/80" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
-                  )}
-                  <span className="relative flex items-center gap-1.5">
-                    {m.icon}
-                    {m.label}
-                    <ChevronDown className={"w-3 h-3 transition-transform duration-200 " + (openMenu === m.id ? "rotate-180" : "")} />
-                  </span>
-                  {m.active && <span className="absolute left-1/2 -bottom-0.5 h-1 w-1 -translate-x-1/2 rounded-full bg-white" />}
-                </button>
-              ))}
-              <span className="mx-1 h-4 w-px bg-zinc-800" />
-              {PAGE_LINKS.map((l) => (
-                <Link key={l.href} href={l.href} onMouseEnter={() => setHovered(l.href)} className={tabCls(pathname === l.href)}>
-                  {hovered === l.href && (
-                    <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800/80" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
-                  )}
-                  <span className="relative">{l.title}</span>
-                  {pathname === l.href && <span className="absolute left-1/2 -bottom-0.5 h-1 w-1 -translate-x-1/2 rounded-full bg-white" />}
-                </Link>
-              ))}
+            <nav
+              className="hidden md:flex items-center gap-0.5 p-1 rounded-full bg-zinc-900/70 border border-zinc-800/80"
+              onMouseLeave={() => setHovered(null)}
+            >
+              {menus.map((m) => {
+                const current = m.active;
+                return (
+                  <button
+                    key={m.id}
+                    type="button"
+                    aria-expanded={openMenu === m.id}
+                    onMouseEnter={() => setHovered(m.id)}
+                    onClick={() => setOpenMenu((cur) => (cur === m.id ? null : m.id))}
+                    className={tabCls(current)}
+                  >
+                    {current && <motion.span layoutId="nav-active" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+                    {!current && (hovered === m.id || openMenu === m.id) && (
+                      <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
+                    )}
+                    <span className="relative flex items-center gap-1">
+                      {m.label}
+                      <ChevronDown className={"w-3.5 h-3.5 opacity-70 transition-transform duration-200 " + (openMenu === m.id ? "rotate-180" : "")} />
+                    </span>
+                  </button>
+                );
+              })}
+              {PAGE_LINKS.map((l) => {
+                const current = pathname === l.href;
+                return (
+                  <Link key={l.href} href={l.href} onMouseEnter={() => setHovered(l.href)} className={tabCls(current)}>
+                    {current && <motion.span layoutId="nav-active" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+                    {!current && hovered === l.href && (
+                      <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-zinc-800" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
+                    )}
+                    <span className="relative">{l.title.replace(" Kami", "")}</span>
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className="flex items-center gap-2">
