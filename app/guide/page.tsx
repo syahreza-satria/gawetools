@@ -484,17 +484,17 @@ export default function GuidePage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-14">
       {/* Header */}
-      <Reveal><header className="text-center max-w-2xl mx-auto space-y-4">
+      <Reveal><header className="max-w-3xl space-y-4 text-left border-b border-zinc-900 pb-8">
         <h1 className="text-4xl sm:text-6xl font-medium tracking-tight text-white leading-[1.05]">Panduan Penggunaan</h1>
         <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
           Semua alat dibuat sederhana: unggah file, atur pilihan, unduh hasilnya. Berikut langkah lengkap untuk tiap alat.
         </p>
-        <p className="text-sm text-zinc-300 inline-flex items-center gap-1.5 justify-center">
+        <p className="text-sm text-zinc-300 inline-flex items-center gap-1.5">
           <ShieldCheck className="w-4 h-4 text-sky-500 shrink-0" />
           Semua diproses di browser Anda, tanpa upload ke server.
         </p>
 
-        <nav aria-label="Lompat ke kategori" className="flex flex-wrap items-center justify-center gap-2 pt-2">
+        <nav aria-label="Lompat ke kategori" className="flex flex-wrap items-center justify-start gap-2 pt-2">
           {CATEGORIES.map((c) => (
             <a
               key={c.id}

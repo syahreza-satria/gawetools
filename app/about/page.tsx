@@ -6,8 +6,8 @@ export default function AboutPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
       {/* Header Section */}
-      <Reveal><section className="space-y-4 text-center sm:text-left">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white">
+      <Reveal><section className="space-y-4 text-left border-b border-zinc-900 pb-8">
+        <h1 className="text-4xl sm:text-6xl font-medium leading-[1.04] text-white">
           Tentang Gawe<span className="text-sky-500">Tools</span>
         </h1>
         <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl">

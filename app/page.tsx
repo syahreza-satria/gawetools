@@ -20,7 +20,6 @@ import {
   Repeat,
   Search,
   ShieldCheck,
-  ArrowRight,
   FileStack,
   ArrowLeftRight,
   ShieldHalf,
@@ -42,6 +41,8 @@ import {
   BookOpen,
   QrCode,
   Shapes,
+  ArrowUpRight,
+  ArrowDown,
 } from "lucide-react";
 
 interface Tool {
@@ -321,34 +322,74 @@ const CATEGORIES: Category[] = [
 ];
 
 const TOTAL_TOOLS = CATEGORIES.reduce((n, c) => n + c.tools.length, 0);
+const ALL_TOOL_TITLES = CATEGORIES.flatMap((c) => c.tools.map((t) => t.title));
 
-function ToolCard({ tool }: { tool: Tool }) {
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/** Large mask-reveal line used by the hero headline. */
+function RevealLine({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   return (
-    <motion.div variants={popIn} whileHover={{ y: -6 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }} className="h-full">
-    <Link
-      href={tool.href}
-      className="group relative flex h-full flex-col justify-between p-6 rounded-2xl bg-zinc-950 border border-zinc-700/70 hover:border-sky-500/60 shadow-xs hover:shadow-xl hover:shadow-sky-500/10 transition-[border-color,box-shadow] duration-200"
+    <span className="block overflow-hidden pb-[0.08em]">
+      <motion.span
+        className="block"
+        initial={{ y: "105%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+function ToolTile({ tool, feature }: { tool: Tool; feature: boolean }) {
+  return (
+    <motion.div
+      variants={popIn}
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 400, damping: 26 }}
+      className={feature ? "sm:col-span-2" : ""}
     >
-      <div>
-        <div className="flex items-center justify-between mb-3.5">
-          <div className="w-12 h-12 rounded-xl bg-sky-950/60 text-sky-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 group-hover:bg-white group-hover:text-[#050505] transition-all duration-300">
+      <Link
+        href={tool.href}
+        className={
+          "group relative flex h-full min-h-52 flex-col justify-between gap-8 p-6 rounded-lg border transition-colors duration-200 " +
+          (feature
+            ? "bg-[#f4f4f4] border-[#f4f4f4] text-[#050505] hover:bg-white"
+            : "bg-zinc-950 border-zinc-800 text-white hover:border-zinc-500 hover:bg-zinc-900")
+        }
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div
+            className={
+              "w-11 h-11 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105 " +
+              (feature ? "bg-[#050505] text-white" : "bg-zinc-900 border border-zinc-800 text-white")
+            }
+          >
             {tool.icon}
           </div>
           {tool.badge && (
-            <span className="label-mono text-[10px] px-2.5 py-1 rounded-full bg-sky-950/80 text-sky-400 border border-sky-800">
+            <span
+              className={
+                "label-mono text-[10px] px-2.5 py-1 rounded-full border " +
+                (feature ? "border-[#050505]/30 text-[#050505]" : "border-zinc-700 text-zinc-300")
+              }
+            >
               {tool.badge}
             </span>
           )}
         </div>
-        <h3 className="text-lg font-bold text-zinc-100 group-hover:text-sky-400 transition-colors">{tool.title}</h3>
-        <p className="mt-2 text-sm text-zinc-400 leading-relaxed line-clamp-3">{tool.description}</p>
-      </div>
 
-      <div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between text-sm font-semibold text-sky-400">
-        <span>Buka Tool</span>
-        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-      </div>
-    </Link>
+        <div className="space-y-2">
+          <h3 className={"font-medium tracking-tight " + (feature ? "text-2xl sm:text-3xl" : "text-lg")}>{tool.title}</h3>
+          <p className={"text-sm leading-relaxed line-clamp-3 " + (feature ? "text-[#050505]/70 max-w-md" : "text-zinc-400")}>{tool.description}</p>
+        </div>
+
+        <div className={"label-mono flex items-center justify-between " + (feature ? "text-[#050505]" : "text-zinc-300")}>
+          <span>Buka alat</span>
+          <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </div>
+      </Link>
     </motion.div>
   );
 }
@@ -369,108 +410,239 @@ export default function Home() {
   const renderChip = (id: string, label: string) => {
     const active = activeCategory === id;
     return (
-      <motion.button
+      <button
         key={id}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        type="button"
         onClick={() => setActiveCategory(id)}
-        className={`relative px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-          active ? "text-[#050505]" : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-        }`}
+        className={
+          "relative label-mono px-4 py-2 rounded-full border transition-colors " +
+          (active ? "text-[#050505] border-white" : "text-zinc-300 border-zinc-800 hover:border-zinc-500 hover:text-white")
+        }
       >
-        {active && <motion.span layoutId="active-chip" className="absolute inset-0 rounded-full bg-sky-500 shadow-md shadow-sky-500/30" transition={{ type: "spring", stiffness: 420, damping: 32 }} />}
+        {active && <motion.span layoutId="active-chip" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
         <span className="relative">{label}</span>
-      </motion.button>
+      </button>
     );
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
-      {/* COMPACT HEADER + SEARCH */}
-      <motion.section initial="hidden" animate="show" variants={stagger(0.1)} className="text-center max-w-2xl mx-auto space-y-4">
-        <motion.h1 variants={fadeUp} className="text-4xl sm:text-6xl font-medium tracking-tight text-white leading-[1.05]">
-          Pilih alat yang Anda butuhkan
-        </motion.h1>
-        <motion.p variants={fadeUp} className="text-base text-zinc-300 flex items-center justify-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-sky-500 shrink-0" />
-          <span>Diproses di browser, file tidak diunggah ke server.</span>
-        </motion.p>
+    <div>
+      {/* ───────── HERO ───────── */}
+      <section className="relative overflow-hidden border-b border-zinc-900">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="ambient-orb absolute -top-40 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-white/[0.07] blur-3xl" />
+          <div className="ambient-orb-slow absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-white/[0.04] blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:25%_100%] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
+        </div>
 
-        <motion.div variants={fadeUp} className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-sky-500 transition-colors" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari tool... (cth: Gabung PDF, Kompres, Watermark)"
-            className="w-full pl-12 pr-4 py-3 text-sm sm:text-base rounded-2xl bg-zinc-950 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 shadow-gray-200/50 shadow-none transition-all placeholder:text-zinc-500"
-          />
-          <AnimatePresence>
-            {searchQuery && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                onClick={() => setSearchQuery("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-zinc-200 bg-zinc-800 px-2 py-1 rounded-md"
-              >
-                Reset
-              </motion.button>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        <LayoutGroup>
-          <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-2">
-            {renderChip("all", `Semua (${TOTAL_TOOLS})`)}
-            {CATEGORIES.map((c) => renderChip(c.id, `${c.title} (${c.tools.length})`))}
-          </motion.div>
-        </LayoutGroup>
-      </motion.section>
-
-      {/* TOOLS PER CATEGORY */}
-      <AnimatePresence mode="popLayout">
-      {visibleCategories.length === 0 ? (
-        <motion.div key="empty" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="text-center py-16 bg-zinc-950 rounded-2xl border border-dashed border-zinc-700">
-          <p className="text-zinc-400 text-sm">Tidak ada alat yang cocok dengan pencarian &ldquo;{searchQuery}&rdquo;.</p>
-          <button
-            onClick={() => {
-              setSearchQuery("");
-              setActiveCategory("all");
-            }}
-            className="mt-3 text-xs font-semibold text-sky-500 hover:underline"
-          >
-            Lihat semua alat
-          </button>
-        </motion.div>
-      ) : (
-        visibleCategories.map((c) => (
-          <motion.section
-            key={c.id}
-            id={c.id}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-12 sm:pb-16">
+          <motion.div
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
-            variants={stagger(0.08)}
-            exit={{ opacity: 0, y: -10 }}
-            className="space-y-5 scroll-mt-24"
+            animate="show"
+            variants={stagger(0.12, 0.1)}
+            className="flex items-center justify-between label-mono text-zinc-400"
           >
-            <motion.div variants={fadeUp} className="flex items-center gap-3 pb-3 border-b border-zinc-700">
-              <div className="w-10 h-10 rounded-xl bg-sky-950/60 text-sky-400 flex items-center justify-center shrink-0">{c.icon}</div>
-              <div className="min-w-0">
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{c.title}</h2>
-                <p className="text-sm text-zinc-400">{c.description}</p>
-              </div>
-            </motion.div>
-            <motion.div variants={stagger(0.07)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {c.tools.map((tool) => (
-                <ToolCard key={tool.href} tool={tool} />
+            <motion.span variants={fadeUp}>GaweTools &trade; / Utilitas Dokumen</motion.span>
+            <motion.span variants={fadeUp} className="hidden sm:inline">
+              {pad(TOTAL_TOOLS) + " alat // 100% di browser"}
+            </motion.span>
+          </motion.div>
+
+          <h1 className="mt-10 sm:mt-14 text-[clamp(3.25rem,14vw,12.5rem)] font-medium leading-[0.92] tracking-[-0.045em] text-white">
+            <RevealLine>
+              Gawe<span className="text-zinc-500">Tools</span>
+              <sup className="ml-1 align-top text-[0.18em] font-normal tracking-normal text-zinc-400">&trade;</sup>
+            </RevealLine>
+          </h1>
+
+          <div className="mt-10 sm:mt-14 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-end">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="text-xl sm:text-2xl lg:text-3xl font-medium leading-snug tracking-tight text-white max-w-xl"
+            >
+              Gabung, potong, kompres, tanda tangani, dan konversi PDF serta gambar &mdash; tanpa mengunggah satu file pun.
+            </motion.p>
+
+            <motion.ul
+              initial="hidden"
+              animate="show"
+              variants={stagger(0.12, 0.7)}
+              className="space-y-4 border-t border-zinc-800 pt-5"
+            >
+              {[
+                ["01-A.", "Semua proses berjalan di perangkat Anda."],
+                ["02-B.", "Gratis, tanpa akun, bisa dipakai offline."],
+                ["03-C.", "Tanpa upload // 0 byte meninggalkan browser."],
+              ].map(([idx, text]) => (
+                <motion.li key={idx} variants={fadeUp} className="flex gap-4 text-sm text-zinc-300">
+                  <span className="label-mono text-zinc-500 shrink-0 w-12">{idx}</span>
+                  <span>{text}</span>
+                </motion.li>
               ))}
+            </motion.ul>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 flex flex-wrap items-center gap-3"
+          >
+            <a
+              href="#alat"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#050505] text-sm font-semibold hover:bg-[#e4e4e7] transition-colors"
+            >
+              Jelajahi {TOTAL_TOOLS} alat
+              <ArrowDown className="w-4 h-4" />
+            </a>
+            <Link
+              href="/guide"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-700 text-white text-sm font-semibold hover:border-zinc-400 transition-colors"
+            >
+              Panduan
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ───────── MARQUEE ───────── */}
+      <div aria-hidden className="relative overflow-hidden border-b border-zinc-900 py-4">
+        <div className="marquee-track flex w-max items-center gap-8 label-mono text-zinc-500">
+          {[0, 1].map((dup) => (
+            <div key={dup} className="flex items-center gap-8 shrink-0">
+              {ALL_TOOL_TITLES.map((t) => (
+                <span key={dup + t} className="flex items-center gap-8 whitespace-nowrap">
+                  {t}
+                  <span className="text-zinc-700">{"//"}</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ───────── TOOLS ───────── */}
+      <div id="alat" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 space-y-14 scroll-mt-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8 lg:gap-16 items-end">
+          <div className="space-y-3">
+            <p className="label-mono text-zinc-500">{"04-D. // Temukan alat"}</p>
+            <h2 className="text-4xl sm:text-5xl leading-[1.04] text-white">
+              Pilih alat yang
+              <br />
+              Anda butuhkan.
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-white transition-colors" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari alat: gabung, kompres, tanda tangan..."
+                aria-label="Cari alat"
+                className="w-full pl-12 pr-20 py-3.5 text-sm rounded-lg bg-zinc-950 border border-zinc-800 focus:outline-none focus:border-zinc-400 placeholder:text-zinc-500 transition-colors"
+              />
+              <AnimatePresence>
+                {searchQuery && (
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 label-mono text-zinc-300 hover:text-white bg-zinc-800 px-2.5 py-1 rounded-md"
+                  >
+                    Reset
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </div>
+            <LayoutGroup>
+              <div className="flex flex-wrap items-center gap-2">
+                {renderChip("all", "Semua (" + TOTAL_TOOLS + ")")}
+                {CATEGORIES.map((c) => renderChip(c.id, c.title.split(" & ")[0] + " (" + c.tools.length + ")"))}
+              </div>
+            </LayoutGroup>
+          </div>
+        </div>
+
+        <AnimatePresence mode="popLayout">
+          {visibleCategories.length === 0 ? (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-16 rounded-lg border border-dashed border-zinc-800"
+            >
+              <p className="text-zinc-400 text-sm">Tidak ada alat yang cocok dengan &ldquo;{searchQuery}&rdquo;.</p>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setActiveCategory("all");
+                }}
+                className="mt-3 label-mono text-white underline underline-offset-4"
+              >
+                Lihat semua alat
+              </button>
             </motion.div>
-          </motion.section>
-        ))
-      )}
-      </AnimatePresence>
+          ) : (
+            visibleCategories.map((c, idx) => (
+              <motion.section
+                key={c.id}
+                id={c.id}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={stagger(0.06)}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-6 scroll-mt-24"
+              >
+                <motion.div variants={fadeUp} className="flex items-end justify-between gap-6 border-b border-zinc-800 pb-4">
+                  <div className="flex items-start gap-4 min-w-0">
+                    <span className="label-mono text-zinc-500 pt-2 shrink-0">{pad(idx + 1)}</span>
+                    <div className="min-w-0">
+                      <h3 className="text-2xl sm:text-3xl font-medium tracking-tight text-white">{c.title}</h3>
+                      <p className="mt-1 text-sm text-zinc-400">{c.description}</p>
+                    </div>
+                  </div>
+                  <span className="label-mono text-zinc-500 shrink-0 hidden sm:block">{pad(c.tools.length)} alat</span>
+                </motion.div>
+
+                <motion.div variants={stagger(0.06)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {c.tools.map((tool, i) => (
+                    <ToolTile key={tool.href} tool={tool} feature={i === 0 && !query} />
+                  ))}
+                </motion.div>
+              </motion.section>
+            ))
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* ───────── STATEMENT ───────── */}
+      <section className="border-t border-zinc-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 items-end">
+          <h2 className="text-4xl sm:text-6xl leading-[1.02] text-white">
+            File Anda tidak pernah
+            <br />
+            <span className="text-zinc-500">meninggalkan perangkat.</span>
+          </h2>
+          <div className="space-y-4 text-sm text-zinc-400 leading-relaxed">
+            <p className="label-mono text-zinc-500 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4" /> {"Privasi // Client-side"}
+            </p>
+            <p>
+              Setiap alat berjalan langsung di browser: tidak ada server pemrosesan, tidak ada akun, tidak ada analitik. Mesin OCR dan AI pun dimuat dari
+              situs ini dan dijalankan secara lokal.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

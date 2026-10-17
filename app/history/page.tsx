@@ -34,12 +34,12 @@ export default function HistoryPage() {
 
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto w-full">
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
+      <div className="mb-10 border-b border-zinc-900 pb-8 text-left">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 text-white mb-5">
           <History className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-white sm:text-4xl">Riwayat Unduhan</h1>
-        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto flex items-start justify-center gap-1.5">
+        <h1 className="text-4xl sm:text-6xl font-medium leading-[1.04] text-white">Riwayat Unduhan</h1>
+        <p className="mt-4 text-base sm:text-lg text-zinc-400 max-w-2xl flex items-start justify-center gap-1.5">
           <ShieldCheck className="w-4 h-4 text-sky-500 shrink-0 mt-1" />
           <span>Hanya nama file, ukuran, dan waktu yang dicatat — tersimpan di perangkat ini saja, isi file tidak disimpan.</span>
         </p>

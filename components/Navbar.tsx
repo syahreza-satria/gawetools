@@ -264,7 +264,7 @@ export default function Navbar() {
   const isImgActive = imageTools.some((t) => pathname === t.href);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-700/70 transition-colors">
+    <header className="sticky top-0 z-50 w-full bg-[#050505]/80 backdrop-blur-md border-b border-zinc-900 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
@@ -277,8 +277,8 @@ export default function Navbar() {
               className="object-contain brightness-0 invert"
             />
           </div>
-          <span className="font-bold text-xl tracking-tight text-white">
-            Gawe<span className="text-zinc-400 font-medium">Tools</span>
+          <span className="font-medium text-xl tracking-tight text-white">
+            Gawe<span className="text-zinc-500">Tools</span><sup className="ml-0.5 text-[9px] text-zinc-500 align-top">&trade;</sup>
           </span>
         </Link>
 
@@ -291,9 +291,9 @@ export default function Navbar() {
                 setIsPdfOpen((prev) => !prev);
                 setIsImgOpen(false);
               }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-md label-mono transition-colors ${
                 isPdfActive || isPdfOpen
-                  ? "text-sky-400 bg-sky-950/50"
+                  ? "text-white bg-zinc-900"
                   : "text-zinc-300 hover:text-white hover:bg-zinc-900"
               }`}
             >
@@ -313,7 +313,7 @@ export default function Navbar() {
                 exit={{ opacity: 0, y: -8, scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 500, damping: 34 }}
                 style={{ transformOrigin: "top left" }}
-                className="absolute top-full left-0 mt-2 w-[480px] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl shadow-black/60 p-3 grid grid-cols-2 gap-1.5">
+                className="absolute top-full left-0 mt-2 w-[480px] bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl shadow-black/60 p-3 grid grid-cols-2 gap-1.5">
                 <div className="col-span-2 px-3 py-1.5 mb-1 flex items-center justify-between border-b border-zinc-800">
                   <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                     Alat Kelola PDF
@@ -357,9 +357,9 @@ export default function Navbar() {
                 setIsImgOpen((prev) => !prev);
                 setIsPdfOpen(false);
               }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-md label-mono transition-colors ${
                 isImgActive || isImgOpen
-                  ? "text-sky-400 bg-sky-950/50"
+                  ? "text-white bg-zinc-900"
                   : "text-zinc-300 hover:text-white hover:bg-zinc-900"
               }`}
             >
@@ -379,7 +379,7 @@ export default function Navbar() {
                 exit={{ opacity: 0, y: -8, scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 500, damping: 34 }}
                 style={{ transformOrigin: "top left" }}
-                className="absolute top-full left-0 mt-2 w-72 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl shadow-black/60 p-3 space-y-1">
+                className="absolute top-full left-0 mt-2 w-72 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl shadow-black/60 p-3 space-y-1">
                 <div className="px-3 py-1 mb-1 border-b border-zinc-800">
                   <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                     Alat Edit Gambar
@@ -418,9 +418,9 @@ export default function Navbar() {
           {/* History Link */}
           <Link
             href="/history"
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-3 py-2 rounded-md label-mono transition-colors ${
               pathname === "/history"
-                ? "text-sky-400 bg-sky-950/50 font-semibold"
+                ? "text-white bg-zinc-900"
                 : "text-zinc-300 hover:text-white hover:bg-zinc-900"
             }`}
           >
@@ -430,9 +430,9 @@ export default function Navbar() {
           {/* Guide Link */}
           <Link
             href="/guide"
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-3 py-2 rounded-md label-mono transition-colors ${
               pathname === "/guide"
-                ? "text-sky-400 bg-sky-950/50 font-semibold"
+                ? "text-white bg-zinc-900"
                 : "text-zinc-300 hover:text-white hover:bg-zinc-900"
             }`}
           >
@@ -442,9 +442,9 @@ export default function Navbar() {
           {/* About Link */}
           <Link
             href="/about"
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-3 py-2 rounded-md label-mono transition-colors ${
               pathname === "/about"
-                ? "text-sky-400 bg-sky-950/50 font-semibold"
+                ? "text-white bg-zinc-900"
                 : "text-zinc-300 hover:text-white hover:bg-zinc-900"
             }`}
           >
