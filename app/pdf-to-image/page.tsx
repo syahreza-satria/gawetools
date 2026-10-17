@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import { saveAs } from "@/lib/download";
 import JSZip from "jszip";
 import * as pdfjsLib from "pdfjs-dist";
@@ -241,6 +243,8 @@ export default function PdfToImagePage() {
     multiple: false,
   });
 
+  useIncomingFiles("pdf", (files) => onDrop(files, []));
+
   const togglePage = (pageNum: number) => {
     setSelectedPages((prev) => {
       const next = new Set(prev);
@@ -396,6 +400,7 @@ export default function PdfToImagePage() {
                     Download ZIP
                   </button>
                 )}
+                <ContinueMenu kind="image" files={results.map((r) => ({ blob: r.blob, name: r.filename }))} />
                 <button
                   onClick={handleReset}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"

@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "@/lib/download";
 import {
@@ -91,6 +92,8 @@ export default function ImageToPdfPage() {
     multiple: true,
     disabled: isWorking,
   });
+
+  useIncomingFiles("image", (files) => onDrop(files, []), isWorking);
 
   const remove = (id: string) => {
     setItems((prev) => {

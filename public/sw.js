@@ -1,7 +1,8 @@
 // GaweTools service worker: lets pages that were opened once work offline.
 // Strategy: static assets cache-first, pages network-first with cache fallback.
-// Only same-origin GET requests are handled; user files never pass through here.
-const VERSION = "v2";
+// Same-origin GET requests are cached. The only POST handled is the PWA share target, which
+// stores shared files in IndexedDB on this device and never forwards them to the network.
+const VERSION = "v3";
 const STATIC_CACHE = `gawetools-static-${VERSION}`;
 const PAGE_CACHE = `gawetools-pages-${VERSION}`;
 
@@ -21,11 +22,61 @@ const PRECACHE_PAGES = [
   "/resize-image",
   "/convert-image",
   "/watermark-image",
+  "/bagikan",
   "/history",
   "/guide",
   "/about",
 ];
 const PRECACHE_STATIC = ["/pdf.worker.min.mjs", "/logo_gawetools.png", "/icon-192.png", "/icon-512.png"];
+
+// IndexedDB layout must match lib/db.ts (same name, version and stores).
+const DB_NAME = "gawetools";
+const DB_VERSION = 2;
+
+function openDb() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains("history")) db.createObjectStore("history", { keyPath: "id", autoIncrement: true });
+      if (!db.objectStoreNames.contains("handoff")) db.createObjectStore("handoff", { keyPath: "id", autoIncrement: true });
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function isSupportedShare(file) {
+  return file.type === "application/pdf" || /^image\/(jpeg|png|webp)$/.test(file.type) || /\.(pdf|jpe?g|png|webp)$/i.test(file.name);
+}
+
+async function storeSharedFiles(files) {
+  const db = await openDb();
+  try {
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction("handoff", "readwrite");
+      const store = tx.objectStore("handoff");
+      store.clear();
+      const createdAt = Date.now();
+      for (const f of files) store.add({ name: f.name, type: f.type, blob: f, createdAt });
+      tx.oncomplete = () => resolve();
+      tx.onerror = tx.onabort = () => reject(tx.error);
+    });
+  } finally {
+    db.close();
+  }
+}
+
+async function handleShareTarget(request) {
+  try {
+    const form = await request.formData();
+    const files = form.getAll("files").filter((f) => f instanceof File && isSupportedShare(f));
+    if (files.length > 0) await storeSharedFiles(files);
+  } catch (err) {
+    console.error("Gagal menerima file yang dibagikan:", err);
+  }
+  return Response.redirect(new URL("/bagikan", self.location.origin).href, 303);
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -72,8 +123,12 @@ async function networkFirst(request) {
 
 self.addEventListener("fetch", (event) => {
   const { request } = event;
-  if (request.method !== "GET") return;
   const url = new URL(request.url);
+  if (request.method === "POST" && url.origin === self.location.origin && url.pathname === "/share-target") {
+    event.respondWith(handleShareTarget(request));
+    return;
+  }
+  if (request.method !== "GET") return;
   if (url.origin !== self.location.origin) return;
 
   if (url.pathname.startsWith("/_next/static/") || /\.(?:png|svg|ico|woff2?|mjs)$/.test(url.pathname)) {

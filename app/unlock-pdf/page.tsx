@@ -2,6 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import { saveAs } from "@/lib/download";
 import {
   LockOpen,
@@ -55,6 +57,8 @@ export default function UnlockPdfPage() {
     accept: { "application/pdf": [".pdf"] },
     multiple: false,
   });
+
+  useIncomingFiles("pdf", (files) => onDrop(files, []));
 
   const handleReset = () => {
     setFile(null);
@@ -185,6 +189,7 @@ export default function UnlockPdfPage() {
               <ArrowDownToLine className="w-5 h-5" />
               Download PDF ({downloadFilename})
             </button>
+            <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: downloadFilename }]} />
             <button
               onClick={handleReset}
               className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"

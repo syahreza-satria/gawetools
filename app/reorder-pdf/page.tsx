@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useId, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import { PDFDocument } from "pdf-lib";
 import { loadPdf } from "@/lib/loadPdf";
 import { saveAs } from "@/lib/download";
@@ -256,6 +258,8 @@ export default function ReorderPdfPage() {
     multiple: false,
   });
 
+  useIncomingFiles("pdf", (files) => onDrop(files, []));
+
   // ── DnD handlers ──
   const handleDragStart = (event: DragStartEvent) => setActiveId(String(event.active.id));
   const handleDragEnd = (event: DragEndEvent) => {
@@ -388,6 +392,7 @@ export default function ReorderPdfPage() {
                 <ArrowDownToLine className="w-4 h-4" />
                 Download PDF
               </button>
+              <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: resultFilename }]} />
               <button
                 onClick={handleReset}
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"

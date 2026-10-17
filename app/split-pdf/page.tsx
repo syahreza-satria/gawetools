@@ -2,6 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import { PDFDocument } from "pdf-lib";
 import { loadPdf } from "@/lib/loadPdf";
 import JSZip from "jszip";
@@ -101,6 +103,8 @@ export default function SplitPdfPage() {
     },
     multiple: false,
   });
+
+  useIncomingFiles("pdf", (files) => onDrop(files, []));
 
   const handleSplit = async () => {
     if (!file || totalPages === 0) return;
@@ -260,6 +264,7 @@ export default function SplitPdfPage() {
               {downloadResult.isZip ? <FileArchive className="w-5 h-5" /> : <ArrowDownToLine className="w-5 h-5" />}
               Download {downloadResult.isZip ? "ZIP" : "PDF"} ({downloadResult.filename})
             </button>
+            {!downloadResult.isZip && <ContinueMenu kind="pdf" files={[{ blob: downloadResult.blob, name: downloadResult.filename }]} />}
             <button
               onClick={() => setDownloadResult(null)}
               className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"

@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import ContinueMenu from "@/components/ContinueMenu";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
 import { saveAs } from "@/lib/download";
 import JSZip from "jszip";
 import {
@@ -312,6 +314,8 @@ export default function WatermarkImagePage() {
     multiple: true,
   });
 
+  useIncomingFiles("image", (files) => onDrop(files, []));
+
   // Preview falls back to the first file when nothing (valid) is selected
   const previewFile =
     selectedPreview && files.includes(selectedPreview) ? selectedPreview : (files[0] ?? null);
@@ -559,6 +563,7 @@ export default function WatermarkImagePage() {
                     Download ZIP
                   </button>
                 )}
+                <ContinueMenu kind="image" files={results.map((r) => ({ blob: r.resultBlob, name: r.filename }))} />
                 <button
                   onClick={handleReset}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"

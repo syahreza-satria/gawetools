@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
 import { degrees } from "pdf-lib";
 import { loadPdf } from "@/lib/loadPdf";
 import { saveAs } from "@/lib/download";
@@ -147,6 +148,8 @@ export default function RotatePdfPage() {
     multiple: false,
     disabled: isLoading || isSaving,
   });
+
+  useIncomingFiles("pdf", (files) => onDrop(files, []));
 
   const rotatePage = (index: number, delta: number) =>
     setRotations((prev) => prev.map((r, i) => (i === index ? (((r + delta) % 360) + 360) % 360 : r)));

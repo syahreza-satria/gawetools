@@ -1,7 +1,7 @@
 // Download history kept in IndexedDB on this device only.
 // Stores metadata (tool, file name, size, time) — never the file contents.
-const DB_NAME = "gawetools";
-const STORE = "history";
+import { openDb, HISTORY_STORE as STORE } from "@/lib/db";
+
 const MAX_ENTRIES = 100;
 
 export interface HistoryEntry {
@@ -28,18 +28,6 @@ export const TOOL_LABELS: Record<string, string> = {
   "/convert-image": "Konversi Gambar",
   "/watermark-image": "Watermark Gambar",
 };
-
-function openDb(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    if (typeof indexedDB === "undefined") return reject(new Error("IndexedDB tidak tersedia"));
-    const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = () => {
-      req.result.createObjectStore(STORE, { keyPath: "id", autoIncrement: true });
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
 
 function run<T>(mode: IDBTransactionMode, fn: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {
   return openDb().then(

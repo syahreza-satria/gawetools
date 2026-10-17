@@ -2,8 +2,11 @@
 
 import { useState, useCallback, useId, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { PDFDocument } from "pdf-lib";
 import { loadPdf } from "@/lib/loadPdf";
+import { runInWorker } from "@/lib/workers/runInWorker";
+import type { MergeInput, MergeOutput, MergeProgress } from "@/lib/workers/merge.worker";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import { recordHistory } from "@/lib/history";
 import {
   DndContext,
@@ -209,6 +212,7 @@ export default function MergePdfPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadFilename, setDownloadFilename] = useState("dokumen-gabungan.pdf");
+  const [mergedBlob, setMergedBlob] = useState<Blob | null>(null);
   const [totalPageResult, setTotalPageResult] = useState<number | null>(null);
 
   const sensors = useSensors(
@@ -277,6 +281,8 @@ export default function MergePdfPage() {
     multiple: true,
   });
 
+  useIncomingFiles("pdf", processIncomingFiles, isMerging);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -314,33 +320,27 @@ export default function MergePdfPage() {
     setProgressText("Mempersiapkan dokumen baru...");
 
     try {
-      const mergedPdf = await PDFDocument.create();
-      let totalPagesAdded = 0;
-
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        setProgressText(`Menggabungkan (${i + 1}/${items.length}): ${item.name}...`);
-
-        const arrayBuffer = await item.file.arrayBuffer();
-        const sourceDoc = await loadPdf(arrayBuffer);
-        const pageIndices = sourceDoc.getPageIndices();
-        const copiedPages = await mergedPdf.copyPages(sourceDoc, pageIndices);
-
-        for (const page of copiedPages) {
-          mergedPdf.addPage(page);
-          totalPagesAdded++;
+      // Read files on the main thread, merge off-thread so the UI stays responsive.
+      const buffers = await Promise.all(items.map((item) => item.file.arrayBuffer()));
+      const { bytes, totalPages: totalPagesAdded } = await runInWorker<MergeInput, MergeOutput, MergeProgress>(
+        () => new Worker(new URL("../../lib/workers/merge.worker.ts", import.meta.url)),
+        { buffers, names: items.map((item) => item.name) },
+        {
+          transfer: buffers,
+          onProgress: ({ index, total, name }) =>
+            setProgressText(`Menggabungkan (${index + 1}/${total}): ${name}...`),
         }
-      }
+      );
 
-      setProgressText("Menyimpan dan mengompresi hasil...");
-      const mergedPdfBytes = await mergedPdf.save();
-      const blob = new Blob([mergedPdfBytes as Uint8Array<ArrayBuffer>], { type: "application/pdf" });
+      setProgressText("Menyimpan hasil...");
+      const blob = new Blob([bytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
       const firstFileNameBase = items[0].name.replace(/\.[^/.]+$/, "");
       const outputName = `${firstFileNameBase}_merged_${items.length}_files.pdf`;
 
       setDownloadUrl(url);
+      setMergedBlob(blob);
       setDownloadFilename(outputName);
       setTotalPageResult(totalPagesAdded);
     } catch (err: unknown) {
@@ -403,6 +403,7 @@ export default function MergePdfPage() {
               <ArrowDownToLine className="w-5 h-5" />
               Download PDF ({downloadFilename})
             </a>
+            {mergedBlob && <ContinueMenu kind="pdf" files={[{ blob: mergedBlob, name: downloadFilename }]} />}
             <button
               onClick={() => {
                 URL.revokeObjectURL(downloadUrl);

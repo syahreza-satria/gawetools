@@ -40,6 +40,15 @@ Seluruh pemrosesan dokumen dilakukan langsung di sisi peramban pengguna (**clien
 
 ---
 
+### Fondasi platform
+
+- **Web Worker**: proses berat tanpa DOM (mis. penggabungan PDF) berjalan di worker lewat `lib/workers/` (`runInWorker` + `defineWorker`) agar UI tidak membeku.
+- **Lanjut ke…**: di layar hasil, tombol "Lanjut ke…" meneruskan hasil ke alat lain tanpa unduh & unggah ulang. File dititipkan sementara di IndexedDB perangkat (`lib/handoff.ts`), dibaca lalu dihapus, dan kedaluwarsa dalam 10 menit.
+- **Bagikan ke GaweTools (PWA)**: setelah aplikasi dipasang, file PDF/gambar bisa dibagikan dari aplikasi lain ke GaweTools (Web Share Target, halaman `/bagikan`). File diproses service worker di perangkat dan tidak dikirim ke jaringan.
+- **Tempel dari clipboard**: tekan `Ctrl+V` di halaman alat untuk menempelkan PDF atau gambar dari clipboard.
+
+---
+
 ## 🛠️ Teknologi yang Digunakan
 
 - **Framework**: [Next.js](https://nextjs.org/) (App Router)

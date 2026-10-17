@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import { saveAs } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 import {
@@ -367,6 +369,8 @@ export default function WatermarkPdfPage() {
     multiple: false,
   });
 
+  useIncomingFiles("pdf", (files) => onDrop(files, []));
+
   // ── Refresh preview with debounce ──
   useEffect(() => {
     if (!pdfBytes) return;
@@ -521,6 +525,7 @@ export default function WatermarkPdfPage() {
                 <ArrowDownToLine className="w-4 h-4" />
                 Download PDF
               </button>
+              <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: resultFilename }]} />
               <button
                 onClick={handleReset}
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"

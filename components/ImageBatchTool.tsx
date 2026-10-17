@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { saveAs } from "@/lib/download";
+import { useIncomingFiles } from "@/lib/useIncomingFiles";
+import ContinueMenu from "@/components/ContinueMenu";
 import JSZip from "jszip";
 import {
   Trash2,
@@ -97,6 +99,8 @@ export default function ImageBatchTool({
     multiple: true,
     disabled: isProcessing,
   });
+
+  useIncomingFiles("image", (incoming) => onDrop(incoming, []), isProcessing);
 
   const handleReset = () => {
     setFiles([]);
@@ -192,6 +196,7 @@ export default function ImageBatchTool({
                   Download ZIP
                 </button>
               )}
+              <ContinueMenu kind="image" files={results.map((r) => ({ blob: r.blob, name: r.filename }))} />
               <button
                 onClick={handleReset}
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
