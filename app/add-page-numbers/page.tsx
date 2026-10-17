@@ -65,7 +65,7 @@ function formatLabel(format: NumberFormat, n: number, total: number): string {
 }
 
 const inputCls =
-  "w-full px-3 py-2.5 rounded-xl text-sm bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500";
+  "w-full px-3 py-2.5 rounded-xl text-sm bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500";
 
 /** Draws text at a spot given on the page as displayed (origin bottom-left), also on /Rotate pages. */
 function drawOnVisualPage(
@@ -201,22 +201,22 @@ export default function AddPageNumbersPage() {
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <ListOrdered className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Nomor Halaman PDF</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">Nomor Halaman PDF</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Tambahkan nomor halaman ke dokumen PDF: pilih posisi, format, nomor mulai, dan lewati halaman sampul.
         </p>
       </div>
 
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-950/40 border border-sky-900/60 flex items-start gap-3 text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -224,13 +224,13 @@ export default function AddPageNumbersPage() {
       )}
 
       {resultBlob && (
-        <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 text-center space-y-4 shadow-xs">
-          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
+        <div className="mb-8 p-6 rounded-2xl bg-zinc-950 border border-emerald-900/50 text-center space-y-4 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Nomor Halaman Ditambahkan!</h3>
-            <p className="text-sm text-gray-600 dark:text-zinc-400 mt-1">
+            <h3 className="text-xl font-bold text-white">Nomor Halaman Ditambahkan!</h3>
+            <p className="text-sm text-zinc-400 mt-1">
               {numberedCount} dari {pageCount} halaman diberi nomor · {formatBytes(resultBlob.size)}
             </p>
           </div>
@@ -245,7 +245,7 @@ export default function AddPageNumbersPage() {
             <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: outputName }]} />
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               File Lain
@@ -257,20 +257,20 @@ export default function AddPageNumbersPage() {
       {!file && !resultBlob && (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-zinc-950 ${
             isDragActive
-              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-800 hover:border-sky-400 hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-950/50 text-sky-400 flex items-center justify-center mx-auto mb-4">
             {isLoading ? <Loader2 className="w-7 h-7 animate-spin" /> : <ListOrdered className="w-7 h-7" />}
           </div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base font-semibold text-white">
             {isDragActive ? "Lepaskan file PDF di sini" : "Tarik & Lepas 1 File PDF ke Sini"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400 max-w-sm mx-auto">
+          <p className="mt-1 text-sm text-zinc-400 max-w-sm mx-auto">
             atau klik untuk memilih, bisa juga tempel dengan Ctrl+V
           </p>
         </div>
@@ -278,16 +278,16 @@ export default function AddPageNumbersPage() {
 
       {file && pdfDoc && !resultBlob && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
+          <div className="flex items-center justify-between p-4 bg-zinc-950 rounded-xl border border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm text-gray-900 dark:text-white truncate" title={file.name}>
+                <p className="font-semibold text-sm text-white truncate" title={file.name}>
                   {file.name}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   {formatBytes(file.size)} · {pageCount} halaman
                 </p>
               </div>
@@ -297,16 +297,16 @@ export default function AddPageNumbersPage() {
               onClick={handleReset}
               disabled={isProcessing}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+              className="p-2 rounded-lg text-zinc-400 hover:text-sky-400 hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] gap-6">
-            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
+            <div className="bg-zinc-950 p-6 rounded-xl border border-zinc-700/70 space-y-5">
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Posisi</h3>
+                <h3 className="text-sm font-semibold text-white mb-2">Posisi</h3>
                 <div className="grid grid-cols-3 gap-2">
                   {POSITIONS.map((p, i) => (
                     <button
@@ -316,7 +316,7 @@ export default function AddPageNumbersPage() {
                       className={`px-2 py-2 rounded-lg text-xs font-semibold border transition-colors ${
                         position === i
                           ? "bg-sky-600 border-sky-600 text-white"
-                          : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                          : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
                       }`}
                     >
                       {p.label}
@@ -326,7 +326,7 @@ export default function AddPageNumbersPage() {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Format</h3>
+                <h3 className="text-sm font-semibold text-white mb-2">Format</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {FORMATS.map((f) => (
                     <button
@@ -336,7 +336,7 @@ export default function AddPageNumbersPage() {
                       className={`px-3 py-2 rounded-lg text-xs font-semibold border transition-colors ${
                         format === f.id
                           ? "bg-sky-600 border-sky-600 text-white"
-                          : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                          : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
                       }`}
                     >
                       {f.label}
@@ -347,7 +347,7 @@ export default function AddPageNumbersPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Nomor mulai</label>
+                  <label className="block text-sm font-semibold text-white mb-1.5">Nomor mulai</label>
                   <input
                     type="number"
                     min={0}
@@ -357,7 +357,7 @@ export default function AddPageNumbersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">
+                  <label className="block text-sm font-semibold text-white mb-1.5">
                     Mulai dari halaman
                   </label>
                   <input
@@ -370,7 +370,7 @@ export default function AddPageNumbersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">
+                  <label className="block text-sm font-semibold text-white mb-1.5">
                     Ukuran font ({fontSize} pt)
                   </label>
                   <input
@@ -383,7 +383,7 @@ export default function AddPageNumbersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">
+                  <label className="block text-sm font-semibold text-white mb-1.5">
                     Margin ({marginMm} mm)
                   </label>
                   <input
@@ -396,7 +396,7 @@ export default function AddPageNumbersPage() {
                   />
                 </div>
               </div>
-              <p className="text-xs text-gray-500 dark:text-zinc-400">
+              <p className="text-xs text-zinc-400">
                 {firstIndex === 0
                   ? "Semua halaman diberi nomor."
                   : "Halaman 1 sampai " + firstIndex + " dilewati tanpa nomor. Penomoran dimulai dari halaman " + (firstIndex + 1) + "."}
@@ -427,12 +427,12 @@ export default function AddPageNumbersPage() {
                   );
                 }}
               </PdfPagePreview>
-              <p className="text-xs text-gray-500 dark:text-zinc-400">Pratinjau halaman {firstIndex + 1}</p>
+              <p className="text-xs text-zinc-400">Pratinjau halaman {firstIndex + 1}</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
-            <span className="text-xs text-gray-500 dark:text-zinc-400">
+          <div className="flex items-center justify-between bg-zinc-950 p-4 rounded-xl border border-zinc-700/70">
+            <span className="text-xs text-zinc-400">
               Proses dijalankan langsung di perangkat Anda tanpa upload file.
             </span>
             <button

@@ -279,22 +279,22 @@ export default function SignPdfPage() {
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <PenLine className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Tanda Tangan PDF</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">Tanda Tangan PDF</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Gambar, ketik, atau unggah tanda tangan, lalu tempel di halaman mana pun. Tanda tangan tidak disimpan di mana pun.
         </p>
       </div>
 
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-950/40 border border-sky-900/60 flex items-start gap-3 text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -302,13 +302,13 @@ export default function SignPdfPage() {
       )}
 
       {resultBlob && (
-        <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 text-center space-y-4 shadow-xs">
-          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
+        <div className="mb-8 p-6 rounded-2xl bg-zinc-950 border border-emerald-900/50 text-center space-y-4 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Tanda Tangan Ditempel!</h3>
-            <p className="text-sm text-gray-600 dark:text-zinc-400 mt-1">
+            <h3 className="text-xl font-bold text-white">Tanda Tangan Ditempel!</h3>
+            <p className="text-sm text-zinc-400 mt-1">
               {placements.length} tanda tangan di {pagesWithSignature} halaman · {formatBytes(resultBlob.size)}
             </p>
           </div>
@@ -323,14 +323,14 @@ export default function SignPdfPage() {
             <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: outputName }]} />
             <button
               onClick={() => setResultBlob(null)}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
             >
               <PenLine className="w-4 h-4" />
               Ubah Tanda Tangan
             </button>
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               File Lain
@@ -342,20 +342,20 @@ export default function SignPdfPage() {
       {!file && !resultBlob && (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-zinc-950 ${
             isDragActive
-              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-800 hover:border-sky-400 hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-950/50 text-sky-400 flex items-center justify-center mx-auto mb-4">
             {isLoading ? <Loader2 className="w-7 h-7 animate-spin" /> : <PenLine className="w-7 h-7" />}
           </div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base font-semibold text-white">
             {isDragActive ? "Lepaskan file PDF di sini" : "Tarik & Lepas 1 File PDF ke Sini"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400 max-w-sm mx-auto">
+          <p className="mt-1 text-sm text-zinc-400 max-w-sm mx-auto">
             atau klik untuk memilih, bisa juga tempel dengan Ctrl+V
           </p>
         </div>
@@ -363,16 +363,16 @@ export default function SignPdfPage() {
 
       {file && pdfDoc && !resultBlob && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
+          <div className="flex items-center justify-between p-4 bg-zinc-950 rounded-xl border border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm text-gray-900 dark:text-white truncate" title={file.name}>
+                <p className="font-semibold text-sm text-white truncate" title={file.name}>
                   {file.name}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   {formatBytes(file.size)} · {pageCount} halaman
                 </p>
               </div>
@@ -382,20 +382,20 @@ export default function SignPdfPage() {
               onClick={handleReset}
               disabled={isProcessing}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+              className="p-2 rounded-lg text-zinc-400 hover:text-sky-400 hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6">
-            <div className="bg-white dark:bg-zinc-950 p-5 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">1. Buat tanda tangan</h3>
+            <div className="bg-zinc-950 p-5 rounded-xl border border-zinc-700/70 space-y-5">
+              <h3 className="text-sm font-semibold text-white">1. Buat tanda tangan</h3>
               <SignatureMaker onUse={setSignature} />
 
               {signature && (
-                <div className="p-3 rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/40 dark:bg-emerald-950/20 space-y-3">
-                  <div className="rounded-lg p-2 bg-[repeating-conic-gradient(#e5e7eb_0%_25%,#fff_0%_50%)] bg-[length:12px_12px] dark:bg-[repeating-conic-gradient(#3f3f46_0%_25%,#27272a_0%_50%)]">
+                <div className="p-3 rounded-xl border border-emerald-900/50 bg-emerald-950/20 space-y-3">
+                  <div className="rounded-lg p-2 bg-[repeating-conic-gradient(#e5e7eb_0%_25%,#fff_0%_50%)] bg-[length:12px_12px] bg-[repeating-conic-gradient(#3f3f46_0%_25%,#27272a_0%_50%)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={signature.dataUrl} alt="Tanda tangan siap dipakai" className="mx-auto max-h-16 max-w-full" />
                   </div>
@@ -410,7 +410,7 @@ export default function SignPdfPage() {
                 </div>
               )}
 
-              <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+              <label className="flex items-center gap-2 text-sm text-zinc-300">
                 <input
                   type="checkbox"
                   checked={addDate}
@@ -421,20 +421,20 @@ export default function SignPdfPage() {
               </label>
             </div>
 
-            <div className="bg-white dark:bg-zinc-950 p-5 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-4">
+            <div className="bg-zinc-950 p-5 rounded-xl border border-zinc-700/70 space-y-4">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">2. Atur posisi di halaman</h3>
+                <h3 className="text-sm font-semibold text-white">2. Atur posisi di halaman</h3>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage <= 1}
                     aria-label="Halaman sebelumnya"
-                    className="p-1.5 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-zinc-700 disabled:opacity-40 transition-colors"
+                    className="p-1.5 rounded-lg bg-zinc-800 text-zinc-200 hover:bg-zinc-700 disabled:opacity-40 transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300 min-w-16 text-center">
+                  <span className="text-xs font-semibold text-zinc-300 min-w-16 text-center">
                     {currentPage} / {pageCount}
                   </span>
                   <button
@@ -442,7 +442,7 @@ export default function SignPdfPage() {
                     onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
                     disabled={currentPage >= pageCount}
                     aria-label="Halaman berikutnya"
-                    className="p-1.5 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-zinc-700 disabled:opacity-40 transition-colors"
+                    className="p-1.5 rounded-lg bg-zinc-800 text-zinc-200 hover:bg-zinc-700 disabled:opacity-40 transition-colors"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -515,7 +515,7 @@ export default function SignPdfPage() {
                 </PdfPagePreview>
               </div>
 
-              <p className="text-xs text-gray-500 dark:text-zinc-400 text-center">
+              <p className="text-xs text-zinc-400 text-center">
                 {placements.length === 0
                   ? "Buat tanda tangan, lalu tekan \"Tempel di halaman\". Geser untuk memindahkan, tarik titik biru untuk mengubah ukuran."
                   : placements.length + " tanda tangan di " + pagesWithSignature + " halaman. Pilih satu untuk menggeser, mengubah ukuran, atau menghapusnya."}
@@ -523,8 +523,8 @@ export default function SignPdfPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
-            <span className="text-xs text-gray-500 dark:text-zinc-400">
+          <div className="flex items-center justify-between bg-zinc-950 p-4 rounded-xl border border-zinc-700/70">
+            <span className="text-xs text-zinc-400">
               Proses dijalankan langsung di perangkat Anda tanpa upload file.
             </span>
             <button

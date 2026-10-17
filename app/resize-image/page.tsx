@@ -8,7 +8,7 @@ import { OUTPUT_FORMATS, type OutputMime, baseName, decodeImage, extFor, renderB
 type Mode = "pixel" | "percent";
 
 const inputCls =
-  "w-full px-3 py-2.5 rounded-xl text-sm bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500";
+  "w-full px-3 py-2.5 rounded-xl text-sm bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500";
 
 function mimeOf(file: File): OutputMime {
   if (file.type === "image/png" || file.type === "image/webp") return file.type;
@@ -81,7 +81,7 @@ export default function ResizeImagePage() {
                 className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
                   mode === key
                     ? "bg-sky-600 border-sky-600 text-white"
-                    : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                    : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
                 }`}
               >
                 {label}
@@ -93,7 +93,7 @@ export default function ResizeImagePage() {
             <>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Lebar (px)</label>
+                  <label className="block text-sm font-semibold text-white mb-1.5">Lebar (px)</label>
                   <input
                     type="number"
                     min={1}
@@ -104,7 +104,7 @@ export default function ResizeImagePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Tinggi (px)</label>
+                  <label className="block text-sm font-semibold text-white mb-1.5">Tinggi (px)</label>
                   <input
                     type="number"
                     min={1}
@@ -115,7 +115,7 @@ export default function ResizeImagePage() {
                   />
                 </div>
               </div>
-              <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+              <label className="flex items-center gap-2 text-sm text-zinc-300">
                 <input
                   type="checkbox"
                   checked={keepRatio}
@@ -127,9 +127,9 @@ export default function ResizeImagePage() {
             </>
           ) : (
             <div>
-              <label className="flex justify-between text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="flex justify-between text-sm font-semibold text-white mb-2">
                 <span>Skala</span>
-                <span className="text-sky-600 dark:text-sky-400">{percent}%</span>
+                <span className="text-sky-400">{percent}%</span>
               </label>
               <input
                 type="range"
@@ -144,7 +144,7 @@ export default function ResizeImagePage() {
           )}
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Format hasil</label>
+            <label className="block text-sm font-semibold text-white mb-1.5">Format hasil</label>
             <select
               value={format}
               onChange={(e) => setFormat(e.target.value as OutputMime | "original")}

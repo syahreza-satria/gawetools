@@ -167,20 +167,20 @@ export default function ImageBatchTool({
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           {icon}
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">{title}</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">{description}</p>
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">{title}</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">{description}</p>
       </div>
 
       <AnimatePresence>{errorMessage && (
-        <motion.div initial={{ opacity: 0, y: -10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+        <motion.div initial={{ opacity: 0, y: -10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 rounded-xl bg-sky-950/40 border border-sky-900/60 flex items-start gap-3 text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -189,12 +189,12 @@ export default function ImageBatchTool({
 
       {results.length > 0 ? (
         <motion.div initial={{ opacity: 0, y: 16, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", stiffness: 260, damping: 24 }} className="space-y-4">
-          <div className="p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="p-5 rounded-2xl bg-zinc-950 border border-emerald-900/50 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 dark:text-white text-sm">
+              <h3 className="font-bold text-white text-sm">
                 {results.length} gambar {doneLabel}
               </h3>
             </div>
@@ -211,7 +211,7 @@ export default function ImageBatchTool({
               <ContinueMenu kind="image" files={results.map((r) => ({ blob: r.blob, name: r.filename }))} />
               <button
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
                 Mulai Lagi
@@ -223,26 +223,26 @@ export default function ImageBatchTool({
             {results.map((r, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70"
+                className="flex items-center gap-3 p-4 bg-zinc-950 rounded-xl border border-zinc-700/70"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={r.previewUrl}
                   alt={r.filename}
-                  className="w-14 h-14 rounded-lg object-cover shrink-0 border border-gray-100 dark:border-zinc-800"
+                  className="w-14 h-14 rounded-lg object-cover shrink-0 border border-zinc-800"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm text-gray-900 dark:text-white truncate" title={r.filename}>
+                  <p className="font-semibold text-sm text-white truncate" title={r.filename}>
                     {r.filename}
                   </p>
-                  <p className="mt-0.5 text-xs text-gray-500 dark:text-zinc-400">
+                  <p className="mt-0.5 text-xs text-zinc-400">
                     {formatBytes(r.originalSize)} → {formatBytes(r.blob.size)}
                   </p>
                 </div>
                 <button
                   onClick={() => saveAs(r.blob, r.filename)}
                   title="Download"
-                  className="p-2 rounded-lg text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors"
+                  className="p-2 rounded-lg text-sky-400 hover:bg-sky-950/50 transition-colors"
                 >
                   <ArrowDownToLine className="w-4 h-4" />
                 </button>
@@ -257,16 +257,16 @@ export default function ImageBatchTool({
             {...getRootProps()}
             className={`flex flex-col items-center justify-center gap-2 p-10 rounded-2xl border-2 border-dashed text-center cursor-pointer transition-colors ${
               isDragActive
-                ? "border-sky-500 bg-sky-50 dark:bg-sky-950/30"
-                : "border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:border-sky-400"
+                ? "border-sky-500 bg-sky-950/30"
+                : "border-zinc-700 bg-zinc-950 hover:border-sky-400"
             }`}
           >
             <input {...getInputProps()} />
             <motion.div animate={{ y: isDragActive ? -8 : [0, -4, 0], scale: isDragActive ? 1.2 : 1 }} transition={isDragActive ? { type: "spring", stiffness: 300 } : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }}><UploadCloud className="w-9 h-9 text-sky-500" /></motion.div>
-            <p className="font-semibold text-gray-900 dark:text-white">
+            <p className="font-semibold text-white">
               {isDragActive ? "Lepaskan gambar di sini" : "Tarik & lepas gambar, atau klik untuk memilih"}
             </p>
-            <p className="text-sm text-gray-500 dark:text-zinc-400">{acceptLabel} — bisa banyak file sekaligus</p>
+            <p className="text-sm text-zinc-400">{acceptLabel} — bisa banyak file sekaligus</p>
           </div>
 </motion.div>
 
@@ -277,17 +277,17 @@ export default function ImageBatchTool({
                 {files.map((f, i) => (
                   <motion.li layout initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 24, transition: { duration: 0.18 } }} transition={{ type: "spring", stiffness: 420, damping: 32 }}
                     key={f.name + f.size}
-                    className="flex items-center justify-between gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70"
+                    className="flex items-center justify-between gap-3 p-3 bg-zinc-950 rounded-xl border border-zinc-700/70"
                   >
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{f.name}</p>
-                      <p className="text-xs text-gray-500 dark:text-zinc-400">{formatBytes(f.size)}</p>
+                      <p className="text-sm font-medium text-white truncate">{f.name}</p>
+                      <p className="text-xs text-zinc-400">{formatBytes(f.size)}</p>
                     </div>
                     <button
                       onClick={() => setFiles((prev) => prev.filter((_, idx) => idx !== i))}
                       disabled={isProcessing}
                       title="Hapus"
-                      className="p-2 rounded-lg text-gray-400 hover:text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors disabled:opacity-40"
+                      className="p-2 rounded-lg text-gray-400 hover:text-sky-600 hover:bg-sky-950/50 transition-colors disabled:opacity-40"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -296,7 +296,7 @@ export default function ImageBatchTool({
               </AnimatePresence>
 </ul>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700/70 space-y-4">
+              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-700/70 space-y-4">
                 {options}
               </div>
 

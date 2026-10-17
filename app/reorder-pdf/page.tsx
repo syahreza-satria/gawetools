@@ -109,19 +109,19 @@ function SortablePageCard({
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative group flex flex-col rounded-xl border-2 overflow-hidden transition-all select-none bg-white dark:bg-zinc-950 ${
+      className={`relative group flex flex-col rounded-xl border-2 overflow-hidden transition-all select-none bg-zinc-950 ${
         isDragging && !isOverlay
           ? "border-sky-400/60 shadow-lg"
           : isOverlay
           ? "border-sky-500 shadow-2xl ring-2 ring-sky-400/40 scale-[1.03]"
-          : "border-gray-200 dark:border-zinc-800 hover:border-sky-300 dark:hover:border-sky-700"
+          : "border-zinc-800 hover:border-sky-700"
       }`}
     >
       {/* Drag handle + page thumbnail */}
       <div
         {...attributes}
         {...listeners}
-        className={`relative w-full bg-slate-50 dark:bg-zinc-900 flex items-center justify-center overflow-hidden ${
+        className={`relative w-full bg-zinc-900 flex items-center justify-center overflow-hidden ${
           disabled ? "cursor-default" : "cursor-grab active:cursor-grabbing"
         }`}
         style={{ minHeight: 130 }}
@@ -136,7 +136,7 @@ function SortablePageCard({
             draggable={false}
           />
         ) : (
-          <div className="flex flex-col items-center gap-1 py-8 text-gray-300 dark:text-zinc-700">
+          <div className="flex flex-col items-center gap-1 py-8 text-zinc-700">
             <FileText className="w-8 h-8" />
             <span className="text-[10px]">Memuat...</span>
           </div>
@@ -151,12 +151,12 @@ function SortablePageCard({
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between px-2 py-1.5 border-t border-gray-100 dark:border-zinc-800">
+      <div className="flex items-center justify-between px-2 py-1.5 border-t border-zinc-800">
         <div className="flex items-center gap-1.5 min-w-0">
-          <span className="w-5 h-5 rounded-full bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-400 text-[10px] font-bold flex items-center justify-center shrink-0">
+          <span className="w-5 h-5 rounded-full bg-sky-950/60 text-sky-400 text-[10px] font-bold flex items-center justify-center shrink-0">
             {order}
           </span>
-          <span className="text-[11px] text-gray-500 dark:text-zinc-400 truncate">
+          <span className="text-[11px] text-zinc-400 truncate">
             {item.label}
           </span>
         </div>
@@ -168,7 +168,7 @@ function SortablePageCard({
           }}
           disabled={disabled}
           title="Hapus halaman ini"
-          className="p-1 rounded-md text-gray-300 dark:text-zinc-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors disabled:pointer-events-none shrink-0"
+          className="p-1 rounded-md text-zinc-600 hover:text-red-400 hover:bg-red-950/30 transition-colors disabled:pointer-events-none shrink-0"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -341,13 +341,13 @@ export default function ReorderPdfPage() {
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <LayoutGrid className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">
           Atur & Hapus Halaman PDF
         </h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Susun ulang urutan halaman dengan drag & drop, atau hapus halaman yang tidak diperlukan —
           semuanya langsung di browser.
         </p>
@@ -355,7 +355,7 @@ export default function ReorderPdfPage() {
 
       {/* Error */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-300 text-sm">
+        <div className="mb-6 p-4 rounded-xl bg-red-950/30 border border-red-900/60 flex items-start gap-3 text-red-300 text-sm">
           <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
@@ -369,17 +369,17 @@ export default function ReorderPdfPage() {
 
       {/* Success Result Banner */}
       {resultBlob && (
-        <div className="mb-8 p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 shadow-xs">
+        <div className="mb-8 p-5 rounded-2xl bg-zinc-950 border border-emerald-900/50 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-gray-900 dark:text-white text-sm">
+                <p className="font-bold text-white text-sm">
                   PDF siap didownload!
                 </p>
-                <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   {pages.length} halaman · {formatBytes(resultBlob.size)}
                 </p>
               </div>
@@ -395,7 +395,7 @@ export default function ReorderPdfPage() {
               <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: resultFilename }]} />
               <button
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
                 File Lain
@@ -409,28 +409,28 @@ export default function ReorderPdfPage() {
       {!file && (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-zinc-950 ${
             isDragActive
-              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-800 hover:border-sky-400 hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-950/50 text-sky-400 flex items-center justify-center mx-auto mb-4">
             {isLoading ? (
               <Loader2 className="w-7 h-7 animate-spin" />
             ) : (
               <LayoutGrid className="w-7 h-7" />
             )}
           </div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base font-semibold text-white">
             {isLoading
               ? "Memuat halaman PDF..."
               : isDragActive
               ? "Lepaskan file PDF di sini"
               : "Tarik & Lepas File PDF ke Sini"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400 max-w-sm mx-auto">
+          <p className="mt-1 text-sm text-zinc-400 max-w-sm mx-auto">
             atau klik untuk memilih — satu file PDF
           </p>
           {!isLoading && (
@@ -451,23 +451,23 @@ export default function ReorderPdfPage() {
       {file && pages.length > 0 && (
         <div className="space-y-5">
           {/* Info bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-zinc-950 rounded-xl border border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm text-gray-900 dark:text-white truncate">
+                <p className="font-semibold text-sm text-white truncate">
                   {file.name}
                 </p>
-                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
+                <div className="flex items-center gap-2 text-xs text-zinc-400 mt-0.5">
                   <span>{formatBytes(file.size)}</span>
                   <span>·</span>
                   <span>{pages.length} halaman aktif</span>
                   {removedCount > 0 && (
                     <>
                       <span>·</span>
-                      <span className="text-amber-600 dark:text-amber-400 font-medium">
+                      <span className="text-amber-400 font-medium">
                         {totalPages ? totalPages - pages.length : ""}{" "}
                         dihapus
                       </span>
@@ -477,12 +477,12 @@ export default function ReorderPdfPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-400 dark:text-zinc-400 hidden sm:block">
+              <span className="text-xs text-zinc-400 hidden sm:block">
                 Geser kartu untuk mengubah urutan
               </span>
               <button
                 onClick={handleReset}
-                className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                className="p-1.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-950/30 transition-colors"
                 title="Ganti File"
               >
                 <Trash2 className="w-4 h-4" />
@@ -528,14 +528,14 @@ export default function ReorderPdfPage() {
 
           {/* Empty pages warning */}
           {pages.length === 0 && (
-            <div className="text-center py-10 text-gray-400 dark:text-zinc-600 text-sm">
+            <div className="text-center py-10 text-zinc-600 text-sm">
               Semua halaman dihapus. Tambahkan kembali atau ganti file.
             </div>
           )}
 
           {/* Action bar */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
-            <span className="text-xs text-gray-500 dark:text-zinc-400">
+          <div className="flex items-center justify-between bg-zinc-950 p-4 rounded-xl border border-zinc-700/70">
+            <span className="text-xs text-zinc-400">
               {isSaving ? progressText : "Proses sepenuhnya di browser — file tidak pernah dikirim ke server."}
             </span>
             <button

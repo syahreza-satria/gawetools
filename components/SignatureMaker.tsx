@@ -40,7 +40,7 @@ const tabs: { id: Tab; label: string; icon: typeof PenLine }[] = [
 ];
 
 const inputCls =
-  "w-full px-3 py-2.5 rounded-xl text-sm bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500";
+  "w-full px-3 py-2.5 rounded-xl text-sm bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500";
 
 /** Crops transparent margins off a canvas and returns it as a PNG signature asset. */
 function toAsset(source: HTMLCanvasElement): SignatureAsset | null {
@@ -83,7 +83,7 @@ function ColorPicker({ value, onChange }: { value: string; onChange: (v: string)
           title={c.label}
           aria-label={"Warna " + c.label}
           className={`w-8 h-8 rounded-full border-2 transition-all ${
-            value === c.value ? "border-sky-500 ring-2 ring-sky-500/40 scale-110" : "border-gray-300 dark:border-zinc-600"
+            value === c.value ? "border-sky-500 ring-2 ring-sky-500/40 scale-110" : "border-zinc-600"
           }`}
           style={{ background: c.value }}
         />
@@ -174,7 +174,7 @@ function DrawPanel({ onUse }: { onUse: (a: SignatureAsset) => void }) {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-dashed border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-100 overflow-hidden">
+      <div className="rounded-xl border border-dashed border-zinc-700 bg-zinc-100 overflow-hidden">
         <canvas
           ref={canvasRef}
           width={DRAW_W}
@@ -194,7 +194,7 @@ function DrawPanel({ onUse }: { onUse: (a: SignatureAsset) => void }) {
             type="button"
             onClick={clear}
             disabled={!hasInk}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors disabled:opacity-40"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-zinc-800 text-zinc-200 text-xs font-semibold hover:bg-zinc-700 transition-colors disabled:opacity-40"
           >
             <Eraser className="w-4 h-4" />
             Ulang
@@ -267,14 +267,14 @@ function TypePanel({ onUse }: { onUse: (a: SignatureAsset) => void }) {
             onClick={() => setFontId(f.id)}
             className={`px-3 py-3 rounded-xl border text-center transition-colors overflow-hidden ${
               fontId === f.id
-                ? "border-sky-500 bg-sky-50/40 dark:bg-sky-950/30 ring-1 ring-sky-500"
-                : "border-gray-200 dark:border-zinc-700 hover:border-sky-400"
+                ? "border-sky-500 bg-sky-950/30 ring-1 ring-sky-500"
+                : "border-zinc-700 hover:border-sky-400"
             }`}
           >
-            <span className="block text-2xl truncate text-gray-900 dark:text-zinc-100" style={{ fontFamily: f.family, color }}>
+            <span className="block text-2xl truncate text-zinc-100" style={{ fontFamily: f.family, color }}>
               {text.trim() || "Tanda Tangan"}
             </span>
-            <span className="block text-[11px] text-gray-500 dark:text-zinc-400 mt-1">{f.label}</span>
+            <span className="block text-[11px] text-zinc-400 mt-1">{f.label}</span>
           </button>
         ))}
       </div>
@@ -357,7 +357,7 @@ function UploadPanel({ onUse }: { onUse: (a: SignatureAsset) => void }) {
 
   return (
     <div className="space-y-3">
-      <label className="flex items-center justify-center gap-2 px-4 py-6 rounded-xl border-2 border-dashed border-gray-300 dark:border-zinc-700 text-sm text-gray-600 dark:text-zinc-300 cursor-pointer hover:border-sky-400 transition-colors">
+      <label className="flex items-center justify-center gap-2 px-4 py-6 rounded-xl border-2 border-dashed border-zinc-700 text-sm text-zinc-300 cursor-pointer hover:border-sky-400 transition-colors">
         <Upload className="w-4 h-4" />
         {bitmap ? "Ganti gambar tanda tangan" : "Pilih foto/scan tanda tangan"}
         <input
@@ -370,14 +370,14 @@ function UploadPanel({ onUse }: { onUse: (a: SignatureAsset) => void }) {
           }}
         />
       </label>
-      {error && <p className="text-xs text-sky-700 dark:text-sky-300">{error}</p>}
+      {error && <p className="text-xs text-sky-300">{error}</p>}
       {previewUrl && (
         <>
-          <div className="rounded-xl border border-gray-200 dark:border-zinc-700 p-3 bg-[repeating-conic-gradient(#e5e7eb_0%_25%,#fff_0%_50%)] bg-[length:16px_16px] dark:bg-[repeating-conic-gradient(#3f3f46_0%_25%,#27272a_0%_50%)]">
+          <div className="rounded-xl border border-zinc-700 p-3 bg-[repeating-conic-gradient(#e5e7eb_0%_25%,#fff_0%_50%)] bg-[length:16px_16px] bg-[repeating-conic-gradient(#3f3f46_0%_25%,#27272a_0%_50%)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={previewUrl} alt="Pratinjau tanda tangan" className="mx-auto max-h-32 max-w-full" />
           </div>
-          <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+          <label className="flex items-center gap-2 text-sm text-zinc-300">
             <input
               type="checkbox"
               checked={removeWhite}
@@ -388,9 +388,9 @@ function UploadPanel({ onUse }: { onUse: (a: SignatureAsset) => void }) {
           </label>
           {removeWhite && (
             <div>
-              <label className="flex justify-between text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1">
+              <label className="flex justify-between text-xs font-semibold text-zinc-300 mb-1">
                 <span>Ambang putih</span>
-                <span className="text-sky-600 dark:text-sky-400">{threshold}</span>
+                <span className="text-sky-400">{threshold}</span>
               </label>
               <input
                 type="range"
@@ -435,7 +435,7 @@ export default function SignatureMaker({ onUse }: { onUse: (asset: SignatureAsse
             className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
               tab === id
                 ? "bg-sky-600 border-sky-600 text-white"
-                : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
             }`}
           >
             <Icon className="w-4 h-4" />

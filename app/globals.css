@@ -1,21 +1,88 @@
 @import "tailwindcss";
 
+/* GaweTools is dark-only (design-system.md "Aether"): the `dark` class is fixed on <html>. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/*
+ * Design tokens. The old accent scale (sky-*) is remapped to a monochrome palette so the whole UI
+ * follows the Aether look: #050505 background, white as primary/accent, #A1A1AA secondary text,
+ * #27272A borders, 8px radii.
+ */
+@theme {
+  --color-sky-50: #fafafa;
+  --color-sky-100: #f4f4f5;
+  --color-sky-200: #e4e4e7;
+  --color-sky-300: #d4d4d8;
+  --color-sky-400: #f4f4f4;
+  --color-sky-500: #ffffff;
+  --color-sky-600: #ffffff;
+  --color-sky-700: #e4e4e7;
+  --color-sky-800: #3f3f46;
+  --color-sky-900: #27272a;
+  --color-sky-950: #18181b;
+
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-900: #111111;
+  --color-zinc-950: #0a0a0b;
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.5rem;
+  --radius-3xl: 0.75rem;
+}
+
+html {
+  color-scheme: dark;
+  background: #050505;
 }
 
 body {
   font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  background-color: #050505;
+  background-image: radial-gradient(900px 420px at 50% -120px, rgb(255 255 255 / 0.07), transparent 70%);
+  background-repeat: no-repeat;
+  color: #ffffff;
 }
 
-html.dark {
-  color-scheme: dark;
+/* Display type: medium weight, tight tracking. Unlayered so it wins over utility weights. */
+h1,
+h2 {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+h3,
+h4 {
+  letter-spacing: -0.01em;
+}
+
+/* Technical labels use the mono face (JetBrains Mono). */
+.label-mono {
+  font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* White accent: filled accent surfaces need dark text. */
+[class~="bg-sky-600"],
+[class~="bg-sky-500"] {
+  color: #050505;
 }
 
 ::selection {
-  background: rgb(14 165 233 / 0.3);
+  background: rgb(255 255 255 / 0.25);
+}
+
+input[type="range"] {
+  accent-color: #ffffff;
 }

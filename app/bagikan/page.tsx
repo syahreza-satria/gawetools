@@ -38,24 +38,24 @@ export default function BagikanPage() {
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto w-full">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <Share2 className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">File Dibagikan</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">File Dibagikan</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Pilih alat untuk memproses file yang Anda bagikan ke GaweTools. File tetap berada di perangkat ini.
         </p>
       </div>
 
       {files === null ? (
-        <div className="flex justify-center py-12 text-gray-400 dark:text-zinc-500">
+        <div className="flex justify-center py-12 text-zinc-500">
           <Loader2 className="w-6 h-6 animate-spin" />
         </div>
       ) : files.length === 0 ? (
-        <div className="p-8 rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700/70 text-center text-sm text-gray-600 dark:text-zinc-400">
+        <div className="p-8 rounded-2xl bg-zinc-950 border border-zinc-700/70 text-center text-sm text-zinc-400">
           Belum ada file yang dibagikan, atau file sudah kedaluwarsa (disimpan maksimal 10 menit). Bagikan file PDF atau gambar
           dari aplikasi lain ke GaweTools, atau{" "}
-          <Link href="/" className="font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+          <Link href="/" className="font-semibold text-sky-400 hover:underline">
             buka beranda
           </Link>
           .
@@ -68,16 +68,16 @@ export default function BagikanPage() {
               return (
                 <li
                   key={`${f.name}-${i}`}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700/70"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-700/70"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-sky-100/70 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                     {kind === "image" ? <ImageIcon className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate" title={f.name}>
+                    <p className="text-sm font-medium text-white truncate" title={f.name}>
                       {f.name}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-zinc-400">{formatBytes(f.size)}</p>
+                    <p className="text-xs text-zinc-400">{formatBytes(f.size)}</p>
                   </div>
                 </li>
               );
@@ -86,18 +86,18 @@ export default function BagikanPage() {
 
           {kinds.map((kind) => (
             <section key={kind}>
-              <h2 className="text-sm font-semibold text-gray-700 dark:text-zinc-300 mb-2">{KIND_LABEL[kind]}</h2>
+              <h2 className="text-sm font-semibold text-zinc-300 mb-2">{KIND_LABEL[kind]}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {toolsAccepting(kind).map((t) => (
                   <Link
                     key={t.href}
                     href={`${t.href}?from=handoff`}
-                    className="group flex items-center justify-between gap-3 p-4 rounded-xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700/70 hover:border-sky-400 dark:hover:border-sky-500/60 transition-colors"
+                    className="group flex items-center justify-between gap-3 p-4 rounded-xl bg-zinc-950 border border-zinc-700/70 hover:border-sky-500/60 transition-colors"
                   >
-                    <span className="text-sm font-semibold text-gray-900 dark:text-zinc-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                    <span className="text-sm font-semibold text-zinc-100 group-hover:text-sky-400 transition-colors">
                       {t.label}
                     </span>
-                    <ArrowRight className="w-4 h-4 text-sky-600 dark:text-sky-400 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 text-sky-400 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 ))}
               </div>
@@ -108,7 +108,7 @@ export default function BagikanPage() {
             <button
               type="button"
               onClick={discard}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 text-xs font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-zinc-400 hover:text-sky-400 hover:bg-sky-950/30 text-xs font-medium transition-colors"
             >
               <Trash2 className="w-4 h-4" />
               Buang file yang dibagikan

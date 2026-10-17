@@ -35,7 +35,7 @@ const segBtn = (active: boolean) =>
   `flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
     active
       ? "bg-sky-600 border-sky-600 text-white"
-      : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+      : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
   }`;
 
 /** Returns bytes + kind that pdf-lib can embed. JPEGs are re-encoded to honour EXIF rotation (phone photos). */
@@ -160,20 +160,20 @@ export default function ImageToPdfPage() {
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <FileImage className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Gambar ke PDF</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">Gambar ke PDF</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Gabungkan foto atau hasil scan dari HP menjadi satu file PDF. Atur urutannya, lalu unduh.
         </p>
       </div>
 
       <AnimatePresence>{errorMessage && (
-        <motion.div initial={{ opacity: 0, y: -10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+        <motion.div initial={{ opacity: 0, y: -10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 rounded-xl bg-sky-950/40 border border-sky-900/60 flex items-start gap-3 text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
-          <button onClick={() => setErrorMessage(null)} className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2">
+          <button onClick={() => setErrorMessage(null)} className="text-sky-400 hover:underline font-semibold text-xs ml-2">
             Tutup
           </button>
         </motion.div>
@@ -185,16 +185,16 @@ export default function ImageToPdfPage() {
           {...getRootProps()}
           className={`flex flex-col items-center justify-center gap-2 p-10 rounded-2xl border-2 border-dashed text-center cursor-pointer transition-colors ${
             isDragActive
-              ? "border-sky-500 bg-sky-50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:border-sky-400"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-700 bg-zinc-950 hover:border-sky-400"
           }`}
         >
           <input {...getInputProps()} />
           <motion.div animate={{ y: isDragActive ? -8 : [0, -4, 0], scale: isDragActive ? 1.2 : 1 }} transition={isDragActive ? { type: "spring", stiffness: 300 } : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }}><UploadCloud className="w-9 h-9 text-sky-500" /></motion.div>
-          <p className="font-semibold text-gray-900 dark:text-white">
+          <p className="font-semibold text-white">
             {isDragActive ? "Lepaskan gambar di sini" : "Tarik & lepas gambar, atau klik untuk memilih"}
           </p>
-          <p className="text-sm text-gray-500 dark:text-zinc-400">JPG, PNG, WebP — satu gambar menjadi satu halaman</p>
+          <p className="text-sm text-zinc-400">JPG, PNG, WebP — satu gambar menjadi satu halaman</p>
         </div>
 </motion.div>
 
@@ -205,23 +205,23 @@ export default function ImageToPdfPage() {
               {items.map((item, i) => (
                 <motion.li layout initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 24, transition: { duration: 0.18 } }} transition={{ type: "spring", stiffness: 420, damping: 32 }}
                   key={item.id}
-                  className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70"
+                  className="flex items-center gap-3 p-3 bg-zinc-950 rounded-xl border border-zinc-700/70"
                 >
-                  <span className="w-7 h-7 rounded-full bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-900/60 text-sky-700 dark:text-sky-400 font-bold text-xs flex items-center justify-center shrink-0">
+                  <span className="w-7 h-7 rounded-full bg-sky-950/60 border border-sky-900/60 text-sky-400 font-bold text-xs flex items-center justify-center shrink-0">
                     {i + 1}
                   </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.previewUrl} alt={item.file.name} className="w-12 h-12 rounded-lg object-cover shrink-0 border border-gray-100 dark:border-zinc-800" />
+                  <img src={item.previewUrl} alt={item.file.name} className="w-12 h-12 rounded-lg object-cover shrink-0 border border-zinc-800" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{item.file.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-zinc-400">{formatBytes(item.file.size)}</p>
+                    <p className="text-sm font-medium text-white truncate">{item.file.name}</p>
+                    <p className="text-xs text-zinc-400">{formatBytes(item.file.size)}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => move(i, -1)}
                       disabled={i === 0 || isWorking}
                       title="Naikkan"
-                      className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-30 transition-colors"
+                      className="p-2 rounded-lg text-gray-500 hover:bg-zinc-800 disabled:opacity-30 transition-colors"
                     >
                       <ArrowUp className="w-4 h-4" />
                     </button>
@@ -229,7 +229,7 @@ export default function ImageToPdfPage() {
                       onClick={() => move(i, 1)}
                       disabled={i === items.length - 1 || isWorking}
                       title="Turunkan"
-                      className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-30 transition-colors"
+                      className="p-2 rounded-lg text-gray-500 hover:bg-zinc-800 disabled:opacity-30 transition-colors"
                     >
                       <ArrowDown className="w-4 h-4" />
                     </button>
@@ -237,7 +237,7 @@ export default function ImageToPdfPage() {
                       onClick={() => remove(item.id)}
                       disabled={isWorking}
                       title="Hapus"
-                      className="p-2 rounded-lg text-gray-400 hover:text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors disabled:opacity-40"
+                      className="p-2 rounded-lg text-gray-400 hover:text-sky-600 hover:bg-sky-950/50 transition-colors disabled:opacity-40"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -247,9 +247,9 @@ export default function ImageToPdfPage() {
             </AnimatePresence>
 </ul>
 
-            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700/70 space-y-4">
+            <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-700/70 space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Ukuran halaman</label>
+                <label className="block text-sm font-semibold text-white mb-2">Ukuran halaman</label>
                 <div className="flex gap-2">
                   <button type="button" onClick={() => setPageSize("a4")} className={segBtn(pageSize === "a4")}>
                     A4
@@ -261,7 +261,7 @@ export default function ImageToPdfPage() {
               </div>
               {pageSize === "a4" && (
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Margin</label>
+                  <label className="block text-sm font-semibold text-white mb-2">Margin</label>
                   <div className="flex gap-2">
                     {(
                       [
@@ -291,7 +291,7 @@ export default function ImageToPdfPage() {
               <button
                 onClick={reset}
                 disabled={isWorking}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium hover:bg-zinc-700 transition-colors disabled:opacity-60"
               >
                 <RefreshCw className="w-4 h-4" />
                 Reset

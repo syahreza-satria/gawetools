@@ -16,6 +16,8 @@ export default function Footer() {
     { label: "Buka Kunci PDF", href: "/unlock-pdf" },
     { label: "Watermark PDF", href: "/watermark-pdf" },
     { label: "PDF ke Gambar", href: "/pdf-to-image" },
+    { label: "Tanda Tangan PDF", href: "/sign-pdf" },
+    { label: "Nomor Halaman PDF", href: "/add-page-numbers" },
   ];
 
   const imageTools = [
@@ -23,6 +25,8 @@ export default function Footer() {
     { label: "Resize Gambar", href: "/resize-image" },
     { label: "Konversi Gambar", href: "/convert-image" },
     { label: "Watermark Gambar", href: "/watermark-image" },
+    { label: "Crop Gambar", href: "/crop-image" },
+    { label: "HEIC ke JPG", href: "/heic-to-jpg" },
   ];
 
   const legalLinks = [
@@ -31,30 +35,30 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="mt-auto border-t border-gray-100 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-950 transition-colors">
+    <footer className="mt-auto border-t border-zinc-800/80 bg-zinc-950 transition-colors">
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Brand Info */}
           <div className="md:col-span-2 lg:col-span-2 space-y-4">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="relative w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-950/60 p-1 flex items-center justify-center border border-sky-100 dark:border-sky-900">
+              <div className="relative w-8 h-8 rounded-lg bg-sky-950/60 p-1 flex items-center justify-center border border-sky-900">
                 <Image
                   src="/logo_gawetools.png"
                   alt="GaweTools Logo"
                   width={24}
                   height={24}
-                  className="object-contain"
+                  className="object-contain brightness-0 invert"
                 />
               </div>
-              <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">
-                Gawe<span className="text-sky-500 font-extrabold">Tools</span>
+              <span className="font-bold text-xl tracking-tight text-white">
+                Gawe<span className="text-zinc-400 font-medium">Tools</span>
               </span>
             </Link>
-            <p className="text-sm text-gray-500 dark:text-zinc-400 max-w-sm leading-relaxed">
+            <p className="text-sm text-zinc-400 max-w-sm leading-relaxed">
               Platform produktivitas lengkap untuk mengolah dokumen PDF dan gambar secara instan, aman, dan tanpa biaya langsung dari browser Anda.
             </p>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/50 dark:border-sky-900/50">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-sky-950/40 text-sky-400 border border-sky-900/50">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Otomatisasi Lokal & Ramah Privasi</span>
             </div>
@@ -62,7 +66,7 @@ export default function Footer() {
 
           {/* PDF Tools Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+            <h4 className="label-mono text-white">
               Dokumen PDF
             </h4>
             <ul className="space-y-2 text-sm">
@@ -70,7 +74,7 @@ export default function Footer() {
                 <li key={tool.href}>
                   <Link
                     href={tool.href}
-                    className="text-gray-600 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                    className="text-zinc-400 hover:text-sky-400 transition-colors"
                   >
                     {tool.label}
                   </Link>
@@ -81,7 +85,7 @@ export default function Footer() {
 
           {/* Image Tools Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+            <h4 className="label-mono text-white">
               Gambar Tools
             </h4>
             <ul className="space-y-2 text-sm">
@@ -89,7 +93,7 @@ export default function Footer() {
                 <li key={tool.href}>
                   <Link
                     href={tool.href}
-                    className="text-gray-600 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                    className="text-zinc-400 hover:text-sky-400 transition-colors"
                   >
                     {tool.label}
                   </Link>
@@ -100,7 +104,7 @@ export default function Footer() {
 
           {/* Navigation & Info */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+            <h4 className="label-mono text-white">
               Bantuan & Info
             </h4>
             <ul className="space-y-2 text-sm">
@@ -108,7 +112,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-gray-600 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                    className="text-zinc-400 hover:text-sky-400 transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -120,12 +124,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-200/60 dark:border-zinc-800/80 bg-white dark:bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 dark:text-zinc-400">
+      <div className="border-t border-zinc-800/80 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
           <div>
-            © {currentYear} <span className="font-semibold text-gray-800 dark:text-zinc-200">GaweTools</span>. Seluruh hak cipta dilindungi.
+            © {currentYear} <span className="font-semibold text-zinc-200">GaweTools</span>. Seluruh hak cipta dilindungi.
           </div>
-          <div className="flex items-center gap-1 text-gray-500 dark:text-zinc-400">
+          <div className="flex items-center gap-1 text-zinc-400">
             <span>Dibuat dengan</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
             <span>untuk kemudahan kerja sehari-hari</span>

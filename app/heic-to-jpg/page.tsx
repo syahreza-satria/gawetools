@@ -42,7 +42,7 @@ export default function HeicToJpgPage() {
       options={
         <>
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Format tujuan</label>
+            <label className="block text-sm font-semibold text-white mb-2">Format tujuan</label>
             <div className="flex gap-2">
               {(
                 [
@@ -57,7 +57,7 @@ export default function HeicToJpgPage() {
                   className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
                     format === value
                       ? "bg-sky-600 border-sky-600 text-white"
-                      : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                      : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
                   }`}
                 >
                   {label}
@@ -67,9 +67,9 @@ export default function HeicToJpgPage() {
           </div>
           {format === "image/jpeg" && (
             <div>
-              <label className="flex justify-between text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="flex justify-between text-sm font-semibold text-white mb-2">
                 <span>Kualitas</span>
-                <span className="text-sky-600 dark:text-sky-400">{quality}%</span>
+                <span className="text-sky-400">{quality}%</span>
               </label>
               <input
                 type="range"
@@ -81,7 +81,7 @@ export default function HeicToJpgPage() {
               />
             </div>
           )}
-          <p className="text-xs text-gray-500 dark:text-zinc-400">
+          <p className="text-xs text-zinc-400">
             Konversi HEIC cukup berat; foto besar bisa memakan beberapa detik per file.
           </p>
         </>

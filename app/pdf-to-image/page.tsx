@@ -159,14 +159,14 @@ function PageThumbnailCanvas({
       onClick={onToggle}
       className={`relative cursor-pointer rounded-xl border-2 transition-all select-none overflow-hidden group ${
         isSelected
-          ? "border-sky-500 ring-2 ring-sky-500/30 bg-sky-50/30 dark:bg-sky-950/20"
-          : "border-gray-200 dark:border-zinc-800 hover:border-sky-300 dark:hover:border-sky-700 bg-white dark:bg-zinc-950"
+          ? "border-sky-500 ring-2 ring-sky-500/30 bg-sky-950/20"
+          : "border-zinc-800 hover:border-sky-700 bg-zinc-950"
       }`}
     >
       {/* Checkbox indicator */}
       <div
         className={`absolute top-2 left-2 z-10 transition-all ${
-          isSelected ? "text-sky-500" : "text-gray-300 dark:text-zinc-600 group-hover:text-sky-400"
+          isSelected ? "text-sky-500" : "text-zinc-600 group-hover:text-sky-400"
         }`}
       >
         {isSelected ? (
@@ -177,7 +177,7 @@ function PageThumbnailCanvas({
       </div>
 
       {/* Canvas */}
-      <div className="w-full flex items-center justify-center min-h-[130px] bg-slate-50 dark:bg-zinc-900 p-2">
+      <div className="w-full flex items-center justify-center min-h-[130px] bg-zinc-900 p-2">
         <canvas
           ref={canvasCallback}
           className="max-w-full h-auto object-contain rounded shadow-xs"
@@ -185,7 +185,7 @@ function PageThumbnailCanvas({
       </div>
 
       {/* Page label */}
-      <div className="py-1.5 text-center text-[11px] font-semibold text-gray-600 dark:text-zinc-400 border-t border-gray-100 dark:border-zinc-800">
+      <div className="py-1.5 text-center text-[11px] font-semibold text-zinc-400 border-t border-zinc-800">
         Hal. {pageNumber}
       </div>
     </div>
@@ -345,13 +345,13 @@ export default function PdfToImagePage() {
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <FileImage className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">
           PDF ke Gambar
         </h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Konversi halaman PDF menjadi gambar JPEG, PNG, atau WebP secara instan di browser tanpa
           upload ke server.
         </p>
@@ -359,7 +359,7 @@ export default function PdfToImagePage() {
 
       {/* Error */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-200 text-sm">
+        <div className="mb-6 p-4 rounded-xl bg-red-950/30 border border-red-900/60 flex items-start gap-3 text-red-200 text-sm">
           <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
@@ -375,17 +375,17 @@ export default function PdfToImagePage() {
       {results.length > 0 && (
         <div className="mb-8 space-y-4">
           {/* Summary */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 shadow-xs">
+          <div className="p-5 rounded-2xl bg-zinc-950 border border-emerald-900/50 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 dark:text-white text-sm">
+                  <h3 className="font-bold text-white text-sm">
                     {results.length} halaman berhasil dikonversi!
                   </h3>
-                  <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
+                  <p className="text-xs text-zinc-400 mt-0.5">
                     Total ukuran: {formatBytes(totalSize)}
                   </p>
                 </div>
@@ -403,7 +403,7 @@ export default function PdfToImagePage() {
                 <ContinueMenu kind="image" files={results.map((r) => ({ blob: r.blob, name: r.filename }))} />
                 <button
                   onClick={handleReset}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />
                   Konversi File Lain
@@ -417,27 +417,27 @@ export default function PdfToImagePage() {
             {results.map((r) => (
               <div
                 key={r.pageNumber}
-                className="group bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 overflow-hidden flex flex-col"
+                className="group bg-zinc-950 rounded-xl border border-zinc-700/70 overflow-hidden flex flex-col"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={r.previewUrl}
                   alt={`Halaman ${r.pageNumber}`}
-                  className="w-full h-36 object-contain bg-slate-50 dark:bg-zinc-900"
+                  className="w-full h-36 object-contain bg-zinc-900"
                 />
                 <div className="p-2.5 flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-gray-800 dark:text-white truncate">
+                    <p className="text-xs font-semibold text-white truncate">
                       Halaman {r.pageNumber}
                     </p>
-                    <p className="text-[11px] text-gray-400 dark:text-zinc-400 mt-0.5">
+                    <p className="text-[11px] text-zinc-400 mt-0.5">
                       {r.width}×{r.height} · {formatBytes(r.blob.size)}
                     </p>
                   </div>
                   <button
                     onClick={() => handleDownloadSingle(r)}
                     title="Download"
-                    className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors shrink-0"
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-sky-400 hover:bg-sky-950/30 transition-colors shrink-0"
                   >
                     <ArrowDownToLine className="w-4 h-4" />
                   </button>
@@ -452,28 +452,28 @@ export default function PdfToImagePage() {
       {!pdfDoc && results.length === 0 && (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-zinc-950 ${
             isDragActive
-              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-800 hover:border-sky-400 hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-950/50 text-sky-400 flex items-center justify-center mx-auto mb-4">
             {isLoading ? (
               <Loader2 className="w-7 h-7 animate-spin" />
             ) : (
               <FileImage className="w-7 h-7" />
             )}
           </div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base font-semibold text-white">
             {isLoading
               ? "Memuat PDF..."
               : isDragActive
               ? "Lepaskan PDF di sini"
               : "Tarik & Lepas File PDF ke Sini"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400 max-w-sm mx-auto">
+          <p className="mt-1 text-sm text-zinc-400 max-w-sm mx-auto">
             atau klik untuk memilih — hanya file PDF (satu file)
           </p>
           {!isLoading && (
@@ -494,23 +494,23 @@ export default function PdfToImagePage() {
       {pdfDoc && results.length === 0 && (
         <div className="space-y-6">
           {/* PDF info bar */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
+          <div className="flex items-center justify-between p-4 bg-zinc-950 rounded-xl border border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                 <FileImage className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm text-gray-900 dark:text-white truncate">
+                <p className="font-semibold text-sm text-white truncate">
                   {pdfFile!.name}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   {formatBytes(pdfFile!.size)} · {pageCount} halaman
                 </p>
               </div>
             </div>
             <button
               onClick={handleReset}
-              className="p-1.5 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors shrink-0 ml-3"
+              className="p-1.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-950/30 transition-colors shrink-0 ml-3"
               title="Hapus & Ganti File"
             >
               <X className="w-4 h-4" />
@@ -518,25 +518,25 @@ export default function PdfToImagePage() {
           </div>
 
           {/* Page selection */}
-          <div className="bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70 p-5">
+          <div className="bg-zinc-950 rounded-xl border border-zinc-700/70 p-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-sm font-semibold text-white">
                 Pilih Halaman
-                <span className="ml-2 text-xs font-normal text-gray-500 dark:text-zinc-400">
+                <span className="ml-2 text-xs font-normal text-zinc-400">
                   ({selectedPages.size} dari {pageCount} dipilih)
                 </span>
               </h3>
               <div className="flex items-center gap-2">
                 <button
                   onClick={selectAll}
-                  className="text-xs font-medium text-sky-600 dark:text-sky-400 hover:underline"
+                  className="text-xs font-medium text-sky-400 hover:underline"
                 >
                   Pilih Semua
                 </button>
-                <span className="text-gray-300 dark:text-zinc-600">|</span>
+                <span className="text-zinc-600">|</span>
                 <button
                   onClick={deselectAll}
-                  className="text-xs font-medium text-gray-500 dark:text-zinc-400 hover:underline"
+                  className="text-xs font-medium text-zinc-400 hover:underline"
                 >
                   Batal Semua
                 </button>
@@ -557,10 +557,10 @@ export default function PdfToImagePage() {
           </div>
 
           {/* Settings */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
+          <div className="bg-zinc-950 p-6 rounded-xl border border-zinc-700/70 space-y-5">
             {/* Format output */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              <h3 className="text-sm font-semibold text-white mb-3">
                 Format Output
               </h3>
               <div className="flex items-center gap-2 flex-wrap">
@@ -571,8 +571,8 @@ export default function PdfToImagePage() {
                     onClick={() => setOutputFormat(fmt.value)}
                     className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
                       outputFormat === fmt.value
-                        ? "border-sky-500 bg-sky-50 dark:bg-sky-950/30 text-sky-600 dark:text-sky-400 ring-1 ring-sky-500"
-                        : "border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-300 hover:border-gray-300 dark:hover:border-zinc-600"
+                        ? "border-sky-500 bg-sky-950/30 text-sky-400 ring-1 ring-sky-500"
+                        : "border-zinc-700 text-zinc-300 hover:border-zinc-600"
                     }`}
                   >
                     {fmt.label}
@@ -580,7 +580,7 @@ export default function PdfToImagePage() {
                 ))}
               </div>
               {outputFormat === "image/png" && (
-                <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400">
+                <p className="mt-2 text-xs text-zinc-400">
                   PNG adalah format lossless, cocok untuk transparansi. Ukuran file lebih besar dari JPEG/WebP.
                 </p>
               )}
@@ -588,7 +588,7 @@ export default function PdfToImagePage() {
 
             {/* Scale / Resolution */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              <h3 className="text-sm font-semibold text-white mb-3">
                 Resolusi Output
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -599,14 +599,14 @@ export default function PdfToImagePage() {
                     onClick={() => setScale(opt.id)}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       scale === opt.id
-                        ? "border-sky-500 bg-sky-50/40 dark:bg-sky-950/30 ring-1 ring-sky-500"
-                        : "border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50"
+                        ? "border-sky-500 bg-sky-950/30 ring-1 ring-sky-500"
+                        : "border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/50"
                     }`}
                   >
-                    <p className="font-semibold text-xs text-gray-900 dark:text-white">
+                    <p className="font-semibold text-xs text-white">
                       {opt.label}
                     </p>
-                    <p className="text-[11px] text-gray-500 dark:text-zinc-400 leading-tight mt-0.5">
+                    <p className="text-[11px] text-zinc-400 leading-tight mt-0.5">
                       {opt.desc}
                     </p>
                   </button>
@@ -616,8 +616,8 @@ export default function PdfToImagePage() {
           </div>
 
           {/* Action bar */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
-            <span className="text-xs text-gray-500 dark:text-zinc-400">
+          <div className="flex items-center justify-between bg-zinc-950 p-4 rounded-xl border border-zinc-700/70">
+            <span className="text-xs text-zinc-400">
               Proses dijalankan langsung di perangkat Anda tanpa upload file.
             </span>
             <div className="flex items-center gap-2">
@@ -625,7 +625,7 @@ export default function PdfToImagePage() {
                 type="button"
                 onClick={handleReset}
                 disabled={isConverting}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors disabled:opacity-50"
               >
                 <Trash2 className="w-4 h-4" />
                 Hapus

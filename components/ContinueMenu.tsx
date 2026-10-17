@@ -57,7 +57,7 @@ export default function ContinueMenu({ files, kind }: ContinueMenuProps) {
         aria-haspopup="menu"
         aria-expanded={open}
         disabled={busy}
-        className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 text-sky-700 dark:text-sky-300 font-medium text-sm hover:bg-sky-100 dark:hover:bg-sky-950/70 transition-colors disabled:opacity-60"
+        className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-sky-950/40 border border-sky-900/60 text-sky-300 font-medium text-sm hover:bg-sky-950/70 transition-colors disabled:opacity-60"
       >
         {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
         Lanjut ke…
@@ -67,7 +67,7 @@ export default function ContinueMenu({ files, kind }: ContinueMenuProps) {
       {open && (
         <div
           role="menu"
-          className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 w-60 max-h-72 overflow-y-auto p-1.5 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-xl"
+          className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 w-60 max-h-72 overflow-y-auto p-1.5 rounded-xl bg-zinc-900 border border-zinc-700 shadow-xl"
         >
           {tools.map((t) => (
             <button
@@ -75,7 +75,7 @@ export default function ContinueMenu({ files, kind }: ContinueMenuProps) {
               type="button"
               role="menuitem"
               onClick={() => go(t.href)}
-              className="w-full text-left px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-zinc-200 hover:bg-sky-50 dark:hover:bg-sky-950/50 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+              className="w-full text-left px-3 py-2 rounded-lg text-sm text-zinc-200 hover:bg-sky-950/50 hover:text-sky-300 transition-colors"
             >
               {t.label}
             </button>
@@ -84,7 +84,7 @@ export default function ContinueMenu({ files, kind }: ContinueMenuProps) {
       )}
 
       {failed && (
-        <p className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max text-xs text-sky-700 dark:text-sky-300">
+        <p className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max text-xs text-sky-300">
           Gagal meneruskan file. Unduh dulu lalu unggah manual.
         </p>
       )}

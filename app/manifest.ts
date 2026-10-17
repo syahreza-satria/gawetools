@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#f1f5f9",
-    theme_color: "#0ea5e9",
+    background_color: "#050505",
+    theme_color: "#050505",
     lang: "id",
     categories: ["productivity", "utilities"],
     // Next's Manifest type models `files` as a single File; the Web Share Target spec wants an array of descriptors.

@@ -29,7 +29,7 @@ Library utama: `pdf-lib` (gabung/potong/susun/watermark PDF), `pdfjs-dist` (rend
   - PDF: `merge-pdf`, `split-pdf`, `compress-pdf`, `reorder-pdf`, `rotate-pdf`, `image-to-pdf`, `lock-pdf`, `unlock-pdf`, `watermark-pdf`, `pdf-to-image`
   - Gambar: `compress-image`, `resize-image`, `convert-image`, `watermark-image`
   - Statis: `app/page.tsx` (beranda), `guide`, `about`
-- `app/layout.tsx` — root layout: font Inter (`--font-inter`), `Navbar` + `Footer`, dan skrip inline di `<head>` yang memasang class `dark` sebelum hidrasi (anti-flash tema).
+- `app/layout.tsx` — root layout: font Plus Jakarta Sans (`--font-jakarta`) + JetBrains Mono (`--font-jetbrains`), `Navbar` + `Footer`. Situs **dark-only**: class `dark` dipasang permanen di `<html>`, tidak ada toggle tema.
 - `components/` — `Navbar` (daftar alat `pdfTools` / `imageTools` didefinisikan di sini), `Footer`, `ThemeToggle`, `PageThumbnail` (render thumbnail halaman via pdfjs).
 - `components/ImageBatchTool.tsx` — cangkang bersama alat gambar batch (dropzone → daftar file → opsi → hasil + ZIP). `resize-image` dan `convert-image` hanya menyuplai `options`, `validate`, dan `process(file)`; pakai ini untuk alat gambar batch baru.
 - Riwayat unduhan: `lib/history.ts` (IndexedDB, hanya metadata — nama, ukuran, waktu; jangan simpan isi file) dan halaman `app/history`. Selalu impor `saveAs` dari `@/lib/download` (bukan `file-saver` langsung) agar unduhan tercatat; jika memakai `<a download>`, panggil `recordHistory` manual (lihat merge-pdf). Tambahkan alat baru ke `TOOL_LABELS`.
@@ -47,7 +47,7 @@ Library utama: `pdf-lib` (gabung/potong/susun/watermark PDF), `pdfjs-dist` (rend
 - **dnd-kit**: gunakan `useId()` untuk `DndContext id` agar tidak ada hydration mismatch (lihat merge-pdf, reorder-pdf).
 - **Import dinamis untuk library berat/SSR-tidak-aman**: contoh `@pdfsmaller/pdf-decrypt` di-`import()` di dalam handler (unlock-pdf).
 - **Tipe Blob dari bytes**: `new Blob([bytes as Uint8Array<ArrayBuffer>], { type })` dipakai untuk menghindari error tipe TS.
-- **Styling**: utility Tailwind inline, aksen warna `sky-*`, dark mode berbasis class (`@custom-variant dark (&:where(.dark, .dark *))` di `globals.css`) — setiap warna latar/teks/border harus punya varian `dark:` (palet `zinc-*` untuk dark, `gray-*`/`slate-*` untuk light). Teks UI Indonesia (mis. "Gabung", "Potong", "Kunci").
+- **Styling**: mengikuti `design-system.md` (Aether): hanya mode gelap, latar `#050505`, aksen putih, teks sekunder `#A1A1AA`, border `#27272A`, radius 8px. Gunakan utility Tailwind biasa tanpa varian `dark:`; skala `sky-*` sudah dipetakan ke palet monokrom di `app/globals.css` (jadi `bg-sky-600` = tombol putih berteks gelap) dan `zinc-*` untuk permukaan. Label teknis memakai kelas `label-mono` (JetBrains Mono). Teks UI Indonesia (mis. "Gabung", "Potong", "Kunci").
 - **Kompres PDF** (`compress-pdf`) bekerja dengan merender tiap halaman ke JPEG lalu membangun ulang PDF (teks menjadi gambar, tidak bisa diseleksi). Level kompresi didefinisikan lewat `COMPRESSION_LEVELS` (scale + quality).
 
 ## Catatan

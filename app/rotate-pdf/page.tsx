@@ -65,9 +65,9 @@ function RotatableThumb({
   }, [pdfDoc, pageNumber]);
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-200 dark:border-zinc-800 shadow-xs p-2 flex flex-col items-center gap-2">
+    <div className="bg-zinc-900 rounded-xl border border-zinc-800 shadow-xs p-2 flex flex-col items-center gap-2">
       <div
-        className="w-full flex items-center justify-center bg-slate-50 dark:bg-zinc-950 rounded-lg border border-gray-100 dark:border-zinc-700/70 overflow-hidden"
+        className="w-full flex items-center justify-center bg-zinc-950 rounded-lg border border-zinc-700/70 overflow-hidden"
         style={{ height: THUMB_BOX + 16 }}
       >
         <canvas
@@ -80,18 +80,18 @@ function RotatableThumb({
         <button
           onClick={() => onRotate(-90)}
           title="Putar ke kiri"
-          className="p-1.5 rounded-lg text-gray-500 hover:text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors"
+          className="p-1.5 rounded-lg text-gray-500 hover:text-sky-600 hover:bg-sky-950/50 transition-colors"
         >
           <RotateCcw className="w-4 h-4" />
         </button>
-        <span className="text-[11px] font-semibold text-gray-700 dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800 px-2.5 py-0.5 rounded-full">
+        <span className="text-[11px] font-semibold text-zinc-300 bg-zinc-800 px-2.5 py-0.5 rounded-full">
           Hal. {pageNumber}
           {rotation !== 0 && ` · ${rotation}°`}
         </span>
         <button
           onClick={() => onRotate(90)}
           title="Putar ke kanan"
-          className="p-1.5 rounded-lg text-gray-500 hover:text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors"
+          className="p-1.5 rounded-lg text-gray-500 hover:text-sky-600 hover:bg-sky-950/50 transition-colors"
         >
           <RotateCw className="w-4 h-4" />
         </button>
@@ -187,20 +187,20 @@ export default function RotatePdfPage() {
   return (
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <RotateCw className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Putar PDF</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">Putar PDF</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Putar semua halaman sekaligus atau per halaman, lalu simpan sebagai PDF baru.
         </p>
       </div>
 
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-950/40 border border-sky-900/60 flex items-start gap-3 text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
-          <button onClick={() => setErrorMessage(null)} className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2">
+          <button onClick={() => setErrorMessage(null)} className="text-sky-400 hover:underline font-semibold text-xs ml-2">
             Tutup
           </button>
         </div>
@@ -211,26 +211,26 @@ export default function RotatePdfPage() {
           {...getRootProps()}
           className={`flex flex-col items-center justify-center gap-2 p-12 rounded-2xl border-2 border-dashed text-center cursor-pointer transition-colors ${
             isDragActive
-              ? "border-sky-500 bg-sky-50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:border-sky-400"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-700 bg-zinc-950 hover:border-sky-400"
           }`}
         >
           <input {...getInputProps()} />
           {isLoading ? <Loader2 className="w-9 h-9 text-sky-500 animate-spin" /> : <UploadCloud className="w-9 h-9 text-sky-500" />}
-          <p className="font-semibold text-gray-900 dark:text-white">
+          <p className="font-semibold text-white">
             {isLoading ? "Membaca PDF..." : isDragActive ? "Lepaskan PDF di sini" : "Tarik & lepas PDF, atau klik untuk memilih"}
           </p>
         </div>
       ) : (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700/70 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-zinc-950 border border-zinc-700/70 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-lg bg-sky-100/70 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <p className="font-medium text-sm text-gray-900 dark:text-white truncate">{file.name}</p>
-                <p className="text-xs text-gray-500 dark:text-zinc-400">
+                <p className="font-medium text-sm text-white truncate">{file.name}</p>
+                <p className="text-xs text-zinc-400">
                   {formatBytes(file.size)} · {pdfDoc.numPages} halaman
                 </p>
               </div>
@@ -238,14 +238,14 @@ export default function RotatePdfPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => rotateAll(-90)}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-sm font-medium text-gray-700 dark:text-zinc-200 hover:border-sky-400 transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-sm font-medium text-zinc-200 hover:border-sky-400 transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
                 Semua kiri
               </button>
               <button
                 onClick={() => rotateAll(90)}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-sm font-medium text-gray-700 dark:text-zinc-200 hover:border-sky-400 transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-sm font-medium text-zinc-200 hover:border-sky-400 transition-colors"
               >
                 <RotateCw className="w-4 h-4" />
                 Semua kanan
@@ -271,7 +271,7 @@ export default function RotatePdfPage() {
             <button
               onClick={reset}
               disabled={isSaving}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium hover:bg-zinc-700 transition-colors disabled:opacity-60"
             >
               <RefreshCw className="w-4 h-4" />
               Ganti File

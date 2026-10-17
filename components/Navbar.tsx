@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
-import ThemeToggle from "@/components/ThemeToggle";
 import {
   Files,
   Scissors,
@@ -182,21 +181,21 @@ export default function Navbar() {
   const isImgActive = imageTools.some((t) => pathname === t.href);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-gray-100 dark:border-zinc-700/70 transition-colors">
+    <header className="sticky top-0 z-50 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-700/70 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-950/60 p-1 flex items-center justify-center border border-sky-100 dark:border-sky-900 group-hover:scale-105 transition-transform">
+          <div className="relative w-8 h-8 rounded-lg bg-sky-950/60 p-1 flex items-center justify-center border border-sky-900 group-hover:scale-105 transition-transform">
             <Image
               src="/logo_gawetools.png"
               alt="GaweTools Logo"
               width={26}
               height={26}
-              className="object-contain"
+              className="object-contain brightness-0 invert"
             />
           </div>
-          <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">
-            Gawe<span className="text-sky-500 font-extrabold">Tools</span>
+          <span className="font-bold text-xl tracking-tight text-white">
+            Gawe<span className="text-zinc-400 font-medium">Tools</span>
           </span>
         </Link>
 
@@ -211,8 +210,8 @@ export default function Navbar() {
               }}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                 isPdfActive || isPdfOpen
-                  ? "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50"
-                  : "text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900"
+                  ? "text-sky-400 bg-sky-950/50"
+                  : "text-zinc-300 hover:text-white hover:bg-zinc-900"
               }`}
             >
               <FileText className="w-4 h-4 text-sky-500" />
@@ -231,9 +230,9 @@ export default function Navbar() {
                 exit={{ opacity: 0, y: -8, scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 500, damping: 34 }}
                 style={{ transformOrigin: "top left" }}
-                className="absolute top-full left-0 mt-2 w-[480px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/60 p-3 grid grid-cols-2 gap-1.5">
-                <div className="col-span-2 px-3 py-1.5 mb-1 flex items-center justify-between border-b border-gray-100 dark:border-zinc-800">
-                  <span className="text-xs font-semibold text-gray-400 dark:text-zinc-400 uppercase tracking-wider">
+                className="absolute top-full left-0 mt-2 w-[480px] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl shadow-black/60 p-3 grid grid-cols-2 gap-1.5">
+                <div className="col-span-2 px-3 py-1.5 mb-1 flex items-center justify-between border-b border-zinc-800">
+                  <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                     Alat Kelola PDF
                   </span>
                   <span className="text-[11px] font-medium text-sky-500 flex items-center gap-1">
@@ -247,18 +246,18 @@ export default function Navbar() {
                     onClick={() => setIsPdfOpen(false)}
                     className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
                       pathname === tool.href
-                        ? "bg-sky-50 dark:bg-sky-950/60 border border-sky-200/60 dark:border-sky-800/60"
-                        : "hover:bg-gray-50 dark:hover:bg-zinc-800/60 border border-transparent"
+                        ? "bg-sky-950/60 border border-sky-800/60"
+                        : "hover:bg-zinc-800/60 border border-transparent"
                     }`}
                   >
-                    <div className="p-2 rounded-lg bg-sky-50 dark:bg-zinc-800 text-sky-500 shrink-0">
+                    <div className="p-2 rounded-lg bg-zinc-800 text-sky-500 shrink-0">
                       {tool.icon}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 dark:text-zinc-100">
+                      <div className="text-sm font-medium text-zinc-100">
                         {tool.title}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-zinc-400 line-clamp-1">
+                      <div className="text-xs text-zinc-400 line-clamp-1">
                         {tool.desc}
                       </div>
                     </div>
@@ -277,8 +276,8 @@ export default function Navbar() {
               }}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                 isImgActive || isImgOpen
-                  ? "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50"
-                  : "text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900"
+                  ? "text-sky-400 bg-sky-950/50"
+                  : "text-zinc-300 hover:text-white hover:bg-zinc-900"
               }`}
             >
               <ImageIcon className="w-4 h-4 text-sky-500" />
@@ -297,9 +296,9 @@ export default function Navbar() {
                 exit={{ opacity: 0, y: -8, scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 500, damping: 34 }}
                 style={{ transformOrigin: "top left" }}
-                className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/60 p-3 space-y-1">
-                <div className="px-3 py-1 mb-1 border-b border-gray-100 dark:border-zinc-800">
-                  <span className="text-xs font-semibold text-gray-400 dark:text-zinc-400 uppercase tracking-wider">
+                className="absolute top-full left-0 mt-2 w-72 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl shadow-black/60 p-3 space-y-1">
+                <div className="px-3 py-1 mb-1 border-b border-zinc-800">
+                  <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                     Alat Edit Gambar
                   </span>
                 </div>
@@ -310,18 +309,18 @@ export default function Navbar() {
                     onClick={() => setIsImgOpen(false)}
                     className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
                       pathname === tool.href
-                        ? "bg-sky-50 dark:bg-sky-950/60 border border-sky-200/60 dark:border-sky-800/60"
-                        : "hover:bg-gray-50 dark:hover:bg-zinc-800/60 border border-transparent"
+                        ? "bg-sky-950/60 border border-sky-800/60"
+                        : "hover:bg-zinc-800/60 border border-transparent"
                     }`}
                   >
-                    <div className="p-2 rounded-lg bg-sky-50 dark:bg-zinc-800 text-sky-500 shrink-0">
+                    <div className="p-2 rounded-lg bg-zinc-800 text-sky-500 shrink-0">
                       {tool.icon}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 dark:text-zinc-100">
+                      <div className="text-sm font-medium text-zinc-100">
                         {tool.title}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-zinc-400 line-clamp-1">
+                      <div className="text-xs text-zinc-400 line-clamp-1">
                         {tool.desc}
                       </div>
                     </div>
@@ -331,15 +330,15 @@ export default function Navbar() {
             )}</AnimatePresence>
           </div>
 
-          <div className="h-4 w-px bg-gray-200 dark:bg-zinc-800 mx-1.5" />
+          <div className="h-4 w-px bg-zinc-800 mx-1.5" />
 
           {/* History Link */}
           <Link
             href="/history"
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
               pathname === "/history"
-                ? "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50 font-semibold"
-                : "text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900"
+                ? "text-sky-400 bg-sky-950/50 font-semibold"
+                : "text-zinc-300 hover:text-white hover:bg-zinc-900"
             }`}
           >
             Riwayat
@@ -350,8 +349,8 @@ export default function Navbar() {
             href="/guide"
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
               pathname === "/guide"
-                ? "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50 font-semibold"
-                : "text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900"
+                ? "text-sky-400 bg-sky-950/50 font-semibold"
+                : "text-zinc-300 hover:text-white hover:bg-zinc-900"
             }`}
           >
             Panduan
@@ -362,8 +361,8 @@ export default function Navbar() {
             href="/about"
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
               pathname === "/about"
-                ? "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50 font-semibold"
-                : "text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900"
+                ? "text-sky-400 bg-sky-950/50 font-semibold"
+                : "text-zinc-300 hover:text-white hover:bg-zinc-900"
             }`}
           >
             Tentang Kami
@@ -372,13 +371,11 @@ export default function Navbar() {
 
         {/* Right Action Items */}
         <div className="flex items-center gap-2.5">
-          <ThemeToggle />
-
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             aria-label="Toggle Navigation Menu"
-            className="md:hidden p-2 rounded-lg text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+            className="md:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-800 transition-colors"
           >
             {isMobileMenuOpen ? (
               <X className="w-5 h-5" />
@@ -391,10 +388,10 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       <AnimatePresence initial={false}>{isMobileMenuOpen && (
-        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }} className="md:hidden border-t border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto overflow-x-hidden">
+        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }} className="md:hidden border-t border-zinc-800 bg-zinc-950 px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto overflow-x-hidden">
           {/* PDF Tools Section */}
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
+            <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-sky-500" />
               <span>Dokumen PDF</span>
             </div>
@@ -406,11 +403,11 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 p-2.5 rounded-lg text-sm transition-colors ${
                     pathname === tool.href
-                      ? "bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 font-medium"
-                      : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
+                      ? "bg-sky-950/60 text-sky-400 font-medium"
+                      : "text-zinc-300 hover:bg-zinc-900"
                   }`}
                 >
-                  <div className="p-1.5 rounded-md bg-sky-50 dark:bg-zinc-900">
+                  <div className="p-1.5 rounded-md bg-zinc-900">
                     {tool.icon}
                   </div>
                   <span>{tool.title}</span>
@@ -420,8 +417,8 @@ export default function Navbar() {
           </div>
 
           {/* Image Tools Section */}
-          <div className="pt-2 border-t border-gray-100 dark:border-zinc-800">
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
+          <div className="pt-2 border-t border-zinc-800">
+            <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 px-1 flex items-center gap-1.5">
               <ImageIcon className="w-3.5 h-3.5 text-sky-500" />
               <span>Gambar</span>
             </div>
@@ -433,11 +430,11 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 p-2.5 rounded-lg text-sm transition-colors ${
                     pathname === tool.href
-                      ? "bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 font-medium"
-                      : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
+                      ? "bg-sky-950/60 text-sky-400 font-medium"
+                      : "text-zinc-300 hover:bg-zinc-900"
                   }`}
                 >
-                  <div className="p-1.5 rounded-md bg-sky-50 dark:bg-zinc-900">
+                  <div className="p-1.5 rounded-md bg-zinc-900">
                     {tool.icon}
                   </div>
                   <span>{tool.title}</span>
@@ -447,14 +444,14 @@ export default function Navbar() {
           </div>
 
           {/* Navigation Links */}
-          <div className="pt-3 border-t border-gray-100 dark:border-zinc-800 flex flex-col gap-1">
+          <div className="pt-3 border-t border-zinc-800 flex flex-col gap-1">
             <Link
               href="/history"
               onClick={() => setIsMobileMenuOpen(false)}
               className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/history"
-                  ? "bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400"
-                  : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
+                  ? "bg-sky-950/60 text-sky-400"
+                  : "text-zinc-300 hover:bg-zinc-900"
               }`}
             >
               Riwayat
@@ -464,8 +461,8 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/guide"
-                  ? "bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400"
-                  : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
+                  ? "bg-sky-950/60 text-sky-400"
+                  : "text-zinc-300 hover:bg-zinc-900"
               }`}
             >
               Panduan
@@ -475,8 +472,8 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className={`p-2.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/about"
-                  ? "bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400"
-                  : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
+                  ? "bg-sky-950/60 text-sky-400"
+                  : "text-zinc-300 hover:bg-zinc-900"
               }`}
             >
               Tentang Kami

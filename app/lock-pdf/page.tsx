@@ -126,23 +126,23 @@ export default function LockPdfPage() {
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 mb-3 shadow-xs">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-950/50 text-sky-400 mb-3 shadow-xs">
           <Lock className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Kunci PDF</h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-zinc-400 max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl">Kunci PDF</h1>
+        <p className="mt-2 text-base text-zinc-400 max-w-xl mx-auto">
           Lindungi dokumen PDF penting Anda dengan enkripsi password (AES-256) langsung di peramban.
         </p>
       </div>
 
       {/* Error Message */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 flex items-start gap-3 text-sky-800 dark:text-sky-200 text-sm">
-          <AlertCircle className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-sky-950/40 border border-sky-900/60 flex items-start gap-3 text-sky-200 text-sm">
+          <AlertCircle className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
           <div className="flex-1">{errorMessage}</div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold text-xs ml-2"
+            className="text-sky-400 hover:underline font-semibold text-xs ml-2"
           >
             Tutup
           </button>
@@ -151,13 +151,13 @@ export default function LockPdfPage() {
 
       {/* Success State */}
       {resultBlob && file && (
-        <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-200 dark:border-emerald-900/50 text-center space-y-4 shadow-xs">
-          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
+        <div className="mb-8 p-6 rounded-2xl bg-zinc-950 border border-emerald-900/50 text-center space-y-4 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-emerald-950/50 text-emerald-400 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">PDF Berhasil Dikunci!</h3>
-            <p className="text-sm text-gray-600 dark:text-zinc-400 mt-1">
+            <h3 className="text-xl font-bold text-white">PDF Berhasil Dikunci!</h3>
+            <p className="text-sm text-zinc-400 mt-1">
               Dokumen kini dilindungi enkripsi AES-256. Password diperlukan setiap kali dokumen dibuka.
             </p>
           </div>
@@ -172,7 +172,7 @@ export default function LockPdfPage() {
             <ContinueMenu kind="pdf" files={[{ blob: resultBlob, name: downloadFilename }]} />
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium text-sm hover:bg-zinc-700 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               Kunci File Lain
@@ -185,20 +185,20 @@ export default function LockPdfPage() {
       {!file && (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-white dark:bg-zinc-950 ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all bg-zinc-950 ${
             isDragActive
-              ? "border-sky-500 bg-sky-50/50 dark:bg-sky-950/30"
-              : "border-gray-300 dark:border-zinc-800 hover:border-sky-400 hover:bg-sky-50/10 dark:hover:bg-sky-950/10"
+              ? "border-sky-500 bg-sky-950/30"
+              : "border-zinc-800 hover:border-sky-400 hover:bg-sky-950/10"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="w-14 h-14 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-sky-950/50 text-sky-400 flex items-center justify-center mx-auto mb-4">
             <Lock className="w-7 h-7" />
           </div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base font-semibold text-white">
             {isDragActive ? "Lepaskan file PDF di sini" : "Tarik & Lepas 1 File PDF ke Sini"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400 max-w-sm mx-auto">
+          <p className="mt-1 text-sm text-zinc-400 max-w-sm mx-auto">
             atau klik untuk memilih dokumen PDF dari komputer Anda
           </p>
           <div className="mt-6">
@@ -217,16 +217,16 @@ export default function LockPdfPage() {
       {file && !resultBlob && (
         <div className="space-y-6">
           {/* File Card */}
-          <div className="flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-700/70">
+          <div className="flex items-center justify-between p-4 bg-zinc-950 rounded-xl border border-zinc-700/70">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-sky-950/50 text-sky-400 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm text-gray-900 dark:text-white truncate" title={file.name}>
+                <p className="font-semibold text-sm text-white truncate" title={file.name}>
                   {file.name}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">{formatBytes(file.size)}</p>
+                <p className="text-xs text-zinc-400 mt-0.5">{formatBytes(file.size)}</p>
               </div>
             </div>
             <button
@@ -234,19 +234,19 @@ export default function LockPdfPage() {
               onClick={handleReset}
               disabled={isLocking}
               title="Ganti File"
-              className="p-2 rounded-lg text-gray-400 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors"
+              className="p-2 rounded-lg text-zinc-400 hover:text-sky-400 hover:bg-sky-950/30 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
           {/* Password Inputs Card */}
-          <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Atur Password PDF</h3>
+          <div className="bg-zinc-950 p-6 rounded-xl border border-zinc-700/70 space-y-4">
+            <h3 className="text-sm font-semibold text-white">Atur Password PDF</h3>
             
             <div className="space-y-4 max-w-md">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
                   Password Baru
                 </label>
                 <div className="relative">
@@ -255,12 +255,12 @@ export default function LockPdfPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Masukkan password"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-sky-500 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-950 text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-sky-500 text-sm"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-400 hover:text-gray-600 dark:hover:text-zinc-300"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-300"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -268,7 +268,7 @@ export default function LockPdfPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
                   Ulangi Password
                 </label>
                 <input
@@ -276,19 +276,19 @@ export default function LockPdfPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Ulangi password di atas"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-sky-500 text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-950 text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-sky-500 text-sm"
                 />
               </div>
             </div>
 
-            <p className="text-xs text-gray-500 dark:text-zinc-400 pt-1">
+            <p className="text-xs text-zinc-400 pt-1">
               Catatan: Pastikan Anda mengingat password ini. Berkas tidak dapat dibuka kembali jika password terlupa.
             </p>
           </div>
 
           {/* Action Button */}
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-gray-200 dark:border-zinc-700/70">
-            <span className="text-xs text-gray-500 dark:text-zinc-400">
+          <div className="flex items-center justify-between bg-zinc-950 p-4 rounded-xl border border-zinc-700/70">
+            <span className="text-xs text-zinc-400">
               Enkripsi AES-256 langsung diproses di browser Anda.
             </span>
             <button

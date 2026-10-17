@@ -321,11 +321,11 @@ export default function GuidePage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-14">
       {/* Header */}
       <Reveal><header className="text-center max-w-2xl mx-auto space-y-4">
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">Panduan Penggunaan</h1>
-        <p className="text-base sm:text-lg text-gray-600 dark:text-zinc-400 leading-relaxed">
+        <h1 className="text-4xl sm:text-6xl font-medium tracking-tight text-white leading-[1.05]">Panduan Penggunaan</h1>
+        <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
           Semua alat dibuat sederhana: unggah file, atur pilihan, unduh hasilnya. Berikut langkah lengkap untuk tiap alat.
         </p>
-        <p className="text-sm text-gray-600 dark:text-zinc-300 inline-flex items-center gap-1.5 justify-center">
+        <p className="text-sm text-zinc-300 inline-flex items-center gap-1.5 justify-center">
           <ShieldCheck className="w-4 h-4 text-sky-500 shrink-0" />
           Semua diproses di browser Anda, tanpa upload ke server.
         </p>
@@ -335,14 +335,14 @@ export default function GuidePage() {
             <a
               key={c.id}
               href={`#${c.id}`}
-              className="px-4 py-2 rounded-full text-sm font-semibold bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-300 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-semibold bg-zinc-800 text-zinc-300 hover:bg-white hover:text-[#050505] transition-colors"
             >
               {c.title}
             </a>
           ))}
           <a
             href="#riwayat"
-            className="px-4 py-2 rounded-full text-sm font-semibold bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-300 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition-colors"
+            className="px-4 py-2 rounded-full text-sm font-semibold bg-zinc-800 text-zinc-300 hover:bg-white hover:text-[#050505] transition-colors"
           >
             Riwayat & FAQ
           </a>
@@ -352,29 +352,29 @@ export default function GuidePage() {
       {/* Categories */}
       {CATEGORIES.map((cat) => (
         <section key={cat.id} id={cat.id} className="space-y-5 scroll-mt-24">
-          <div className="flex items-center gap-3 pb-3 border-b border-gray-200 dark:border-zinc-700">
-            <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0">{cat.icon}</div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{cat.title}</h2>
+          <div className="flex items-center gap-3 pb-3 border-b border-zinc-700">
+            <div className="w-10 h-10 rounded-xl bg-sky-950/60 text-sky-400 flex items-center justify-center shrink-0">{cat.icon}</div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{cat.title}</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {cat.tools.map((tool, i) => (
               <Reveal key={tool.href} delay={(i % 2) * 0.08} className="h-full">
               <article
-                className="h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/10 hover:border-sky-300 dark:hover:border-sky-500/50 p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200/80 dark:border-zinc-700/70 shadow-xs"
+                className="h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/10 hover:border-sky-500/50 p-6 rounded-2xl bg-zinc-950 border border-zinc-700/70 shadow-xs"
               >
                 <div className="flex items-start gap-3.5">
-                  <div className="w-11 h-11 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0">{tool.icon}</div>
+                  <div className="w-11 h-11 rounded-xl bg-sky-950/60 text-sky-400 flex items-center justify-center shrink-0">{tool.icon}</div>
                   <div className="min-w-0">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100">{tool.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-zinc-400 mt-0.5">{tool.summary}</p>
+                    <h3 className="text-lg font-bold text-zinc-100">{tool.title}</h3>
+                    <p className="text-sm text-zinc-400 mt-0.5">{tool.summary}</p>
                   </div>
                 </div>
 
                 <ol className="mt-5 space-y-3 flex-1">
                   {tool.steps.map((step, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed">
-                      <span className="w-6 h-6 rounded-full bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-900/60 text-sky-700 dark:text-sky-400 font-bold text-xs flex items-center justify-center shrink-0 mt-px">
+                    <li key={i} className="flex items-start gap-3 text-sm text-zinc-300 leading-relaxed">
+                      <span className="w-6 h-6 rounded-full bg-sky-950/60 border border-sky-900/60 text-sky-400 font-bold text-xs flex items-center justify-center shrink-0 mt-px">
                         {i + 1}
                       </span>
                       <span>{step}</span>
@@ -383,7 +383,7 @@ export default function GuidePage() {
                 </ol>
 
                 {tool.tip && (
-                  <p className="mt-4 flex items-start gap-2 text-xs sm:text-[13px] text-gray-600 dark:text-zinc-400 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 leading-relaxed">
+                  <p className="mt-4 flex items-start gap-2 text-xs sm:text-[13px] text-zinc-400 bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 leading-relaxed">
                     <Lightbulb className="w-4 h-4 text-sky-500 shrink-0 mt-px" />
                     <span>{tool.tip}</span>
                   </p>
@@ -391,7 +391,7 @@ export default function GuidePage() {
 
                 <Link
                   href={tool.href}
-                  className="group mt-5 pt-4 border-t border-gray-100 dark:border-zinc-800 flex items-center justify-between text-sm font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300"
+                  className="group mt-5 pt-4 border-t border-zinc-800 flex items-center justify-between text-sm font-semibold text-sky-400 hover:text-sky-300"
                 >
                   <span>Coba {tool.title}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -405,16 +405,16 @@ export default function GuidePage() {
 
       {/* History + FAQ */}
       <section id="riwayat" className="space-y-5 scroll-mt-24">
-        <div className="flex items-center gap-3 pb-3 border-b border-gray-200 dark:border-zinc-700">
-          <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0">
+        <div className="flex items-center gap-3 pb-3 border-b border-zinc-700">
+          <div className="w-10 h-10 rounded-xl bg-sky-950/60 text-sky-400 flex items-center justify-center shrink-0">
             <History className={ic} />
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Riwayat & Pertanyaan Umum</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Riwayat & Pertanyaan Umum</h2>
         </div>
 
-        <p className="text-sm sm:text-base text-gray-700 dark:text-zinc-300 leading-relaxed">
+        <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
           Setiap file yang Anda unduh dicatat di halaman{" "}
-          <Link href="/history" className="text-sky-600 dark:text-sky-400 font-semibold hover:underline">
+          <Link href="/history" className="text-sky-400 font-semibold hover:underline">
             Riwayat
           </Link>
           . Yang tersimpan hanya nama file, alat yang dipakai, ukuran, dan waktu — di perangkat Anda sendiri, bukan isi filenya. Anda bisa menghapusnya kapan saja.
@@ -423,9 +423,9 @@ export default function GuidePage() {
         <dl className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {FAQ.map((item, i) => (
             <Reveal key={item.q} delay={i * 0.08}>
-            <div className="h-full p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200/80 dark:border-zinc-700/70 shadow-xs">
-              <dt className="font-bold text-gray-900 dark:text-zinc-100 text-sm sm:text-base">{item.q}</dt>
-              <dd className="mt-2 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">{item.a}</dd>
+            <div className="h-full p-5 rounded-2xl bg-zinc-950 border border-zinc-700/70 shadow-xs">
+              <dt className="font-bold text-zinc-100 text-sm sm:text-base">{item.q}</dt>
+              <dd className="mt-2 text-sm text-zinc-400 leading-relaxed">{item.a}</dd>
             </div>
             </Reveal>
           ))}

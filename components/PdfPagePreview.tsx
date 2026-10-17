@@ -78,7 +78,7 @@ export default function PdfPagePreview({ pdfDoc, pageNumber, width, children, cl
 
   return (
     <div
-      className={`relative bg-white shadow-md border border-gray-200 dark:border-zinc-700 ${className}`}
+      className={`relative bg-white shadow-md border border-zinc-700 ${className}`}
       style={{ width, height: info?.cssHeight, minHeight: info ? undefined : width * 1.3 }}
     >
       <canvas ref={canvasRef} className="block" style={{ width: "100%", height: "100%" }} />
