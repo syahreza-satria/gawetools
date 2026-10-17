@@ -27,6 +27,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "GaweTools",
+  icons: { icon: [{ url: "/logo.svg", type: "image/svg+xml" }, { url: "/favicon.ico" }] },
   description: "Gabung, potong, kompres, dan kunci PDF secara instan langsung di browser Anda tanpa upload ke server. Aman, cepat, dan 100% gratis.",
 };
 

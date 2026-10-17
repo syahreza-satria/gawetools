@@ -43,7 +43,7 @@ const PRECACHE_PAGES = [
   "/guide",
   "/about",
 ];
-const PRECACHE_STATIC = ["/pdf.worker.min.mjs", "/logo_gawetools.png", "/icon-192.png", "/icon-512.png"];
+const PRECACHE_STATIC = ["/pdf.worker.min.mjs", "/logo.svg", "/logo_gawetools.png", "/icon-192.png", "/icon-512.png"];
 
 // IndexedDB layout must match lib/db.ts (same name, version and stores).
 const DB_NAME = "gawetools";

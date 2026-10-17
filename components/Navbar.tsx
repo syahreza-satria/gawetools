@@ -309,9 +309,14 @@ export default function Navbar() {
           {/* Floating pill */}
           <div className="flex items-center justify-between gap-3 h-14 pl-3 pr-2 rounded-full border border-zinc-800 bg-[#0a0a0b]/75 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
             <Link href="/" className="flex items-center gap-2.5 group pl-1">
-              <span className="relative w-8 h-8 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Image src="/logo_gawetools.png" alt="GaweTools Logo" width={20} height={20} className="object-contain brightness-0" />
-              </span>
+              <Image
+                src="/logo.svg"
+                alt="GaweTools Logo"
+                width={36}
+                height={36}
+                priority
+                className="w-9 h-9 object-contain group-hover:scale-105 transition-transform"
+              />
               <span className="hidden sm:inline font-medium text-lg tracking-tight text-white">
                 Gawe<span className="text-zinc-500">Tools</span>
               </span>
