@@ -38,6 +38,11 @@ export const TOOL_LABELS: Record<string, string> = {
   "/fill-pdf-form": "Isi Formulir PDF",
   "/crop-pdf": "Crop PDF",
   "/grayscale-pdf": "PDF Hitam-Putih",
+  "/ocr": "OCR",
+  "/scan-document": "Scan Dokumen",
+  "/compare-pdf": "Bandingkan PDF",
+  "/booklet-pdf": "Cetak Booklet",
+  "/qr-code": "QR Code",
 };
 
 function run<T>(mode: IDBTransactionMode, fn: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {

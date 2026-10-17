@@ -35,6 +35,11 @@ import {
   UserRound,
   FormInput,
   Contrast,
+  ScanText,
+  ScanLine,
+  FileDiff,
+  BookOpen,
+  QrCode,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -178,6 +183,30 @@ export default function Navbar() {
       desc: "Bersihkan EXIF, GPS, dan info PDF",
       icon: <ShieldOff className="w-4 h-4 text-sky-500" />,
     },
+    {
+      href: "/ocr",
+      title: "OCR",
+      desc: "Kenali teks dari scan dan foto",
+      icon: <ScanText className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/scan-document",
+      title: "Scan Dokumen",
+      desc: "Foto dokumen jadi PDF rapi",
+      icon: <ScanLine className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/compare-pdf",
+      title: "Bandingkan PDF",
+      desc: "Lihat beda teks dua versi PDF",
+      icon: <FileDiff className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/booklet-pdf",
+      title: "Cetak Booklet",
+      desc: "Susun 2-up untuk dilipat jadi buku",
+      icon: <BookOpen className="w-4 h-4 text-sky-500" />,
+    },
   ];
 
   const imageTools = [
@@ -222,6 +251,12 @@ export default function Navbar() {
       title: "Ganti Latar Pas Foto",
       desc: "Ganti latar jadi merah, biru, putih",
       icon: <UserRound className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/qr-code",
+      title: "QR Code",
+      desc: "Buat dan pindai QR code",
+      icon: <QrCode className="w-4 h-4 text-sky-500" />,
     },
   ];
 

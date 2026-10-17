@@ -44,5 +44,7 @@ next-env.d.ts
 scratch/
 
 
-# MediaPipe wasm runtime (copied by scripts/copy-mediapipe.mjs on postinstall)
+# MediaPipe wasm runtime (copied by scripts/copy-assets.mjs on postinstall)
 /public/mediapipe/
+/public/tesseract/worker.min.js
+/public/tesseract/core/

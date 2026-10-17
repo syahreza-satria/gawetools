@@ -36,6 +36,12 @@ import {
   UserRound,
   FormInput,
   Contrast,
+  ScanText,
+  ScanLine,
+  FileDiff,
+  BookOpen,
+  QrCode,
+  Shapes,
 } from "lucide-react";
 
 interface Tool {
@@ -95,6 +101,20 @@ const CATEGORIES: Category[] = [
         icon: <Crop className={iconCls} />,
         title: "Crop PDF",
         description: "Pangkas margin halaman PDF dengan memilih area di pratinjau atau mengisi margin dalam mm.",
+        badge: "Baru",
+      },
+      {
+        href: "/compare-pdf",
+        icon: <FileDiff className={iconCls} />,
+        title: "Bandingkan PDF",
+        description: "Bandingkan teks dua versi PDF berdampingan dengan sorotan tambah dan hapus.",
+        badge: "Baru",
+      },
+      {
+        href: "/booklet-pdf",
+        icon: <BookOpen className={iconCls} />,
+        title: "Cetak Booklet",
+        description: "Susun halaman PDF 2-up untuk dicetak bolak-balik, dilipat tengah, lalu dijilid jadi buku.",
         badge: "Baru",
       },
     ],
@@ -169,6 +189,20 @@ const CATEGORIES: Category[] = [
         description: "Ekstrak teks dari PDF per halaman, salin langsung, atau unduh sebagai .txt atau ZIP.",
         badge: "Baru",
       },
+      {
+        href: "/ocr",
+        icon: <ScanText className={iconCls} />,
+        title: "OCR",
+        description: "Kenali teks dari foto atau PDF scan (Indonesia & Inggris), lalu buat PDF yang bisa dicari.",
+        badge: "Baru",
+      },
+      {
+        href: "/scan-document",
+        icon: <ScanLine className={iconCls} />,
+        title: "Scan Dokumen",
+        description: "Foto dokumen dengan kamera, luruskan sudutnya, pilih filter, dan simpan sebagai PDF.",
+        badge: "Baru",
+      },
     ],
   },
   {
@@ -223,6 +257,21 @@ const CATEGORIES: Category[] = [
         icon: <Contrast className={iconCls} />,
         title: "PDF Hitam-Putih",
         description: "Ubah dokumen PDF berwarna menjadi hitam-putih untuk hemat tinta saat mencetak.",
+        badge: "Baru",
+      },
+    ],
+  },
+  {
+    id: "lainnya",
+    title: "Lainnya",
+    description: "Alat bantu praktis di luar PDF dan gambar.",
+    icon: <Shapes className="w-5 h-5" />,
+    tools: [
+      {
+        href: "/qr-code",
+        icon: <QrCode className={iconCls} />,
+        title: "QR Code",
+        description: "Buat QR code untuk tautan, WiFi, atau kontak, dan pindai QR code dari kamera atau gambar.",
         badge: "Baru",
       },
     ],

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import JSZip from "jszip";
 import { AlignLeft, ArrowDownToLine, Copy, Check, Loader2, PackageOpen, TriangleAlert } from "lucide-react";
 import { usePdfSource } from "@/lib/usePdfSource";
@@ -114,8 +115,11 @@ export default function PdfToTextPage() {
                 <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-900/50 flex items-start gap-3 text-amber-200 text-sm">
                   <TriangleAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                   <div>
-                    Hampir tidak ada teks yang ditemukan. PDF ini kemungkinan hasil scan (berupa gambar). Gunakan alat OCR untuk
-                    mengenali teksnya (segera hadir di GaweTools).
+                    Hampir tidak ada teks yang ditemukan. PDF ini kemungkinan hasil scan (berupa gambar). Gunakan{" "}
+                    <Link href="/ocr" className="text-white underline underline-offset-2">
+                      alat OCR
+                    </Link>{" "}
+                    untuk mengenali teksnya.
                   </div>
                 </div>
               )}

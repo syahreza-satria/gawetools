@@ -24,6 +24,8 @@ export const HANDOFF_TOOLS: HandoffTool[] = [
   { href: "/crop-pdf", label: "Crop PDF", accepts: "pdf" },
   { href: "/grayscale-pdf", label: "PDF Hitam-Putih", accepts: "pdf" },
   { href: "/pdf-to-text", label: "PDF ke Teks", accepts: "pdf" },
+  { href: "/ocr", label: "OCR (PDF Scan ke Teks)", accepts: "pdf" },
+  { href: "/booklet-pdf", label: "Cetak Booklet", accepts: "pdf" },
   { href: "/remove-metadata", label: "Hapus Metadata", accepts: "pdf" },
   { href: "/compress-image", label: "Kompres Gambar", accepts: "image" },
   { href: "/resize-image", label: "Resize Gambar", accepts: "image" },
@@ -32,6 +34,8 @@ export const HANDOFF_TOOLS: HandoffTool[] = [
   { href: "/image-to-pdf", label: "Gambar ke PDF", accepts: "image" },
   { href: "/crop-image", label: "Crop Gambar", accepts: "image" },
   { href: "/photo-background", label: "Ganti Latar Pas Foto", accepts: "image" },
+  { href: "/ocr", label: "OCR (Gambar ke Teks)", accepts: "image" },
+  { href: "/scan-document", label: "Scan Dokumen", accepts: "image" },
   { href: "/remove-metadata", label: "Hapus Metadata", accepts: "image" },
   { href: "/heic-to-jpg", label: "HEIC ke JPG", accepts: "heic" },
 ];

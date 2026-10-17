@@ -55,6 +55,10 @@ Seluruh pemrosesan dokumen dilakukan langsung di sisi peramban pengguna (**clien
 - **Isi Formulir PDF** (`/fill-pdf-form`), **Crop PDF** (`/crop-pdf`), **PDF Hitam-Putih** (`/grayscale-pdf`).
 - **Kompres PDF, mode "Pertahankan teks"**: hanya gambar JPEG di dalam PDF yang dikecilkan, teks tetap bisa diseleksi.
 
+- **OCR** (`/ocr`): `tesseract.js` (Apache-2.0) dengan worker, core WASM, dan data bahasa `ind` + `eng` (tessdata_fast) dilayani dari situs sendiri (`public/tesseract`); output teks dan PDF yang bisa dicari.
+- **Scan Dokumen** (`/scan-document`): kamera/unggah foto, koreksi perspektif 4 sudut (homografi buatan sendiri), filter, ekspor PDF.
+- **Bandingkan PDF** (`/compare-pdf`), **Cetak Booklet** (`/booklet-pdf`), dan **QR Code** (`/qr-code`, buat dan pindai).
+
 ### Fondasi platform
 
 - **Web Worker**: proses berat tanpa DOM (mis. penggabungan PDF) berjalan di worker lewat `lib/workers/` (`runInWorker` + `defineWorker`) agar UI tidak membeku.
