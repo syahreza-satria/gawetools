@@ -1,5 +1,5 @@
 // Tools that can receive a file from another tool (handoff) or from the OS share sheet.
-export type FileKind = "pdf" | "image";
+export type FileKind = "pdf" | "image" | "heic";
 
 export interface HandoffTool {
   href: string;
@@ -22,6 +22,7 @@ export const HANDOFF_TOOLS: HandoffTool[] = [
   { href: "/convert-image", label: "Konversi Gambar", accepts: "image" },
   { href: "/watermark-image", label: "Watermark Gambar", accepts: "image" },
   { href: "/image-to-pdf", label: "Gambar ke PDF", accepts: "image" },
+  { href: "/heic-to-jpg", label: "HEIC ke JPG", accepts: "heic" },
 ];
 
 export function toolsAccepting(kind: FileKind, excludeHref?: string): HandoffTool[] {
@@ -29,6 +30,7 @@ export function toolsAccepting(kind: FileKind, excludeHref?: string): HandoffToo
 }
 
 export function fileKind(file: { name: string; type: string }): FileKind | null {
+  if (/^image\/hei[cf]$/.test(file.type) || /\.hei[cf]$/i.test(file.name)) return "heic";
   if (file.type === "application/pdf" || /\.pdf$/i.test(file.name)) return "pdf";
   if (/^image\/(jpeg|png|webp)$/.test(file.type) || /\.(jpe?g|png|webp)$/i.test(file.name)) return "image";
   return null;

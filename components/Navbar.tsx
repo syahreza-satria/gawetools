@@ -26,6 +26,10 @@ import {
   FileText,
   ImageIcon,
   Sparkles,
+  PenLine,
+  ListOrdered,
+  Smartphone,
+  Crop,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -121,6 +125,18 @@ export default function Navbar() {
       desc: "Konversi PDF ke format JPEG / PNG",
       icon: <FileImage className="w-4 h-4 text-sky-500" />,
     },
+    {
+      href: "/sign-pdf",
+      title: "Tanda Tangan PDF",
+      desc: "Tempel tanda tangan di dokumen",
+      icon: <PenLine className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/add-page-numbers",
+      title: "Nomor Halaman PDF",
+      desc: "Tambahkan nomor di setiap halaman",
+      icon: <ListOrdered className="w-4 h-4 text-sky-500" />,
+    },
   ];
 
   const imageTools = [
@@ -147,6 +163,18 @@ export default function Navbar() {
       title: "Watermark Gambar",
       desc: "Beri watermark teks atau logo gambar",
       icon: <Stamp className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/crop-image",
+      title: "Crop Gambar",
+      desc: "Potong gambar, preset pas foto",
+      icon: <Crop className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/heic-to-jpg",
+      title: "HEIC ke JPG",
+      desc: "Ubah foto iPhone ke JPG / PNG",
+      icon: <Smartphone className="w-4 h-4 text-sky-500" />,
     },
   ];
 

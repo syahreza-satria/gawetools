@@ -10,6 +10,7 @@ import { formatBytes } from "@/lib/image";
 const KIND_LABEL: Record<FileKind, string> = {
   pdf: "Alat untuk PDF",
   image: "Alat untuk gambar",
+  heic: "Alat untuk foto HEIC",
 };
 
 export default function BagikanPage() {

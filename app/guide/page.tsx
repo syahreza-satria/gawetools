@@ -20,6 +20,11 @@ import {
   ArrowLeftRight,
   ShieldHalf,
   ImageIcon,
+  PenLine,
+  ListOrdered,
+  Smartphone,
+  Crop,
+  PenTool,
   ShieldCheck,
   History,
   ArrowRight,
@@ -106,6 +111,38 @@ const CATEGORIES: GuideCategory[] = [
     ],
   },
   {
+    id: "edit",
+    title: "Edit & Tanda Tangan PDF",
+    icon: <PenTool className={ic} />,
+    tools: [
+      {
+        href: "/sign-pdf",
+        title: "Tanda Tangan PDF",
+        icon: <PenLine className={ic} />,
+        summary: "Tempel tanda tangan di halaman PDF mana pun.",
+        steps: [
+          "Unggah satu file PDF.",
+          "Buat tanda tangan: gambar dengan jari/mouse, ketik nama dengan font tulisan tangan, atau unggah foto tanda tangan (latar putih bisa dihapus).",
+          "Tekan Tempel di halaman, lalu geser dan ubah ukurannya di atas halaman. Ulangi untuk halaman lain.",
+          "Aktifkan tanggal bila perlu, lalu klik Terapkan dan unduh hasilnya.",
+        ],
+        tip: "Tanda tangan hanya ada di memori halaman ini dan tidak disimpan ke mana pun.",
+      },
+      {
+        href: "/add-page-numbers",
+        title: "Nomor Halaman PDF",
+        icon: <ListOrdered className={ic} />,
+        summary: "Tambahkan nomor halaman ke seluruh dokumen.",
+        steps: [
+          "Unggah satu file PDF.",
+          "Pilih posisi, format (1, Hal. 1, 1 / 10, Halaman 1 dari 10), nomor mulai, ukuran font, dan margin.",
+          "Atur Mulai dari halaman untuk melewati sampul. Pratinjau menunjukkan hasilnya.",
+          "Klik Beri Nomor Halaman, lalu unduh PDF-nya.",
+        ],
+      },
+    ],
+  },
+  {
     id: "konversi",
     title: "Konversi",
     icon: <ArrowLeftRight className={ic} />,
@@ -146,6 +183,18 @@ const CATEGORIES: GuideCategory[] = [
         ],
         tip: "JPG tidak mendukung transparansi — area transparan akan diisi putih.",
       },
+      {
+        href: "/heic-to-jpg",
+        title: "HEIC ke JPG",
+        icon: <Smartphone className={ic} />,
+        summary: "Ubah foto HEIC/HEIF dari iPhone menjadi JPG atau PNG.",
+        steps: [
+          "Tambahkan satu atau banyak file .heic / .heif.",
+          "Pilih JPG atau PNG, dan atur kualitas untuk JPG.",
+          "Klik Konversi, lalu unduh satuan atau sebagai ZIP.",
+        ],
+        tip: "Konversi HEIC cukup berat; foto besar bisa memakan beberapa detik per file.",
+      },
     ],
   },
   {
@@ -160,7 +209,7 @@ const CATEGORIES: GuideCategory[] = [
         summary: "Perkecil ukuran file PDF.",
         steps: [
           "Unggah satu file PDF.",
-          "Pilih tingkat kompresi: Ringan, Sedang (rekomendasi), atau Kuat.",
+          "Pilih tingkat kompresi: Ringan, Sedang (rekomendasi), atau Kuat. Atau pakai mode Target ukuran (mis. 500 KB) agar aplikasi mencari pengaturan yang pas.",
           "Klik Kompres, lihat perbandingan ukuran sebelum dan sesudah, lalu unduh.",
         ],
         tip: "Kompresi merender tiap halaman menjadi gambar, sehingga teks pada hasilnya tidak bisa diseleksi lagi.",
@@ -209,8 +258,20 @@ const CATEGORIES: GuideCategory[] = [
         summary: "Kecilkan ukuran file gambar tanpa terlihat buram.",
         steps: [
           "Tambahkan satu atau banyak gambar JPG, PNG, atau WebP.",
-          "Pilih tingkat kompresi dan format keluaran.",
+          "Pilih tingkat kompresi dan format keluaran, atau pakai mode Target ukuran (mis. 200 KB).",
           "Klik Kompres, lihat penghematan ukuran, lalu unduh satuan atau ZIP.",
+        ],
+      },
+      {
+        href: "/crop-image",
+        title: "Crop Gambar",
+        icon: <Crop className={ic} />,
+        summary: "Potong gambar dengan area yang bisa digeser, atau pakai preset pas foto.",
+        steps: [
+          "Unggah satu gambar JPG, PNG, atau WebP.",
+          "Pilih rasio: Bebas, 1:1, 3:4 (pas foto 3×4), 2:3 (4×6), 4:3, atau 16:9.",
+          "Geser dan ubah ukuran kotak potong. Putar 90° atau balik gambar bila perlu.",
+          "Klik Potong Gambar. Preset pas foto menghasilkan ukuran 300 dpi (3×4 = 354×472 px, 4×6 = 472×709 px).",
         ],
       },
       {

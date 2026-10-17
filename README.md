@@ -40,6 +40,14 @@ Seluruh pemrosesan dokumen dilakukan langsung di sisi peramban pengguna (**clien
 
 ---
 
+### Alat tambahan
+
+- **Tanda Tangan PDF** (`/sign-pdf`): gambar, ketik (font tulisan tangan), atau unggah tanda tangan lalu tempel, geser, dan ubah ukurannya di halaman mana pun; tanggal opsional. Tanda tangan tidak disimpan.
+- **Nomor Halaman PDF** (`/add-page-numbers`): posisi 6 titik, 4 format, nomor mulai, lewati sampul, ukuran font dan margin; mendukung halaman yang diputar.
+- **HEIC ke JPG** (`/heic-to-jpg`): konversi foto iPhone ke JPG/PNG secara massal (library `heic2any`, dimuat hanya saat dipakai).
+- **Crop Gambar** (`/crop-image`): area crop bebas atau rasio tetap, preset pas foto 3×4 dan 4×6 pada 300 dpi, putar dan balik gambar.
+- **Kompres ke target ukuran**: kompres gambar dan kompres PDF punya mode "Target ukuran" (mis. 200 KB, 1 MB); aplikasi mencari kualitas/resolusi terbaik yang masih muat.
+
 ### Fondasi platform
 
 - **Web Worker**: proses berat tanpa DOM (mis. penggabungan PDF) berjalan di worker lewat `lib/workers/` (`runInWorker` + `defineWorker`) agar UI tidak membeku.

@@ -25,6 +25,11 @@ import {
   ArrowLeftRight,
   ShieldHalf,
   ImageIcon,
+  PenLine,
+  ListOrdered,
+  Smartphone,
+  Crop,
+  PenTool,
 } from "lucide-react";
 
 interface Tool {
@@ -82,6 +87,28 @@ const CATEGORIES: Category[] = [
     ],
   },
   {
+    id: "edit",
+    title: "Edit & Tanda Tangan PDF",
+    description: "Tanda tangani dokumen dan tambahkan nomor halaman.",
+    icon: <PenTool className="w-5 h-5" />,
+    tools: [
+      {
+        href: "/sign-pdf",
+        icon: <PenLine className={iconCls} />,
+        title: "Tanda Tangan PDF",
+        description: "Gambar, ketik, atau unggah tanda tangan lalu tempel di halaman mana pun, lengkap dengan tanggal.",
+        badge: "Baru",
+      },
+      {
+        href: "/add-page-numbers",
+        icon: <ListOrdered className={iconCls} />,
+        title: "Nomor Halaman PDF",
+        description: "Beri nomor halaman dengan pilihan posisi, format, nomor mulai, dan lewati halaman sampul.",
+        badge: "Baru",
+      },
+    ],
+  },
+  {
     id: "konversi",
     title: "Konversi",
     description: "Ubah antara PDF dan gambar, atau antar format gambar.",
@@ -106,6 +133,13 @@ const CATEGORIES: Category[] = [
         icon: <Repeat className={iconCls} />,
         title: "Konversi Gambar",
         description: "Ubah format gambar antara JPG, PNG, dan WebP dengan pengaturan kualitas.",
+        badge: "Baru",
+      },
+      {
+        href: "/heic-to-jpg",
+        icon: <Smartphone className={iconCls} />,
+        title: "HEIC ke JPG",
+        description: "Ubah foto HEIC/HEIF dari iPhone menjadi JPG atau PNG yang bisa dibuka di mana saja.",
         badge: "Baru",
       },
     ],
@@ -170,6 +204,13 @@ const CATEGORIES: Category[] = [
         icon: <Stamp className={iconCls} />,
         title: "Watermark Gambar",
         description: "Tambahkan watermark hak cipta teks atau logo grafis transparan di foto Anda.",
+      },
+      {
+        href: "/crop-image",
+        icon: <Crop className={iconCls} />,
+        title: "Crop Gambar",
+        description: "Potong gambar dengan area bebas atau rasio tetap, termasuk preset pas foto 3×4 dan 4×6.",
+        badge: "Baru",
       },
     ],
   },

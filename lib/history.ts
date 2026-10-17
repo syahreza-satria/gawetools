@@ -27,6 +27,10 @@ export const TOOL_LABELS: Record<string, string> = {
   "/resize-image": "Resize Gambar",
   "/convert-image": "Konversi Gambar",
   "/watermark-image": "Watermark Gambar",
+  "/sign-pdf": "Tanda Tangan PDF",
+  "/add-page-numbers": "Nomor Halaman PDF",
+  "/heic-to-jpg": "HEIC ke JPG",
+  "/crop-image": "Crop Gambar",
 };
 
 function run<T>(mode: IDBTransactionMode, fn: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {

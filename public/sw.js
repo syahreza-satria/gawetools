@@ -2,7 +2,7 @@
 // Strategy: static assets cache-first, pages network-first with cache fallback.
 // Same-origin GET requests are cached. The only POST handled is the PWA share target, which
 // stores shared files in IndexedDB on this device and never forwards them to the network.
-const VERSION = "v3";
+const VERSION = "v4";
 const STATIC_CACHE = `gawetools-static-${VERSION}`;
 const PAGE_CACHE = `gawetools-pages-${VERSION}`;
 
@@ -22,6 +22,10 @@ const PRECACHE_PAGES = [
   "/resize-image",
   "/convert-image",
   "/watermark-image",
+  "/sign-pdf",
+  "/add-page-numbers",
+  "/heic-to-jpg",
+  "/crop-image",
   "/bagikan",
   "/history",
   "/guide",
@@ -47,7 +51,7 @@ function openDb() {
 }
 
 function isSupportedShare(file) {
-  return file.type === "application/pdf" || /^image\/(jpeg|png|webp)$/.test(file.type) || /\.(pdf|jpe?g|png|webp)$/i.test(file.name);
+  return file.type === "application/pdf" || /^image\/(jpeg|png|webp|heic|heif)$/.test(file.type) || /\.(pdf|jpe?g|png|webp|heic|heif)$/i.test(file.name);
 }
 
 async function storeSharedFiles(files) {

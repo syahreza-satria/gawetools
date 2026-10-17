@@ -19,6 +19,7 @@ import {
   UploadCloud,
 } from "lucide-react";
 import { formatBytes } from "@/lib/image";
+import type { FileKind } from "@/lib/tools";
 
 interface BatchResult {
   originalSize: number;
@@ -39,7 +40,19 @@ interface ImageBatchToolProps {
   /** Return an error message to block processing, or null when options are valid. */
   validate?: () => string | null;
   process: (file: File) => Promise<{ blob: Blob; filename: string }>;
+  /** Accepted input types; defaults to JPG, PNG and WebP. */
+  accept?: Record<string, string[]>;
+  /** Human-readable list of accepted formats, shown in the dropzone and in the rejection error. */
+  acceptLabel?: string;
+  /** What incoming (pasted / handed-off) files must look like. */
+  incomingKind?: FileKind;
 }
+
+const DEFAULT_ACCEPT = {
+  "image/jpeg": [".jpg", ".jpeg"],
+  "image/png": [".png"],
+  "image/webp": [".webp"],
+};
 
 /** Shared shell for batch image tools: dropzone → file list → options → results (+ZIP). */
 export default function ImageBatchTool({
@@ -52,6 +65,9 @@ export default function ImageBatchTool({
   options,
   validate,
   process,
+  accept = DEFAULT_ACCEPT,
+  acceptLabel = "JPG, PNG, WebP",
+  incomingKind = "image",
 }: ImageBatchToolProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [results, setResults] = useState<BatchResult[]>([]);
@@ -75,7 +91,7 @@ export default function ImageBatchTool({
   const onDrop = useCallback(
     (accepted: File[], rejections: FileRejection[]) => {
       if (rejections.length > 0) {
-        setErrorMessage("Hanya file JPG, PNG, dan WebP yang diperbolehkan.");
+        setErrorMessage(`Hanya file ${acceptLabel} yang diperbolehkan.`);
         return;
       }
       if (accepted.length === 0) return;
@@ -86,21 +102,17 @@ export default function ImageBatchTool({
       setErrorMessage(null);
       clearResults();
     },
-    [clearResults]
+    [clearResults, acceptLabel]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      "image/jpeg": [".jpg", ".jpeg"],
-      "image/png": [".png"],
-      "image/webp": [".webp"],
-    },
+    accept,
     multiple: true,
     disabled: isProcessing,
   });
 
-  useIncomingFiles("image", (incoming) => onDrop(incoming, []), isProcessing);
+  useIncomingFiles(incomingKind, (incoming) => onDrop(incoming, []), isProcessing);
 
   const handleReset = () => {
     setFiles([]);
@@ -254,7 +266,7 @@ export default function ImageBatchTool({
             <p className="font-semibold text-gray-900 dark:text-white">
               {isDragActive ? "Lepaskan gambar di sini" : "Tarik & lepas gambar, atau klik untuk memilih"}
             </p>
-            <p className="text-sm text-gray-500 dark:text-zinc-400">JPG, PNG, WebP — bisa banyak file sekaligus</p>
+            <p className="text-sm text-gray-500 dark:text-zinc-400">{acceptLabel} — bisa banyak file sekaligus</p>
           </div>
 </motion.div>
 
