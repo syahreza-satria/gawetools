@@ -435,7 +435,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:25%_100%] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-12 sm:pb-16">
+        <div className="relative w-full px-4 sm:px-6 lg:px-10 2xl:px-16 pt-10 sm:pt-14 pb-12 sm:pb-16">
           <motion.div
             initial="hidden"
             animate="show"
@@ -525,7 +525,7 @@ export default function Home() {
       </div>
 
       {/* ───────── TOOLS ───────── */}
-      <div id="alat" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 space-y-14 scroll-mt-16">
+      <div id="alat" className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-14 sm:py-20 space-y-14 scroll-mt-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8 lg:gap-16 items-end">
           <div className="space-y-3">
             <p className="label-mono text-zinc-500">{"04-D. // Temukan alat"}</p>
@@ -613,7 +613,7 @@ export default function Home() {
                   <span className="label-mono text-zinc-500 shrink-0 hidden sm:block">{pad(c.tools.length)} alat</span>
                 </motion.div>
 
-                <motion.div variants={stagger(0.06)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <motion.div variants={stagger(0.06)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-3">
                   {c.tools.map((tool, i) => (
                     <ToolTile key={tool.href} tool={tool} feature={i === 0 && !query} />
                   ))}
@@ -626,7 +626,7 @@ export default function Home() {
 
       {/* ───────── STATEMENT ───────── */}
       <section className="border-t border-zinc-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 items-end">
+        <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 items-end">
           <h2 className="text-4xl sm:text-6xl leading-[1.02] text-white">
             File Anda tidak pernah
             <br />

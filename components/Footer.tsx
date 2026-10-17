@@ -49,7 +49,7 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-zinc-900 bg-[#050505] overflow-hidden">
       {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="w-full px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Brand Info */}
           <div className="md:col-span-2 lg:col-span-2 space-y-4">
@@ -136,7 +136,7 @@ export default function Footer() {
       </div>
 
       {/* Oversized wordmark (decorative) */}
-      <div aria-hidden className="max-w-7xl mx-auto px-6 select-none overflow-hidden">
+      <div aria-hidden className="w-full px-6 select-none overflow-hidden">
         <p className="text-[clamp(3rem,19vw,17rem)] font-medium leading-[0.82] tracking-[-0.05em] text-zinc-900 whitespace-nowrap -mb-[0.06em]">
           GaweTools&trade;
         </p>
@@ -144,7 +144,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-zinc-900 bg-[#050505]">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
+        <div className="w-full px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
           <div>
             © {currentYear} <span className="font-semibold text-zinc-200">GaweTools</span>. Seluruh hak cipta dilindungi.
           </div>

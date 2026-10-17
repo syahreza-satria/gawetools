@@ -265,7 +265,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#050505]/80 backdrop-blur-md border-b border-zinc-900 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="relative w-8 h-8 rounded-lg bg-sky-950/60 p-1 flex items-center justify-center border border-sky-900 group-hover:scale-105 transition-transform">

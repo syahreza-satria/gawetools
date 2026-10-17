@@ -149,7 +149,7 @@ export default function FillPdfFormPage() {
   const outName = file ? file.name.replace(/\.[^/.]+$/, "") + "_terisi.pdf" : "terisi.pdf";
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto w-full">
+    <div className="py-10 px-4 sm:px-6 lg:px-10 2xl:px-16 w-full w-full">
       <ToolHeader
         icon={<FormInput className="w-6 h-6" />}
         title="Isi Formulir PDF"

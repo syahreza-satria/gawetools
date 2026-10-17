@@ -94,7 +94,7 @@ export default function GrayscalePdfPage() {
   const outName = file ? file.name.replace(/\.[^/.]+$/, "") + "_hitam-putih.pdf" : "hitam-putih.pdf";
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+    <div className="py-10 px-4 sm:px-6 lg:px-10 2xl:px-16 w-full w-full">
       <ToolHeader
         icon={<Contrast className="w-6 h-6" />}
         title="PDF Hitam-Putih"

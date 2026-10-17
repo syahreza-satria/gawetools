@@ -354,7 +354,7 @@ export default function MergePdfPage() {
   };
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+    <div className="py-10 px-4 sm:px-6 lg:px-10 2xl:px-16 w-full w-full">
       {/* Header */}
       <div className="mb-10 border-b border-zinc-900 pb-8 text-left">
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 text-white mb-5">

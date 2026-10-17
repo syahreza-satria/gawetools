@@ -482,7 +482,7 @@ const FAQ = [
 
 export default function GuidePage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-14">
+    <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-10 sm:py-14 space-y-14">
       {/* Header */}
       <Reveal><header className="max-w-3xl space-y-4 text-left border-b border-zinc-900 pb-8">
         <h1 className="text-4xl sm:text-6xl font-medium tracking-tight text-white leading-[1.05]">Panduan Penggunaan</h1>

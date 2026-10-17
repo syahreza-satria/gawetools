@@ -4,7 +4,7 @@ import { ShieldCheck, Zap, Heart, ArrowRight } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
+    <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-12 space-y-12">
       {/* Header Section */}
       <Reveal><section className="space-y-4 text-left border-b border-zinc-900 pb-8">
         <h1 className="text-4xl sm:text-6xl font-medium leading-[1.04] text-white">

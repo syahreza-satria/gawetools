@@ -160,7 +160,7 @@ export default function PhotoBackgroundPage() {
   }, [seg, bg, feather, size]);
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+    <div className="py-10 px-4 sm:px-6 lg:px-10 2xl:px-16 w-full w-full">
       <ToolHeader
         icon={<UserRound className="w-6 h-6" />}
         title="Ganti Latar Pas Foto"
