@@ -7,6 +7,9 @@ import ContinueMenu from "@/components/ContinueMenu";
 import { PDFDocument } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
 import { saveAs } from "@/lib/download";
+import TargetSizeControl from "@/components/TargetSizeControl";
+import { searchLadder, targetToBytes, type SizeUnit } from "@/lib/targetSize";
+import { yieldToUi } from "@/lib/yieldToUi";
 import {
   Minimize2,
   FileText,
@@ -58,6 +61,83 @@ const COMPRESSION_LEVELS: LevelOption[] = [
   },
 ];
 
+// Target-size mode: settings from best quality (index 0) to smallest output, searched with a binary search.
+const TARGET_LADDER: { scale: number; quality: number }[] = [
+  { scale: 1.5, quality: 0.85 },
+  { scale: 1.5, quality: 0.7 },
+  { scale: 1.3, quality: 0.7 },
+  { scale: 1.2, quality: 0.65 },
+  { scale: 1.0, quality: 0.6 },
+  { scale: 1.0, quality: 0.5 },
+  { scale: 0.9, quality: 0.45 },
+  { scale: 0.8, quality: 0.4 },
+  { scale: 0.7, quality: 0.35 },
+  { scale: 0.6, quality: 0.3 },
+  { scale: 0.5, quality: 0.25 },
+  { scale: 0.4, quality: 0.2 },
+];
+const CACHE_SCALE = 1.5;
+
+interface CachedPage {
+  jpeg: Blob;
+  width: number; // PDF points
+  height: number;
+}
+
+function canvasToJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Gagal membuat gambar halaman"))), "image/jpeg", quality);
+  });
+}
+
+/** Renders every page once (high quality) so each search step only re-encodes instead of re-rendering the PDF. */
+async function renderPageCache(
+  pdf: pdfjsLib.PDFDocumentProxy,
+  onProgress: (page: number, total: number) => void
+): Promise<CachedPage[]> {
+  const cache: CachedPage[] = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    onProgress(i, pdf.numPages);
+    const page = await pdf.getPage(i);
+    const base = page.getViewport({ scale: 1 });
+    const viewport = page.getViewport({ scale: CACHE_SCALE });
+    const canvas = document.createElement("canvas");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Gagal menginisialisasi canvas context");
+    await page.render({ canvasContext: ctx, viewport, canvas }).promise;
+    cache.push({ jpeg: await canvasToJpeg(canvas, 0.92), width: base.width, height: base.height });
+    await yieldToUi();
+  }
+  return cache;
+}
+
+async function buildFromCache(cache: CachedPage[], scale: number, quality: number): Promise<{ size: number; bytes: Uint8Array }> {
+  const doc = await PDFDocument.create();
+  for (const cached of cache) {
+    const bitmap = await createImageBitmap(cached.jpeg);
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(cached.width * scale));
+      canvas.height = Math.max(1, Math.round(cached.height * scale));
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Gagal menginisialisasi canvas context");
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      const jpeg = await canvasToJpeg(canvas, quality);
+      const image = await doc.embedJpg(new Uint8Array(await jpeg.arrayBuffer()));
+      const page = doc.addPage([cached.width, cached.height]);
+      page.drawImage(image, { x: 0, y: 0, width: cached.width, height: cached.height });
+    } finally {
+      bitmap.close();
+    }
+    await yieldToUi();
+  }
+  const bytes = await doc.save();
+  return { size: bytes.length, bytes };
+}
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return bytes + " B";
   if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
@@ -67,6 +147,10 @@ function formatBytes(bytes: number): string {
 export default function CompressPdfPage() {
   const [file, setFile] = useState<File | null>(null);
   const [level, setLevel] = useState<CompressionLevel>("medium");
+  const [mode, setMode] = useState<"level" | "target">("level");
+  const [targetValue, setTargetValue] = useState("500");
+  const [targetUnit, setTargetUnit] = useState<SizeUnit>("KB");
+  const [targetInfo, setTargetInfo] = useState<{ reached: boolean } | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
   const [progressText, setProgressText] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -101,6 +185,7 @@ export default function CompressPdfPage() {
   const handleReset = () => {
     setFile(null);
     setResultBlob(null);
+    setTargetInfo(null);
     setErrorMessage(null);
     setProgressText("");
   };
@@ -108,11 +193,45 @@ export default function CompressPdfPage() {
   const handleCompress = async () => {
     if (!file) return;
 
+    const targetBytes = targetToBytes(targetValue, targetUnit);
+    if (mode === "target") {
+      if (Number.isNaN(targetBytes)) {
+        setErrorMessage("Isi ukuran target dengan angka lebih dari 0.");
+        return;
+      }
+      if (file.size <= targetBytes) {
+        setErrorMessage("File sudah " + formatBytes(file.size) + ", lebih kecil dari target " + formatBytes(targetBytes) + ". Tidak perlu dikompres.");
+        return;
+      }
+    }
+
     setIsCompressing(true);
     setErrorMessage(null);
+    setTargetInfo(null);
     setProgressText("Membaca dokumen PDF...");
 
     try {
+      if (mode === "target") {
+        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+        const cache = await renderPageCache(pdf, (page, total) => setProgressText("Menyiapkan halaman " + page + " dari " + total + "..."));
+        let attempt = 0;
+        const { result, reached } = await searchLadder(
+          TARGET_LADDER.length,
+          (index) => {
+            attempt++;
+            setProgressText("Mencari kompresi yang pas (percobaan " + attempt + ")...");
+            return buildFromCache(cache, TARGET_LADDER[index].scale, TARGET_LADDER[index].quality);
+          },
+          targetBytes
+        );
+        const outputBlob = new Blob([result.bytes as Uint8Array<ArrayBuffer>], { type: "application/pdf" });
+        setDownloadFilename(file.name.replace(/\.[^/.]+$/, "") + "_compressed.pdf");
+        setResultBlob(outputBlob);
+        setResultSize(outputBlob.size);
+        setTargetInfo({ reached });
+        return;
+      }
+
       const selectedLevel = COMPRESSION_LEVELS.find((l) => l.id === level) || COMPRESSION_LEVELS[1];
       const arrayBuffer = await file.arrayBuffer();
 
@@ -235,6 +354,17 @@ export default function CompressPdfPage() {
               )}
             </div>
           </div>
+          {targetInfo && (
+            <p
+              className={`text-sm font-medium ${
+                targetInfo.reached ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
+              }`}
+            >
+              {targetInfo.reached
+                ? "Target ukuran tercapai."
+                : "Target tidak tercapai. Ukuran terkecil yang bisa dicapai: " + formatBytes(resultSize) + "."}
+            </p>
+          )}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               onClick={handleDownload}
@@ -316,6 +446,47 @@ export default function CompressPdfPage() {
 
           {/* Compression Level Options */}
           <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-4">
+            <div className="flex gap-2">
+              {(
+                [
+                  ["level", "Level kompresi"],
+                  ["target", "Target ukuran"],
+                ] as const
+              ).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setMode(key)}
+                  disabled={isCompressing}
+                  className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
+                    mode === key
+                      ? "bg-sky-600 border-sky-600 text-white"
+                      : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {mode === "target" && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Ukuran Maksimal</h3>
+                <TargetSizeControl
+                  value={targetValue}
+                  unit={targetUnit}
+                  disabled={isCompressing}
+                  onChange={(v, u) => {
+                    setTargetValue(v);
+                    setTargetUnit(u);
+                  }}
+                />
+                <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400">
+                  Aplikasi mencoba beberapa kombinasi resolusi dan kualitas, lalu memilih yang terbaik yang masih muat di target. Teks pada hasil berubah menjadi gambar.
+                </p>
+              </div>
+            )}
+            {mode === "level" && (
+            <>
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Tingkat Kompresi</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {COMPRESSION_LEVELS.map((opt) => (
@@ -335,6 +506,8 @@ export default function CompressPdfPage() {
                 </button>
               ))}
             </div>
+            </>
+            )}
           </div>
 
           {/* Action Button */}

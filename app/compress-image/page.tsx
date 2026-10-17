@@ -5,6 +5,9 @@ import { useDropzone, FileRejection } from "react-dropzone";
 import ContinueMenu from "@/components/ContinueMenu";
 import { useIncomingFiles } from "@/lib/useIncomingFiles";
 import { saveAs } from "@/lib/download";
+import TargetSizeControl from "@/components/TargetSizeControl";
+import { compressBitmapToTarget, targetToBytes, type SizeUnit } from "@/lib/targetSize";
+import { decodeImage } from "@/lib/image";
 import JSZip from "jszip";
 import {
   ImageDown,
@@ -35,6 +38,8 @@ interface ImageResult {
   resultSize: number;
   previewUrl: string;
   filename: string;
+  /** Only set in target-size mode: whether the requested size was reached. */
+  targetReached?: boolean;
 }
 
 const COMPRESSION_LEVELS: LevelOption[] = [
@@ -119,6 +124,9 @@ async function compressImage(
 export default function CompressImagePage() {
   const [files, setFiles] = useState<File[]>([]);
   const [level, setLevel] = useState<CompressionLevel>("medium");
+  const [mode, setMode] = useState<"level" | "target">("level");
+  const [targetValue, setTargetValue] = useState("500");
+  const [targetUnit, setTargetUnit] = useState<SizeUnit>("KB");
   const [outputFormat, setOutputFormat] = useState<OutputFormat>("image/jpeg");
   const [isCompressing, setIsCompressing] = useState(false);
   const [progressText, setProgressText] = useState("");
@@ -172,24 +180,40 @@ export default function CompressImagePage() {
 
   const handleCompress = async () => {
     if (files.length === 0) return;
+    const targetBytes = targetToBytes(targetValue, targetUnit);
+    if (mode === "target" && Number.isNaN(targetBytes)) {
+      setErrorMessage("Isi ukuran target dengan angka lebih dari 0.");
+      return;
+    }
     setIsCompressing(true);
     setErrorMessage(null);
     setResults([]);
 
     const selectedLevel =
       COMPRESSION_LEVELS.find((l) => l.id === level) || COMPRESSION_LEVELS[1];
-    const fmt = FORMAT_OPTIONS.find((f) => f.value === outputFormat)!;
+    // PNG is lossless, so a size target needs a lossy format.
+    const effectiveFormat: OutputFormat = mode === "target" && outputFormat === "image/png" ? "image/jpeg" : outputFormat;
+    const fmt = FORMAT_OPTIONS.find((f) => f.value === effectiveFormat)!;
     const newResults: ImageResult[] = [];
 
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         setProgressText(`Mengompres ${i + 1} dari ${files.length}: ${file.name}`);
-        const blob = await compressImage(
-          file,
-          selectedLevel.quality,
-          outputFormat
-        );
+        let blob: Blob;
+        let targetReached: boolean | undefined;
+        if (mode === "target") {
+          const bitmap = await decodeImage(file);
+          try {
+            const out = await compressBitmapToTarget(bitmap, effectiveFormat as "image/jpeg" | "image/webp", targetBytes);
+            blob = out.blob;
+            targetReached = out.reached;
+          } finally {
+            bitmap.close();
+          }
+        } else {
+          blob = await compressImage(file, selectedLevel.quality, effectiveFormat);
+        }
         const baseName = file.name.replace(/\.[^/.]+$/, "");
         const filename = `${baseName}_compressed.${fmt.ext}`;
         const previewUrl = URL.createObjectURL(blob);
@@ -200,6 +224,7 @@ export default function CompressImagePage() {
           resultSize: blob.size,
           previewUrl,
           filename,
+          targetReached,
         });
       }
       setResults(newResults);
@@ -340,6 +365,17 @@ export default function CompressImagePage() {
                       </span>
                     )}
                   </div>
+                  {r.targetReached !== undefined && (
+                    <p
+                      className={`mt-1 text-xs font-medium ${
+                        r.targetReached ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
+                      }`}
+                    >
+                      {r.targetReached
+                        ? "Target ukuran tercapai"
+                        : `Target tidak tercapai — ukuran terkecil yang bisa dicapai ${formatBytes(r.resultSize)}`}
+                    </p>
+                  )}
                 </div>
                 <button
                   onClick={() => handleDownloadSingle(r)}
@@ -428,7 +464,51 @@ export default function CompressImagePage() {
 
               {/* Settings */}
               <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-gray-200 dark:border-zinc-700/70 space-y-5">
+                {/* Mode */}
+                <div className="flex gap-2">
+                  {(
+                    [
+                      ["level", "Level kompresi"],
+                      ["target", "Target ukuran"],
+                    ] as const
+                  ).map(([key, label]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setMode(key)}
+                      disabled={isCompressing}
+                      className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
+                        mode === key
+                          ? "bg-sky-600 border-sky-600 text-white"
+                          : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-sky-400"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {mode === "target" && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Ukuran Maksimal per Gambar</h3>
+                    <TargetSizeControl
+                      value={targetValue}
+                      unit={targetUnit}
+                      disabled={isCompressing}
+                      onChange={(v, u) => {
+                        setTargetValue(v);
+                        setTargetUnit(u);
+                      }}
+                    />
+                    <p className="mt-2 text-xs text-gray-400 dark:text-zinc-400">
+                      Kualitas dicari otomatis; bila masih terlalu besar, dimensi gambar diperkecil bertahap.
+                      {outputFormat === "image/png" && " PNG tidak mendukung target ukuran, hasil akan disimpan sebagai JPEG."}
+                    </p>
+                  </div>
+                )}
+
                 {/* Compression level */}
+                {mode === "level" && (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
                     Tingkat Kompresi
@@ -456,6 +536,7 @@ export default function CompressImagePage() {
                     ))}
                   </div>
                 </div>
+                )}
 
                 {/* Output format */}
                 <div>
