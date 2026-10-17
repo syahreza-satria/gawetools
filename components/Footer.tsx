@@ -85,13 +85,9 @@ export default function Footer() {
       <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 pt-14 sm:pt-20 pb-12 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-20 items-end">
         <div className="space-y-6">
           <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <Image
-              src="/logo.svg"
-              alt="GaweTools Logo"
-              width={40}
-              height={40}
-              className="w-10 h-10 object-contain group-hover:scale-105 transition-transform"
-            />
+            <span className="relative w-9 h-9 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
+              <Image src="/logo.svg" alt="GaweTools Logo" width={22} height={22} className="object-contain brightness-0" />
+            </span>
             <span className="font-medium text-xl tracking-tight text-white">
               Gawe<span className="text-zinc-500">Tools</span>
             </span>
