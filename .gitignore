@@ -43,3 +43,6 @@ next-env.d.ts
 # scratch / temp files
 scratch/
 
+
+# MediaPipe wasm runtime (copied by scripts/copy-mediapipe.mjs on postinstall)
+/public/mediapipe/

@@ -10,6 +10,7 @@ import { saveAs } from "@/lib/download";
 import TargetSizeControl from "@/components/TargetSizeControl";
 import { searchLadder, targetToBytes, type SizeUnit } from "@/lib/targetSize";
 import { yieldToUi } from "@/lib/yieldToUi";
+import { recompressPdfImages } from "@/lib/pdfImages";
 import {
   Minimize2,
   FileText,
@@ -138,6 +139,26 @@ async function buildFromCache(cache: CachedPage[], scale: number, quality: numbe
   return { size: bytes.length, bytes };
 }
 
+/** True when one of the first pages has real (selectable) text, i.e. the PDF is not a plain scan. */
+async function detectSelectableText(file: File): Promise<boolean> {
+  try {
+    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+    try {
+      for (let i = 1; i <= Math.min(pdf.numPages, 3); i++) {
+        const content = await (await pdf.getPage(i)).getTextContent();
+        if (content.items.some((it) => "str" in it && it.str.trim().length > 0)) return true;
+      }
+      return false;
+    } finally {
+      void pdf.loadingTask.destroy();
+    }
+  } catch {
+    return false;
+  }
+}
+
+const TEXT_MODE_LIMITS: Record<CompressionLevel, number> = { low: 2400, medium: 1800, high: 1200 };
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return bytes + " B";
   if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
@@ -147,10 +168,11 @@ function formatBytes(bytes: number): string {
 export default function CompressPdfPage() {
   const [file, setFile] = useState<File | null>(null);
   const [level, setLevel] = useState<CompressionLevel>("medium");
-  const [mode, setMode] = useState<"level" | "target">("level");
+  const [mode, setMode] = useState<"level" | "target" | "text">("level");
   const [targetValue, setTargetValue] = useState("500");
   const [targetUnit, setTargetUnit] = useState<SizeUnit>("KB");
   const [targetInfo, setTargetInfo] = useState<{ reached: boolean } | null>(null);
+  const [textInfo, setTextInfo] = useState<{ total: number; replaced: number } | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
   const [progressText, setProgressText] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -169,6 +191,10 @@ export default function CompressPdfPage() {
       setFile(selected);
       setErrorMessage(null);
       setResultBlob(null);
+      setTextInfo(null);
+      void detectSelectableText(selected).then((hasText) => {
+        if (hasText) setMode("text");
+      });
     }
   }, []);
 
@@ -186,6 +212,7 @@ export default function CompressPdfPage() {
     setFile(null);
     setResultBlob(null);
     setTargetInfo(null);
+    setTextInfo(null);
     setErrorMessage(null);
     setProgressText("");
   };
@@ -208,9 +235,25 @@ export default function CompressPdfPage() {
     setIsCompressing(true);
     setErrorMessage(null);
     setTargetInfo(null);
+    setTextInfo(null);
     setProgressText("Membaca dokumen PDF...");
 
     try {
+      if (mode === "text") {
+        const selectedLevel = COMPRESSION_LEVELS.find((l) => l.id === level) || COMPRESSION_LEVELS[1];
+        const out = await recompressPdfImages(
+          await file.arrayBuffer(),
+          { maxDim: TEXT_MODE_LIMITS[level], quality: selectedLevel.quality },
+          (done, total) => setProgressText("Mengompres gambar " + done + " dari " + total + "...")
+        );
+        const smaller = out.replaced > 0 && out.bytes.length < file.size;
+        const blob = smaller ? new Blob([out.bytes as Uint8Array<ArrayBuffer>], { type: "application/pdf" }) : file;
+        setDownloadFilename(smaller ? file.name.replace(/\.[^/.]+$/, "") + "_compressed.pdf" : file.name);
+        setResultBlob(blob);
+        setResultSize(blob.size);
+        setTextInfo({ total: out.total, replaced: smaller ? out.replaced : 0 });
+        return;
+      }
       if (mode === "target") {
         const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
         const cache = await renderPageCache(pdf, (page, total) => setProgressText("Menyiapkan halaman " + page + " dari " + total + "..."));
@@ -354,6 +397,15 @@ export default function CompressPdfPage() {
               )}
             </div>
           </div>
+          {textInfo && (
+            <p className={"text-sm font-medium " + (textInfo.replaced > 0 ? "text-emerald-400" : "text-amber-400")}>
+              {textInfo.replaced > 0
+                ? textInfo.replaced + " dari " + textInfo.total + " gambar JPEG diperkecil. Teks tetap bisa diseleksi."
+                : textInfo.total === 0
+                  ? "Tidak ada gambar JPEG di PDF ini, jadi tidak ada yang bisa diperkecil. File asli dikembalikan."
+                  : "Hasil kompresi tidak lebih kecil dari file asli, jadi file asli dikembalikan."}
+            </p>
+          )}
           {targetInfo && (
             <p
               className={`text-sm font-medium ${
@@ -446,11 +498,12 @@ export default function CompressPdfPage() {
 
           {/* Compression Level Options */}
           <div className="bg-zinc-950 p-6 rounded-xl border border-zinc-700/70 space-y-4">
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {(
                 [
                   ["level", "Level kompresi"],
                   ["target", "Target ukuran"],
+                  ["text", "Pertahankan teks"],
                 ] as const
               ).map(([key, label]) => (
                 <button
@@ -458,7 +511,7 @@ export default function CompressPdfPage() {
                   type="button"
                   onClick={() => setMode(key)}
                   disabled={isCompressing}
-                  className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
+                  className={`flex-1 min-w-32 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${
                     mode === key
                       ? "bg-sky-600 border-sky-600 text-white"
                       : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-sky-400"
@@ -485,7 +538,14 @@ export default function CompressPdfPage() {
                 </p>
               </div>
             )}
-            {mode === "level" && (
+            {mode === "text" && (
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Hanya gambar JPEG di dalam PDF yang dikecilkan; teks, font, dan tata letak tidak diubah sehingga teks tetap bisa
+                diseleksi. Paling efektif untuk PDF hasil scan atau yang berisi banyak foto. Gambar non-JPEG dilewati. Bila hasilnya
+                tidak lebih kecil, file asli dikembalikan.
+              </p>
+            )}
+            {(mode === "level" || mode === "text") && (
             <>
             <h3 className="text-sm font-semibold text-white">Tingkat Kompresi</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

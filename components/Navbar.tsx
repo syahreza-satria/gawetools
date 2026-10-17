@@ -29,6 +29,12 @@ import {
   ListOrdered,
   Smartphone,
   Crop,
+  EyeOff,
+  ShieldOff,
+  AlignLeft,
+  UserRound,
+  FormInput,
+  Contrast,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -136,6 +142,42 @@ export default function Navbar() {
       desc: "Tambahkan nomor di setiap halaman",
       icon: <ListOrdered className="w-4 h-4 text-sky-500" />,
     },
+    {
+      href: "/fill-pdf-form",
+      title: "Isi Formulir PDF",
+      desc: "Isi kolom formulir, bisa diratakan",
+      icon: <FormInput className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/redact-pdf",
+      title: "Sensor PDF",
+      desc: "Tutup data rahasia dengan kotak hitam",
+      icon: <EyeOff className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/crop-pdf",
+      title: "Crop PDF",
+      desc: "Pangkas margin halaman PDF",
+      icon: <Crop className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/grayscale-pdf",
+      title: "PDF Hitam-Putih",
+      desc: "Ubah PDF berwarna jadi grayscale",
+      icon: <Contrast className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/pdf-to-text",
+      title: "PDF ke Teks",
+      desc: "Ekstrak teks per halaman",
+      icon: <AlignLeft className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/remove-metadata",
+      title: "Hapus Metadata",
+      desc: "Bersihkan EXIF, GPS, dan info PDF",
+      icon: <ShieldOff className="w-4 h-4 text-sky-500" />,
+    },
   ];
 
   const imageTools = [
@@ -174,6 +216,12 @@ export default function Navbar() {
       title: "HEIC ke JPG",
       desc: "Ubah foto iPhone ke JPG / PNG",
       icon: <Smartphone className="w-4 h-4 text-sky-500" />,
+    },
+    {
+      href: "/photo-background",
+      title: "Ganti Latar Pas Foto",
+      desc: "Ganti latar jadi merah, biru, putih",
+      icon: <UserRound className="w-4 h-4 text-sky-500" />,
     },
   ];
 

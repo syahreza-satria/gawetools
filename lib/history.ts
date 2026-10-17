@@ -31,6 +31,13 @@ export const TOOL_LABELS: Record<string, string> = {
   "/add-page-numbers": "Nomor Halaman PDF",
   "/heic-to-jpg": "HEIC ke JPG",
   "/crop-image": "Crop Gambar",
+  "/redact-pdf": "Sensor PDF",
+  "/remove-metadata": "Hapus Metadata",
+  "/pdf-to-text": "PDF ke Teks",
+  "/photo-background": "Ganti Latar Pas Foto",
+  "/fill-pdf-form": "Isi Formulir PDF",
+  "/crop-pdf": "Crop PDF",
+  "/grayscale-pdf": "PDF Hitam-Putih",
 };
 
 function run<T>(mode: IDBTransactionMode, fn: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {

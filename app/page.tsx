@@ -30,6 +30,12 @@ import {
   Smartphone,
   Crop,
   PenTool,
+  EyeOff,
+  ShieldOff,
+  AlignLeft,
+  UserRound,
+  FormInput,
+  Contrast,
 } from "lucide-react";
 
 interface Tool {
@@ -84,6 +90,13 @@ const CATEGORIES: Category[] = [
         description: "Putar semua atau sebagian halaman PDF ke kiri dan kanan, lalu simpan hasilnya.",
         badge: "Baru",
       },
+      {
+        href: "/crop-pdf",
+        icon: <Crop className={iconCls} />,
+        title: "Crop PDF",
+        description: "Pangkas margin halaman PDF dengan memilih area di pratinjau atau mengisi margin dalam mm.",
+        badge: "Baru",
+      },
     ],
   },
   {
@@ -104,6 +117,13 @@ const CATEGORIES: Category[] = [
         icon: <ListOrdered className={iconCls} />,
         title: "Nomor Halaman PDF",
         description: "Beri nomor halaman dengan pilihan posisi, format, nomor mulai, dan lewati halaman sampul.",
+        badge: "Baru",
+      },
+      {
+        href: "/fill-pdf-form",
+        icon: <FormInput className={iconCls} />,
+        title: "Isi Formulir PDF",
+        description: "Isi kolom formulir PDF (teks, centang, pilihan) lalu ratakan agar tidak bisa diedit lagi.",
         badge: "Baru",
       },
     ],
@@ -142,6 +162,13 @@ const CATEGORIES: Category[] = [
         description: "Ubah foto HEIC/HEIF dari iPhone menjadi JPG atau PNG yang bisa dibuka di mana saja.",
         badge: "Baru",
       },
+      {
+        href: "/pdf-to-text",
+        icon: <AlignLeft className={iconCls} />,
+        title: "PDF ke Teks",
+        description: "Ekstrak teks dari PDF per halaman, salin langsung, atau unduh sebagai .txt atau ZIP.",
+        badge: "Baru",
+      },
     ],
   },
   {
@@ -177,6 +204,27 @@ const CATEGORIES: Category[] = [
         description: "Bubuhkan watermark teks atau logo kustom ke setiap halaman dokumen PDF.",
         badge: "Baru",
       },
+      {
+        href: "/redact-pdf",
+        icon: <EyeOff className={iconCls} />,
+        title: "Sensor PDF",
+        description: "Tutup data rahasia dengan kotak hitam; halaman disensor diratakan agar teksnya benar-benar hilang.",
+        badge: "Baru",
+      },
+      {
+        href: "/remove-metadata",
+        icon: <ShieldOff className={iconCls} />,
+        title: "Hapus Metadata",
+        description: "Lihat dan hapus EXIF, lokasi GPS, serta info penulis dari foto dan PDF sebelum dibagikan.",
+        badge: "Baru",
+      },
+      {
+        href: "/grayscale-pdf",
+        icon: <Contrast className={iconCls} />,
+        title: "PDF Hitam-Putih",
+        description: "Ubah dokumen PDF berwarna menjadi hitam-putih untuk hemat tinta saat mencetak.",
+        badge: "Baru",
+      },
     ],
   },
   {
@@ -210,6 +258,13 @@ const CATEGORIES: Category[] = [
         icon: <Crop className={iconCls} />,
         title: "Crop Gambar",
         description: "Potong gambar dengan area bebas atau rasio tetap, termasuk preset pas foto 3×4 dan 4×6.",
+        badge: "Baru",
+      },
+      {
+        href: "/photo-background",
+        icon: <UserRound className={iconCls} />,
+        title: "Ganti Latar Pas Foto",
+        description: "Hapus latar foto lalu ganti merah, biru, atau putih dengan AI yang jalan di browser Anda.",
         badge: "Baru",
       },
     ],

@@ -2,7 +2,7 @@
 // Strategy: static assets cache-first, pages network-first with cache fallback.
 // Same-origin GET requests are cached. The only POST handled is the PWA share target, which
 // stores shared files in IndexedDB on this device and never forwards them to the network.
-const VERSION = "v4";
+const VERSION = "v5";
 const STATIC_CACHE = `gawetools-static-${VERSION}`;
 const PAGE_CACHE = `gawetools-pages-${VERSION}`;
 
@@ -26,6 +26,13 @@ const PRECACHE_PAGES = [
   "/add-page-numbers",
   "/heic-to-jpg",
   "/crop-image",
+  "/redact-pdf",
+  "/remove-metadata",
+  "/pdf-to-text",
+  "/photo-background",
+  "/fill-pdf-form",
+  "/crop-pdf",
+  "/grayscale-pdf",
   "/bagikan",
   "/history",
   "/guide",
@@ -135,7 +142,7 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return;
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.startsWith("/_next/static/") || /\.(?:png|svg|ico|woff2?|mjs)$/.test(url.pathname)) {
+  if (url.pathname.startsWith("/_next/static/") || /\.(?:png|svg|ico|woff2?|mjs|wasm|tflite)$/.test(url.pathname)) {
     event.respondWith(cacheFirst(request));
   } else {
     // HTML navigations and RSC payloads used by client-side navigation

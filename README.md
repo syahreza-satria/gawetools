@@ -48,6 +48,13 @@ Seluruh pemrosesan dokumen dilakukan langsung di sisi peramban pengguna (**clien
 - **Crop Gambar** (`/crop-image`): area crop bebas atau rasio tetap, preset pas foto 3×4 dan 4×6 pada 300 dpi, putar dan balik gambar.
 - **Kompres ke target ukuran**: kompres gambar dan kompres PDF punya mode "Target ukuran" (mis. 200 KB, 1 MB); aplikasi mencari kualitas/resolusi terbaik yang masih muat.
 
+- **Sensor PDF** (`/redact-pdf`): kotak hitam di halaman; halaman yang disensor diratakan jadi gambar sehingga teksnya hilang.
+- **Hapus Metadata** (`/remove-metadata`): tampilkan lalu hapus EXIF/GPS dari gambar dan info/XMP dari PDF.
+- **PDF ke Teks** (`/pdf-to-text`): ekstrak teks per halaman, salin, unduh `.txt` atau ZIP.
+- **Ganti Latar Pas Foto** (`/photo-background`): segmentasi orang dengan MediaPipe (Apache-2.0); model `public/models/selfie_segmenter.tflite` dan runtime WASM (`public/mediapipe`, disalin otomatis saat `npm install`) dilayani dari situs sendiri.
+- **Isi Formulir PDF** (`/fill-pdf-form`), **Crop PDF** (`/crop-pdf`), **PDF Hitam-Putih** (`/grayscale-pdf`).
+- **Kompres PDF, mode "Pertahankan teks"**: hanya gambar JPEG di dalam PDF yang dikecilkan, teks tetap bisa diseleksi.
+
 ### Fondasi platform
 
 - **Web Worker**: proses berat tanpa DOM (mis. penggabungan PDF) berjalan di worker lewat `lib/workers/` (`runInWorker` + `defineWorker`) agar UI tidak membeku.

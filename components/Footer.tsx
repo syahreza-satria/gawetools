@@ -18,6 +18,12 @@ export default function Footer() {
     { label: "PDF ke Gambar", href: "/pdf-to-image" },
     { label: "Tanda Tangan PDF", href: "/sign-pdf" },
     { label: "Nomor Halaman PDF", href: "/add-page-numbers" },
+    { label: "Isi Formulir PDF", href: "/fill-pdf-form" },
+    { label: "Sensor PDF", href: "/redact-pdf" },
+    { label: "Crop PDF", href: "/crop-pdf" },
+    { label: "PDF Hitam-Putih", href: "/grayscale-pdf" },
+    { label: "PDF ke Teks", href: "/pdf-to-text" },
+    { label: "Hapus Metadata", href: "/remove-metadata" },
   ];
 
   const imageTools = [
@@ -27,6 +33,7 @@ export default function Footer() {
     { label: "Watermark Gambar", href: "/watermark-image" },
     { label: "Crop Gambar", href: "/crop-image" },
     { label: "HEIC ke JPG", href: "/heic-to-jpg" },
+    { label: "Ganti Latar Pas Foto", href: "/photo-background" },
   ];
 
   const legalLinks = [
