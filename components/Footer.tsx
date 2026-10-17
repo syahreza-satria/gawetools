@@ -1,158 +1,160 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, Heart } from "lucide-react";
+import { ArrowUp, ArrowUpRight, ShieldCheck } from "lucide-react";
+
+interface FooterGroup {
+  title: string;
+  links: { label: string; href: string }[];
+}
+
+// Grouped like the categories on the home page so every column stays short and balanced.
+const GROUPS: FooterGroup[] = [
+  {
+    title: "Atur Dokumen",
+    links: [
+      { label: "Gabung PDF", href: "/merge-pdf" },
+      { label: "Potong PDF", href: "/split-pdf" },
+      { label: "Atur Halaman PDF", href: "/reorder-pdf" },
+      { label: "Putar PDF", href: "/rotate-pdf" },
+      { label: "Crop PDF", href: "/crop-pdf" },
+      { label: "Bandingkan PDF", href: "/compare-pdf" },
+      { label: "Cetak Booklet", href: "/booklet-pdf" },
+    ],
+  },
+  {
+    title: "Edit & Tanda Tangan",
+    links: [
+      { label: "Tanda Tangan PDF", href: "/sign-pdf" },
+      { label: "Nomor Halaman PDF", href: "/add-page-numbers" },
+      { label: "Isi Formulir PDF", href: "/fill-pdf-form" },
+    ],
+  },
+  {
+    title: "Konversi",
+    links: [
+      { label: "PDF ke Gambar", href: "/pdf-to-image" },
+      { label: "Gambar ke PDF", href: "/image-to-pdf" },
+      { label: "Konversi Gambar", href: "/convert-image" },
+      { label: "HEIC ke JPG", href: "/heic-to-jpg" },
+      { label: "PDF ke Teks", href: "/pdf-to-text" },
+      { label: "OCR", href: "/ocr" },
+      { label: "Scan Dokumen", href: "/scan-document" },
+    ],
+  },
+  {
+    title: "Optimasi & Keamanan",
+    links: [
+      { label: "Kompres PDF", href: "/compress-pdf" },
+      { label: "Kunci PDF", href: "/lock-pdf" },
+      { label: "Buka Kunci PDF", href: "/unlock-pdf" },
+      { label: "Watermark PDF", href: "/watermark-pdf" },
+      { label: "Sensor PDF", href: "/redact-pdf" },
+      { label: "Hapus Metadata", href: "/remove-metadata" },
+      { label: "PDF Hitam-Putih", href: "/grayscale-pdf" },
+    ],
+  },
+  {
+    title: "Edit Gambar",
+    links: [
+      { label: "Kompres Gambar", href: "/compress-image" },
+      { label: "Resize Gambar", href: "/resize-image" },
+      { label: "Watermark Gambar", href: "/watermark-image" },
+      { label: "Crop Gambar", href: "/crop-image" },
+      { label: "Ganti Latar Pas Foto", href: "/photo-background" },
+    ],
+  },
+  {
+    title: "Lainnya",
+    links: [
+      { label: "QR Code", href: "/qr-code" },
+      { label: "Riwayat Unduhan", href: "/history" },
+      { label: "Panduan", href: "/guide" },
+      { label: "Tentang Kami", href: "/about" },
+    ],
+  },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const pdfTools = [
-    { label: "Gabung PDF", href: "/merge-pdf" },
-    { label: "Potong PDF", href: "/split-pdf" },
-    { label: "Kompres PDF", href: "/compress-pdf" },
-    { label: "Atur Halaman PDF", href: "/reorder-pdf" },
-    { label: "Putar PDF", href: "/rotate-pdf" },
-    { label: "Gambar ke PDF", href: "/image-to-pdf" },
-    { label: "Kunci PDF", href: "/lock-pdf" },
-    { label: "Buka Kunci PDF", href: "/unlock-pdf" },
-    { label: "Watermark PDF", href: "/watermark-pdf" },
-    { label: "PDF ke Gambar", href: "/pdf-to-image" },
-    { label: "Tanda Tangan PDF", href: "/sign-pdf" },
-    { label: "Nomor Halaman PDF", href: "/add-page-numbers" },
-    { label: "Isi Formulir PDF", href: "/fill-pdf-form" },
-    { label: "Sensor PDF", href: "/redact-pdf" },
-    { label: "Crop PDF", href: "/crop-pdf" },
-    { label: "PDF Hitam-Putih", href: "/grayscale-pdf" },
-    { label: "PDF ke Teks", href: "/pdf-to-text" },
-    { label: "Hapus Metadata", href: "/remove-metadata" },
-    { label: "OCR", href: "/ocr" },
-    { label: "Scan Dokumen", href: "/scan-document" },
-    { label: "Bandingkan PDF", href: "/compare-pdf" },
-    { label: "Cetak Booklet", href: "/booklet-pdf" },
-  ];
-
-  const imageTools = [
-    { label: "Kompres Gambar", href: "/compress-image" },
-    { label: "Resize Gambar", href: "/resize-image" },
-    { label: "Konversi Gambar", href: "/convert-image" },
-    { label: "Watermark Gambar", href: "/watermark-image" },
-    { label: "Crop Gambar", href: "/crop-image" },
-    { label: "HEIC ke JPG", href: "/heic-to-jpg" },
-    { label: "Ganti Latar Pas Foto", href: "/photo-background" },
-    { label: "QR Code", href: "/qr-code" },
-  ];
-
-  const legalLinks = [
-    { label: "Panduan Penggunaan", href: "/guide" },
-    { label: "Tentang Kami", href: "/about" },
-  ];
-
   return (
     <footer className="mt-auto border-t border-zinc-900 bg-[#050505] overflow-hidden">
-      {/* Main Footer Links */}
-      <div className="w-full px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {/* Brand Info */}
-          <div className="md:col-span-2 lg:col-span-2 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="relative w-8 h-8 rounded-lg bg-sky-950/60 p-1 flex items-center justify-center border border-sky-900">
-                <Image
-                  src="/logo_gawetools.png"
-                  alt="GaweTools Logo"
-                  width={24}
-                  height={24}
-                  className="object-contain brightness-0 invert"
-                />
-              </div>
-              <span className="font-bold text-xl tracking-tight text-white">
-                Gawe<span className="text-zinc-400 font-medium">Tools</span>
-              </span>
+      {/* Statement + brand */}
+      <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 pt-14 sm:pt-20 pb-12 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-20 items-end">
+        <div className="space-y-6">
+          <Link href="/" className="inline-flex items-center gap-2.5 group">
+            <span className="relative w-9 h-9 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
+              <Image src="/logo_gawetools.png" alt="GaweTools Logo" width={22} height={22} className="object-contain brightness-0" />
+            </span>
+            <span className="font-medium text-xl tracking-tight text-white">
+              Gawe<span className="text-zinc-500">Tools</span>
+            </span>
+          </Link>
+          <h2 className="text-3xl sm:text-5xl leading-[1.05] text-white max-w-2xl">
+            Alat dokumen yang bekerja <span className="text-zinc-500">di perangkat Anda.</span>
+          </h2>
+        </div>
+
+        <div className="space-y-5">
+          <p className="text-sm text-zinc-400 leading-relaxed max-w-md">
+            Gabung, potong, kompres, tanda tangani, OCR, dan konversi PDF serta gambar secara instan dan gratis. Tidak ada akun, tidak ada unggahan ke server.
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/#alat"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-[#050505] text-sm font-semibold hover:bg-[#e4e4e7] transition-colors"
+            >
+              Jelajahi semua alat
+              <ArrowUpRight className="w-4 h-4" />
             </Link>
-            <p className="text-sm text-zinc-400 max-w-sm leading-relaxed">
-              Platform produktivitas lengkap untuk mengolah dokumen PDF dan gambar secara instan, aman, dan tanpa biaya langsung dari browser Anda.
-            </p>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-sky-950/40 text-sky-400 border border-sky-900/50">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Otomatisasi Lokal & Ramah Privasi</span>
-            </div>
-          </div>
-
-          {/* PDF Tools Links */}
-          <div className="space-y-3">
-            <h4 className="label-mono text-white">
-              Dokumen PDF
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {pdfTools.map((tool) => (
-                <li key={tool.href}>
-                  <Link
-                    href={tool.href}
-                    className="text-zinc-400 hover:text-white transition-colors"
-                  >
-                    {tool.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Image Tools Links */}
-          <div className="space-y-3">
-            <h4 className="label-mono text-white">
-              Gambar Tools
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {imageTools.map((tool) => (
-                <li key={tool.href}>
-                  <Link
-                    href={tool.href}
-                    className="text-zinc-400 hover:text-white transition-colors"
-                  >
-                    {tool.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Navigation & Info */}
-          <div className="space-y-3">
-            <h4 className="label-mono text-white">
-              Bantuan & Info
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {legalLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-zinc-400 hover:text-white transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <span className="inline-flex items-center gap-2 label-mono text-zinc-500">
+              <ShieldCheck className="w-4 h-4" />
+              0 byte diunggah
+            </span>
           </div>
         </div>
       </div>
 
+      {/* Link groups */}
+      <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16">
+        <div className="border-t border-zinc-900 py-10 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-x-6 gap-y-10">
+          {GROUPS.map((group, i) => (
+            <nav key={group.title} aria-label={group.title} className="space-y-4">
+              <h3 className="label-mono text-zinc-500">
+                {String(i + 1).padStart(2, "0")} / {group.title}
+              </h3>
+              <ul className="space-y-2.5 text-sm">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-zinc-300 hover:text-white transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+      </div>
+
       {/* Oversized wordmark (decorative) */}
-      <div aria-hidden className="w-full px-6 select-none overflow-hidden">
-        <p className="text-[clamp(3rem,19vw,17rem)] font-medium leading-[0.82] tracking-[-0.05em] text-zinc-900 whitespace-nowrap -mb-[0.06em]">
+      <div aria-hidden className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 select-none overflow-hidden">
+        <p className="text-[clamp(3rem,16vw,17rem)] font-medium leading-[0.82] tracking-[-0.05em] text-zinc-900 whitespace-nowrap -mb-[0.06em]">
           GaweTools&trade;
         </p>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom bar */}
       <div className="border-t border-zinc-900 bg-[#050505]">
-        <div className="w-full px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
-          <div>
-            © {currentYear} <span className="font-semibold text-zinc-200">GaweTools</span>. Seluruh hak cipta dilindungi.
-          </div>
-          <div className="flex items-center gap-1 text-zinc-400">
-            <span>Dibuat dengan</span>
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
-            <span>untuk kemudahan kerja sehari-hari</span>
-          </div>
+        <div className="w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+          <p>
+            &copy; {currentYear} <span className="text-zinc-300">GaweTools</span>. Seluruh hak cipta dilindungi.
+          </p>
+          <p className="label-mono">Dibuat untuk kemudahan kerja sehari-hari</p>
+          <a href="#" className="inline-flex items-center gap-1.5 label-mono text-zinc-400 hover:text-white transition-colors">
+            Kembali ke atas
+            <ArrowUp className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
     </footer>
