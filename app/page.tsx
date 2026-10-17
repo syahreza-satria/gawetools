@@ -456,55 +456,56 @@ export default function Home() {
           </h1>
 
           <div className="mt-10 sm:mt-14 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-end">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl sm:text-2xl lg:text-3xl font-medium leading-snug tracking-tight text-white max-w-xl"
-            >
-              Gabung, potong, kompres, tanda tangani, dan konversi PDF serta gambar &mdash; tanpa mengunggah satu file pun.
-            </motion.p>
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="text-xl sm:text-2xl lg:text-3xl font-medium leading-snug tracking-tight text-white max-w-xl"
+              >
+                Gabung, potong, kompres, tanda tangani, dan konversi PDF serta gambar &mdash; tanpa mengunggah satu file pun.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-8 flex flex-wrap items-center gap-3"
+              >
+                <a
+                  href="#alat"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#050505] text-sm font-semibold hover:bg-[#e4e4e7] transition-colors"
+                >
+                  Jelajahi {TOTAL_TOOLS} alat
+                  <ArrowDown className="w-4 h-4" />
+                </a>
+                <Link
+                  href="/guide"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-700 text-white text-sm font-semibold hover:border-zinc-400 transition-colors"
+                >
+                  Panduan
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
+            </div>
 
             <motion.ul
               initial="hidden"
               animate="show"
               variants={stagger(0.12, 0.7)}
-              className="space-y-4 border-t border-zinc-800 pt-5"
+              className="border-t border-zinc-800 divide-y divide-zinc-900"
             >
               {[
                 ["01-A.", "Semua proses berjalan di perangkat Anda."],
                 ["02-B.", "Gratis, tanpa akun, bisa dipakai offline."],
                 ["03-C.", "Tanpa upload // 0 byte meninggalkan browser."],
               ].map(([idx, text]) => (
-                <motion.li key={idx} variants={fadeUp} className="flex gap-4 text-sm text-zinc-300">
+                <motion.li key={idx} variants={fadeUp} className="flex items-baseline gap-4 py-3.5 text-sm sm:text-base text-zinc-200">
                   <span className="label-mono text-zinc-500 shrink-0 w-12">{idx}</span>
                   <span>{text}</span>
                 </motion.li>
               ))}
             </motion.ul>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap items-center gap-3"
-          >
-            <a
-              href="#alat"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#050505] text-sm font-semibold hover:bg-[#e4e4e7] transition-colors"
-            >
-              Jelajahi {TOTAL_TOOLS} alat
-              <ArrowDown className="w-4 h-4" />
-            </a>
-            <Link
-              href="/guide"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-700 text-white text-sm font-semibold hover:border-zinc-400 transition-colors"
-            >
-              Panduan
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
         </div>
       </section>
 
