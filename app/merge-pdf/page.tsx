@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useId } from "react";
+import { useState, useCallback, useId, useEffect, useRef } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import { loadPdf } from "@/lib/loadPdf";
@@ -50,6 +50,75 @@ function formatFileSize(bytes: number): string {
   return (bytes / (1024 * 1024)).toFixed(2) + " MB";
 }
 
+function FirstPageThumb({ file }: { file: File }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [failed, setFailed] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    let loadingTask: { promise: Promise<unknown>; destroy: () => Promise<void> } | null = null;
+
+    async function render() {
+      try {
+        const pdfjsLib = await import("pdfjs-dist");
+        if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+        }
+        const data = new Uint8Array(await file.arrayBuffer());
+        if (cancelled) return;
+
+        const task = pdfjsLib.getDocument({ data });
+        loadingTask = task;
+        const pdf = await task.promise;
+        const page = await pdf.getPage(1);
+        if (cancelled) return;
+
+        const base = page.getViewport({ scale: 1 });
+        const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
+        const viewport = page.getViewport({ scale: (112 * dpr) / base.width });
+
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext("2d");
+        if (!canvas || !ctx) return;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: ctx, viewport, canvas }).promise;
+        if (!cancelled) setReady(true);
+      } catch (err) {
+        if (!cancelled) {
+          console.warn("Gagal membuat preview untuk", file.name, err);
+          setFailed(true);
+        }
+      }
+    }
+
+    render();
+
+    return () => {
+      cancelled = true;
+      void loadingTask?.destroy();
+    };
+  }, [file]);
+
+  return (
+    <div className="w-14 h-19 rounded-md bg-slate-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-xs overflow-hidden flex items-center justify-center shrink-0">
+      {failed ? (
+        <FileText className="w-6 h-6 text-sky-600 dark:text-sky-400" />
+      ) : (
+        <>
+          {!ready && <Loader2 className="w-4 h-4 animate-spin text-gray-400 dark:text-zinc-500 absolute" />}
+          <canvas
+            ref={canvasRef}
+            className={`max-w-full max-h-full object-contain bg-white transition-opacity ${ready ? "opacity-100" : "opacity-0"}`}
+          />
+        </>
+      )}
+    </div>
+  );
+}
+
 function SortablePDFItem({
   item,
   index,
@@ -74,7 +143,7 @@ function SortablePDFItem({
     <li
       ref={setNodeRef}
       style={style}
-      className={`group relative flex items-center justify-between p-4 bg-white dark:bg-zinc-950 rounded-xl border transition-all duration-200 ${
+      className={`group relative flex items-center justify-between p-3 bg-white dark:bg-zinc-950 rounded-xl border transition-all duration-200 ${
         isDragging
           ? "border-sky-500 shadow-xl ring-2 ring-red-400/30 opacity-95 scale-[1.01]"
           : "border-gray-200 dark:border-zinc-800 shadow-xs hover:border-gray-300 dark:hover:border-zinc-700"
@@ -98,9 +167,7 @@ function SortablePDFItem({
           {index + 1}
         </span>
 
-        <div className="w-10 h-10 rounded-lg bg-sky-100/70 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
-          <FileText className="w-5 h-5" />
-        </div>
+        <FirstPageThumb file={item.file} />
 
         <div className="min-w-0">
           <p className="font-medium text-sm text-gray-900 dark:text-white truncate max-w-xs sm:max-w-md md:max-w-lg" title={item.name}>
