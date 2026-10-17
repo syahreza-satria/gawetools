@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUp, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Heart, ShieldCheck } from "lucide-react";
+
+const SAWERIA_URL = "https://saweria.co/SyahrezaSatria";
 
 interface FooterGroup {
   title: string;
@@ -107,11 +109,20 @@ export default function Footer() {
               Jelajahi semua alat
               <ArrowUpRight className="w-4 h-4" />
             </Link>
-            <span className="inline-flex items-center gap-2 label-mono text-zinc-500">
-              <ShieldCheck className="w-4 h-4" />
-              0 byte diunggah
-            </span>
+            <a
+              href={SAWERIA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-zinc-700 text-white text-sm font-semibold hover:border-zinc-400 transition-colors"
+            >
+              <Heart className="w-4 h-4 text-rose-400 fill-rose-400" />
+              Dukung di Saweria
+            </a>
           </div>
+          <p className="inline-flex items-center gap-2 label-mono text-zinc-500">
+            <ShieldCheck className="w-4 h-4" />
+            0 byte diunggah
+          </p>
         </div>
       </div>
 
@@ -150,7 +161,12 @@ export default function Footer() {
           <p>
             &copy; {currentYear} <span className="text-zinc-300">GaweTools</span>. Seluruh hak cipta dilindungi.
           </p>
-          <p className="label-mono">Dibuat untuk kemudahan kerja sehari-hari</p>
+          <p className="label-mono">
+            Dibuat oleh <span className="text-zinc-300">Syahreza Satria</span> &middot;{" "}
+            <a href={SAWERIA_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-white transition-colors">
+              Traktir via Saweria
+            </a>
+          </p>
           <a href="#" className="inline-flex items-center gap-1.5 label-mono text-zinc-400 hover:text-white transition-colors">
             Kembali ke atas
             <ArrowUp className="w-3.5 h-3.5" />

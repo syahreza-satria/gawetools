@@ -59,6 +59,27 @@ export default function AboutPage() {
         </p>
       </section></Reveal>
 
+      {/* Support the creator */}
+      <Reveal><section className="flex flex-col sm:flex-row items-center justify-between gap-4 border border-zinc-800 rounded-lg p-6">
+        <div className="text-center sm:text-left">
+          <h3 className="font-semibold text-white text-base flex items-center justify-center sm:justify-start gap-2">
+            <Heart className="w-4 h-4 text-rose-400 fill-rose-400" /> Dukung Pembuatnya
+          </h3>
+          <p className="text-sm text-zinc-300 mt-0.5 max-w-xl">
+            GaweTools gratis, tanpa iklan, dan tanpa akun. Kalau alat ini membantu pekerjaan Anda dan Anda ingin ikut mendukung pengembangannya, Anda bisa
+            memberi donasi lewat Saweria.
+          </p>
+        </div>
+        <a
+          href="https://saweria.co/SyahrezaSatria"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-[#050505] text-sm font-semibold hover:bg-[#e4e4e7] transition-colors shrink-0"
+        >
+          Donasi via Saweria <ArrowRight className="w-4 h-4" />
+        </a>
+      </section></Reveal>
+
       {/* Call to action */}
       <Reveal><section className="text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 bg-sky-950/30 border border-sky-900/40 rounded-xl p-6">
         <div>
